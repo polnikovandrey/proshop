@@ -1,0 +1,87 @@
+export class Product {
+  constructor(_id: string,
+    name: string,
+    image: string,
+    description: string,
+    brand: string,
+    category: string,
+    price: number,
+    countInStock: number,
+    rating: number,
+    numReviews: number) {
+  }
+}
+
+export const products: Product[] = [
+  new Product(
+    '1',
+    'Airpods Wireless Bluetooth Headphones',
+    '/images/airpods.jpg',
+    'Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working',
+    'Apple',
+    'Electronics',
+    89.99,
+    10,
+    4.5,
+    12),
+
+  new Product(
+    '2',
+    'iPhone 11 Pro 256GB Memory',
+    '/images/phone.jpg',
+    'Introducing the iPhone 11 Pro. A transformative triple-camera system that adds tons of capability without complexity. An unprecedented leap in battery life',
+    'Apple',
+    'Electronics',
+    599.99,
+    7,
+    4.0,
+    8),
+
+  new Product(
+    '3',
+    'Cannon EOS 80D DSLR Camera',
+    '/images/camera.jpg',
+    'Characterized by versatile imaging specs, the Canon EOS 80D further clarifies itself using a pair of robust focusing systems and an intuitive design',
+    'Cannon',
+    'Electronics',
+    929.99,
+    5,
+    3,
+    12),
+
+  new Product(
+    '4',
+    'Sony Playstation 4 Pro White Version',
+    '/images/playstation.jpg',
+    'The ultimate home entertainment center starts with PlayStation. Whether you are into gaming, HD movies, television, music',
+    'Sony',
+    'Electronics',
+    399.99,
+    11,
+    5,
+    12),
+
+  new Product(
+    '5',
+    'Logitech G-Series Gaming Mouse',
+    '/images/mouse.jpg',
+    'Get a better handle on your games with this Logitech LIGHTSYNC gaming mouse. The six programmable buttons allow customization for a smooth playing experience',
+    'Logitech',
+    'Electronics',
+    49.99,
+    7,
+    3.5,
+    10),
+
+  new Product(
+    '6',
+    'Amazon Echo Dot 3rd Generation',
+    '/images/alexa.jpg',
+    'Meet Echo Dot - Our most popular smart speaker with a fabric design. It is our most compact smart speaker that fits perfectly into small space',
+    'Amazon',
+    'Electronics',
+    29.99,
+    0,
+    4,
+    12)
+];
