@@ -6,17 +6,25 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "node-sass": "4.14.1",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.4",
     "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.2"
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^15.0.1",
+    "@types/react": "^17.0.5",
+    "@types/react-dom": "^17.0.3",
+    "@types/react-router-dom": "^5.1.7",
+    "typescript": "^4.4.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "tsc --project ./ && react-scripts start",
+    "build": "tsc --project ./ && react-scripts build",
+    "test": "tsc --project ./ && react-scripts test",
+    "eject": "tsc --project ./ && react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
