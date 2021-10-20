@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import {Container, Nav, Navbar} from 'react-bootstrap';
 
 const Header = () => {
     return <header>
@@ -10,7 +10,7 @@ const Header = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
                         <Nav.Link href="/cart"><i className="fas fa-shopping-cart" />Cart</Nav.Link>
-                        <Nav.Link href="/login"><i className="fas fa-user" />Cart</Nav.Link>
+                        <Nav.Link href="/login"><i className="fas fa-user" />Log in</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
