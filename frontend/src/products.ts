@@ -1,19 +1,20 @@
-export class Product {
-  constructor(_id: string,
-    name: string,
-    image: string,
-    description: string,
-    brand: string,
-    category: string,
-    price: number,
-    countInStock: number,
-    rating: number,
-    numReviews: number) {
+export class ProductData {
+  constructor(
+      public _id: string,
+      public name: string,
+      public image: string,
+      public description: string,
+      public brand: string,
+      public category: string,
+      public price: number,
+      public countInStock: number,
+      public rating: number,
+      public numReviews: number) {
   }
 }
 
-export const products: Product[] = [
-  new Product(
+export const products: ProductData[] = [
+  new ProductData(
     '1',
     'Airpods Wireless Bluetooth Headphones',
     '/images/airpods.jpg',
@@ -25,7 +26,7 @@ export const products: Product[] = [
     4.5,
     12),
 
-  new Product(
+  new ProductData(
     '2',
     'iPhone 11 Pro 256GB Memory',
     '/images/phone.jpg',
@@ -37,7 +38,7 @@ export const products: Product[] = [
     4.0,
     8),
 
-  new Product(
+  new ProductData(
     '3',
     'Cannon EOS 80D DSLR Camera',
     '/images/camera.jpg',
@@ -49,7 +50,7 @@ export const products: Product[] = [
     3,
     12),
 
-  new Product(
+  new ProductData(
     '4',
     'Sony Playstation 4 Pro White Version',
     '/images/playstation.jpg',
@@ -61,7 +62,7 @@ export const products: Product[] = [
     5,
     12),
 
-  new Product(
+  new ProductData(
     '5',
     'Logitech G-Series Gaming Mouse',
     '/images/mouse.jpg',
@@ -73,7 +74,7 @@ export const products: Product[] = [
     3.5,
     10),
 
-  new Product(
+  new ProductData(
     '6',
     'Amazon Echo Dot 3rd Generation',
     '/images/alexa.jpg',
