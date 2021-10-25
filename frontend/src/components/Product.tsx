@@ -1,25 +1,24 @@
 import React from "react";
 import {Card} from "react-bootstrap";
-import {ProductData} from "../products";
+import {Rating} from "./Rating";
+import {ProductData} from "../data/ProductData";
 
-const Product = ( { product }: { product: ProductData } ) => {
+const Product = ({ productData }: { productData: ProductData }) => {
     return (
         <Card className='my-3 p-3 rounded'>
-            <a href={`/product/${product._id}`}>
-                <Card.Img src={product.image} variant='top'/>
+            <a href={`/product/${productData._id}`}>
+                <Card.Img src={productData.image} variant='top'/>
             </a>
             <Card.Body>
-                <a href={`/product/${product._id}`}>
+                <a href={`/product/${productData._id}`}>
                     <Card.Title as='div'>
-                        <strong>{product.name}</strong>
+                        <strong>{productData.name}</strong>
                     </Card.Title>
                 </a>
                 <Card.Text as='div'>
-                    <div className='my-3'>
-                        {product.rating} from {product.numReviews} reviews
-                    </div>
+                    <Rating ratingData={productData.toRatingData()}/>
                 </Card.Text>
-                <Card.Text as='h3'>${product.price}</Card.Text>
+                <Card.Text as='h3'>${productData.price}</Card.Text>
             </Card.Body>
         </Card>
     );
