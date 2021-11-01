@@ -1,13 +1,20 @@
-import React from "react";
-import {match} from "react-router";
-import {Link} from "react-router-dom";
-import {Button, Card, Col, Image, ListGroup, Row} from "react-bootstrap";
-import {Rating} from "../components/Rating";
-import {products} from "../products";
-import {ProductData} from "../data/ProductData";
+import React, { useEffect, useState } from "react";
+import { match } from "react-router";
+import { Link } from "react-router-dom";
+import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { Rating } from "../components/Rating";
+import { ProductData } from "../data/ProductData";
+import { ProductRatingData } from "../data/ProductRatingData";
+import axios from "axios";
 
-const ProductScreen = ({ match }: { match: match<{  id: string }> }) => {
-    const productData: ProductData | undefined = products.find(p => p._id === match.params.id);
+const ProductScreen = ({ match }: { match: match<{ id: string }> }) => {
+    const [ productData, setProductData ] = useState<ProductData>();
+    useEffect(() => {
+        (async () => {
+            const { data }: { data: ProductData } = await axios.get(`/api/product/${match.params.id}`);
+            setProductData(data);
+        })();
+    }, [ match ]);
     const backButton = <Link className='btn btn-light my-3' to='/'>Go back</Link>;
     if (productData) {
         return (
@@ -15,7 +22,7 @@ const ProductScreen = ({ match }: { match: match<{  id: string }> }) => {
                 {backButton}
                 <Row>
                     <Col md={6}>
-                        <Image src={productData.image} alt={productData.name} fluid />
+                        <Image src={productData.image} alt={productData.name} fluid/>
                     </Col>
                     <Col md={3}>
                         <ListGroup variant='flush'>
@@ -23,7 +30,7 @@ const ProductScreen = ({ match }: { match: match<{  id: string }> }) => {
                                 <h3>{productData.name}</h3>
                             </ListGroup.Item>
                             <ListGroup.Item>
-                                <Rating ratingData={productData.toRatingData()}/>
+                                <Rating ratingData={new ProductRatingData(productData.rating, productData.numReviews)}/>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 Price: ${productData.price}

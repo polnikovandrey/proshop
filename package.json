@@ -1,0 +1,24 @@
+{
+  "name": "proshop",
+  "version": "1.0.0",
+  "description": "MERN shopping cart app",
+  "main": "server.js",
+  "scripts": {
+    "start": "tsc --project ./backend/ && node backend/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://polnikov_andrey@bitbucket.org/polnikov_andrey/proshop.git"
+  },
+  "author": "Andrey Polnikov",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/polnikov_andrey/proshop#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.6",
+    "@types/express": "^4.17.13",
+    "typescript": "^4.4.4"
+  }
+}

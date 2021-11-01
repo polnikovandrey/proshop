@@ -1,8 +1,9 @@
 import React from "react";
-import {Link} from "react-router-dom";
-import {Card} from "react-bootstrap";
-import {Rating} from "./Rating";
-import {ProductData} from "../data/ProductData";
+import { Link } from "react-router-dom";
+import { Card } from "react-bootstrap";
+import { Rating } from "./Rating";
+import { ProductData } from "../data/ProductData";
+import { ProductRatingData } from "../data/ProductRatingData";
 
 const Product = ({ productData }: { productData: ProductData }) => {
     return (
@@ -17,7 +18,7 @@ const Product = ({ productData }: { productData: ProductData }) => {
                     </Card.Title>
                 </Link>
                 <Card.Text as='div'>
-                    <Rating ratingData={productData.toRatingData()}/>
+                    <Rating ratingData={new ProductRatingData(productData.rating, productData.numReviews)}/>
                 </Card.Text>
                 <Card.Text as='h3'>${productData.price}</Card.Text>
             </Card.Body>
