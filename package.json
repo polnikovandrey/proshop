@@ -17,6 +17,7 @@
   "license": "MIT",
   "homepage": "https://bitbucket.org/polnikov_andrey/proshop#readme",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "express": "^4.17.1"
   },
   "devDependencies": {
