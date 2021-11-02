@@ -1,4 +1,4 @@
-import { ProductData } from "./ProductData";
+import { ProductData } from "./ProductData.js";
 
 export const products: ProductData[] = [
     new ProductData(

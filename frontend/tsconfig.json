@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es5",
     "module": "esnext",
+    "target": "ES2021",
     "strict": true,
-    "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "lib": [
@@ -18,7 +17,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "esModuleInterop": true
   },
   "include": [
     "src"

@@ -1,8 +1,8 @@
 import React from "react";
-import {ProductRatingData} from "../data/ProductRatingData";
+import { ProductRatingData } from "../data/ProductRatingData";
 
 // www.fontawesome.com styles are being used to draw stars
-export const Rating = ({ ratingData, color } : { ratingData: ProductRatingData, color: string }) => {
+export const Rating = ({ ratingData, color }: { ratingData: ProductRatingData, color: string }) => {
     return (
         <div className='rating'>
             <span>

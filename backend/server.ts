@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import express, { Express } from 'express';
-import { products } from './data/products';
-import { ProductData } from "./data/ProductData";
+import { products } from './data/products.js';
+import { ProductData } from './data/ProductData.js';
 
 dotenv.config();
 
