@@ -20,5 +20,5 @@ app.get('/api/product/:id', (request, response) => {
     response.json(product);
 });
 
-const port: number = parseInt(process.env.PORT, 10) || 5000;
-app.listen(port, () => console.log(`Server running in ${process.env.DOT_ENV} mode on port ${port}`));
+const port: number = parseInt(process.env.PORT, 10);
+app.listen(port, () => console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`));
