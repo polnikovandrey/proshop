@@ -1,25 +1,26 @@
 import bcrypt from "bcryptjs";
 
-class User {
-    constructor(name: String,
-                email: String,
-                password: String,
-                admin: boolean = false) {
+export class UserData {
+    constructor(public name: String,
+                public email: String,
+                public password: String,
+                public admin: boolean = false) {
     }
 }
-export const users = [
-    new User(
+
+export const users: UserData[] = [
+    new UserData(
         'Admin User',
         'admin@example.com',
         bcrypt.hashSync('123456'),
         true
     ),
-    new User(
+    new UserData(
         'John Doe',
         'john@example.com',
         bcrypt.hashSync('123456'),
     ),
-    new User(
+    new UserData(
         'Jane Doe',
         'jane@exmaple.com',
         bcrypt.hashSync('123456'),
