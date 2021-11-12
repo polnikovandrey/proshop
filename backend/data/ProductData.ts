@@ -1,6 +1,9 @@
+import { ObjectId } from "mongoose";
+
 export class ProductData {
 
-    public _id: string
+    public _id: string;
+    public user: ObjectId;
 
     constructor(
         public name: string,

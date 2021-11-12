@@ -1,6 +1,7 @@
-import mongoose, { Model, Schema } from "mongoose";
+import mongoose, { Model, ObjectId, Schema } from "mongoose";
 
 export interface User {
+    _id: ObjectId,
     name: string,
     email: string,
     password: string,

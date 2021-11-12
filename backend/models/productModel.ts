@@ -1,8 +1,8 @@
-import mongoose, { Model, Schema } from "mongoose";
-import { User } from "./userModel";
+import mongoose from "mongoose";
+import { User } from "./userModel.js";
 
 export interface Product {
-    user: Schema.Types.ObjectId,
+    user: mongoose.Schema.Types.ObjectId,
     name: string,
     image: string,
     brand: string,
@@ -21,7 +21,7 @@ interface Review {
     comment: string
 }
 
-const reviewSchema: Schema<Review> = new mongoose.Schema<Review>(
+const reviewSchema: mongoose.Schema<Review> = new mongoose.Schema<Review>(
     {
         name: {
             type: String,
@@ -41,10 +41,10 @@ const reviewSchema: Schema<Review> = new mongoose.Schema<Review>(
     }
 );
 
-export const productSchema: Schema<Product> = new mongoose.Schema(
+export const productSchema: mongoose.Schema<Product> = new mongoose.Schema(
     {
         user: {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
             ref: 'User'
         },
@@ -95,4 +95,4 @@ export const productSchema: Schema<Product> = new mongoose.Schema(
     }
 );
 
-export const ProductModel: Model<Product> = mongoose.model<Product>('Product', productSchema);
+export const ProductModel: mongoose.Model<Product> = mongoose.model<Product>('Product', productSchema);
