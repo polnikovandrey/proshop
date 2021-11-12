@@ -5,7 +5,7 @@ import { products } from "./data/products.js";
 import { User, UserModel } from "./models/userModel.js";
 import { ProductModel } from "./models/productModel.js";
 import { OrderModel } from "./models/orderModel.js";
-import { connectDb } from "./config/db.js";
+import connectDb from "./config/db.js";
 
 dotenv.config();
 
