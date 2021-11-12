@@ -2,7 +2,7 @@ import mongoose, { Model, Schema } from "mongoose";
 import { User } from "./userModel";
 
 export interface Product {
-    user: User,
+    user: Schema.Types.ObjectId,
     name: string,
     image: string,
     brand: string,
@@ -44,7 +44,7 @@ const reviewSchema: Schema<Review> = new mongoose.Schema<Review>(
 export const productSchema: Schema<Product> = new mongoose.Schema(
     {
         user: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             required: true,
             ref: 'User'
         },

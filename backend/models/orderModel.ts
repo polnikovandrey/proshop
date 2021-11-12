@@ -1,9 +1,9 @@
 import mongoose, { Model, Schema } from "mongoose";
-import { User, userSchema } from "./userModel";
-import { Product, productSchema } from "./productModel";
+import { User } from "./userModel";
+import { Product } from "./productModel";
 
 export interface Order {
-    user: User,
+    user: Schema.Types.ObjectId,
     orderItems: OrderItem[],
     shippingAddress: Object,        // TODO !!!
     paymentMethod: string,
@@ -25,7 +25,7 @@ export interface OrderItem {
     quality: number,
     image: string,
     price: number,
-    product: Product
+    product: Schema.Types.ObjectId
 }
 
 const orderItemSchema: Schema<OrderItem> = new mongoose.Schema(
@@ -47,7 +47,7 @@ const orderItemSchema: Schema<OrderItem> = new mongoose.Schema(
             required: true
         },
         product: {
-            type: productSchema,
+            type: Schema.Types.ObjectId,
             required: true,
             ref: 'Product'
         }
@@ -60,7 +60,7 @@ const orderItemSchema: Schema<OrderItem> = new mongoose.Schema(
 const orderSchema: Schema<Order> = new mongoose.Schema(
     {
         user: {
-            type: userSchema,
+            type: Schema.Types.ObjectId,
             required: true,
             ref: 'User'
         },
