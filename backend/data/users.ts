@@ -1,10 +1,11 @@
 import bcrypt from "bcryptjs";
 
 export class UserData {
-    constructor(public name: String,
-                public email: String,
-                public password: String,
-                public admin: boolean = false) {
+    constructor(
+        public name: String,
+        public email: String,
+        public password: String,
+        public admin: boolean = false) {
     }
 }
 
