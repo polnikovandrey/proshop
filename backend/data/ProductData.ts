@@ -1,6 +1,8 @@
 export class ProductData {
+
+    public _id: string
+
     constructor(
-        public _id: string,
         public name: string,
         public image: string,
         public description: string,

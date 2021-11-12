@@ -18,11 +18,13 @@
   "license": "MIT",
   "homepage": "https://bitbucket.org/polnikov_andrey/proshop#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mongoose": "^6.0.12"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/node": "^16.11.6",
     "@types/express": "^4.17.13",
     "concurrently": "^6.3.0",
