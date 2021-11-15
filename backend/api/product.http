@@ -1,0 +1,19 @@
+### Get list all products
+GET {{apiUrl}}product
+Accept: application/json
+
+### Get a particular product by id
+GET {{apiUrl}}product/618ea6f019c4c4bb8c46a6fd
+Accept: application/json
+
+### Get an error while requesting a product by malformed id (testing the custor error handling, see errorMiddleware.ts).
+GET {{apiUrl}}product/no_such_product_id
+Accept: application/json
+
+### Get an error while requesting a product by not existent id (testing the custor error handling, see errorMiddleware.ts).
+GET {{apiUrl}}product/618ea6f019c4c4bb8c46a6da
+Accept: application/json
+
+### Get an error while requesting a wrong api (testing the custor error handling, see errorMiddleware.ts).
+GET {{apiUrl}}no_such_api
+Accept: application/json

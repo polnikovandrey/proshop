@@ -20,7 +20,8 @@ productRouter.get('/:id', expressAsyncHandler(async (request, response) => {
     if (product) {
         response.json(product);
     } else {
-        response.status(404).json({ message: 'Product not found' });
+        response.status(404);
+        throw new Error('Product not found');
     }
 }));
 
