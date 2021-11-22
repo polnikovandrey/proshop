@@ -1,15 +1,27 @@
-import { AnyAction, Reducer } from "redux";
+import { Reducer } from "redux";
 import { ProductData } from "../data/ProductData";
 import { PRODUCT_LIST_FAIL, PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS } from "../constants/productConstants";
+import { ProductAction } from "../actions/productActions";
 
-export const productListReducer: Reducer = (state: { products: ProductData[] } = { products: [] }, action: AnyAction) => {
+class ProductsState {
+    constructor(
+        public loading: boolean,
+        public payload?: ProductData[],
+        public error?: string
+    ) {
+    }
+}
+
+const initialState: ProductsState = new ProductsState(false, []);
+
+export const productListReducer: Reducer = (state: ProductsState = initialState, action: ProductAction) => {
     switch (action.type) {
         case PRODUCT_LIST_REQUEST:
-            return { loading: true, products: [] };
+            return new ProductsState(true, []);
         case PRODUCT_LIST_SUCCESS:
-            return { loading: false, products: action.payload };
+            return new ProductsState(false, action.payload);
         case PRODUCT_LIST_FAIL:
-            return { loading: false, error: action.payload };
+            return new ProductsState(false, [], action.error);
         default:
             return state;
     }

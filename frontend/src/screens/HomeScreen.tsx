@@ -1,21 +1,31 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
 import { ProductData } from "../data/ProductData";
-import { Dispatch } from "redux";
-import { listProducts } from "../actions/productActions";
+import { ProductAction } from "../actions/productActions";
+import { appDispatch, useAppSelector } from "../hooks";
+import axios from "axios";
 
-const HomeScreen = () => {      // TODO !!! redux -> typescript
+const HomeScreen = () => {
 
-    const dispatch: Dispatch<any> = useDispatch();
+    // TODO !!! ProductState
+    const productList = useAppSelector((state: { productList: { loading: boolean, error: string, products: ProductData[] } }) => state.productList);
 
-    const productList = useSelector((state: { productList: { loading: boolean, error: string, products: ProductData[] } }) => state.productList);
     const { loading, error, products } = productList;
 
+    const loadProductsList = () => async () => {
+        try {
+            appDispatch(ProductAction.createProductListRequestAction());
+            const { data }: { data: ProductData[] } = await axios.get('/api/product');
+            appDispatch(ProductAction.createProductListSuccessAction(data));
+        } catch (error: any) {
+            appDispatch(ProductAction.createProductListFailAction(error.response && error.response.data.message ? error.response.data.message : error.message));
+        }
+    };
+
     useEffect(() => {
-        dispatch(listProducts());
-    }, [ dispatch ]);
+        appDispatch(loadProductsList());
+    }, [ appDispatch ]);
 
     return (
         <>

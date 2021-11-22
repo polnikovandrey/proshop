@@ -1,16 +1,30 @@
-import { applyMiddleware, combineReducers, createStore, Middleware, Reducer, Store } from "redux";
-import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
 import { productListReducer } from "./reducers/productReducers";
+import { configureStore } from "@reduxjs/toolkit";
 
-const reducer: Reducer = combineReducers({
-    productList: productListReducer
-});
+const store = configureStore(
+    {
+    reducer: {
+        productList: productListReducer
+    }});
 
-const initialState: Object = {};
-
-const middleware: Middleware[] = [ thunk ];
-
-const store: Store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middleware)));
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export default store;
+
+
+
+
+
+
+// const reducer: Reducer = combineReducers({
+//     productList: productListReducer
+// });
+
+// const initialState: Object = {};
+//
+// const middleware: Middleware[] = [ thunk ];
+//
+// const store: Store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middleware)));
+//
+// export default store;
