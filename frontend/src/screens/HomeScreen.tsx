@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
 import { ProductData } from "../data/ProductData";
-import { useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { ProductsListState } from "../reducers/productReducers";
 import { loadProductListAction } from "../actions/productActions";
 
@@ -10,9 +10,13 @@ const HomeScreen = () => {
 
     const productList: ProductsListState = useAppSelector((state: { productList: ProductsListState }) => state.productList);
 
+    const dispatch = useAppDispatch();
+
     useEffect(() => {
-        loadProductListAction().then();
-    }, []);
+        (async () => {
+            await loadProductListAction(dispatch);
+        })();
+    }, [ dispatch ]);
 
     return (
         <>
