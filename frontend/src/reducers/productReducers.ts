@@ -1,27 +1,25 @@
-import { Reducer } from "redux";
 import { ProductData } from "../data/ProductData";
 import { PRODUCT_LIST_FAIL, PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS } from "../constants/productConstants";
+import { ProductListAction } from "../actions/productActions";
 
-export class ProductsListState {
-    constructor(
-        public loading: boolean,
-        public payload?: ProductData[] | undefined,
-        public error?: string | undefined
-    ) {
-    }
-}
+export type ProductsListState = { loading?: boolean, payload?: ProductData[], error?: string };
 
-const initialState: ProductsListState = new ProductsListState(false, []);
+const initialState: ProductsListState = {};
 
-export const productListReducer: Reducer = (state: ProductsListState = initialState, action: { type: string, payload?: ProductData[], error?: string }) => {
-    const { type, payload, error } = action;
-    switch (type) {
+export const productListReducer = (state: ProductsListState = initialState, action: ProductListAction) => {
+    return productListActionToState(state, action);
+};
+
+type ActionToState<S, A> = (state: S, action: A) => S;
+
+const productListActionToState: ActionToState<ProductsListState, ProductListAction> = (state, action) => {
+    switch (action.type) {
         case PRODUCT_LIST_REQUEST:
-            return new ProductsListState(true, []);
+            return { loading: true };
         case PRODUCT_LIST_SUCCESS:
-            return new ProductsListState(false, payload);
+            return { loading: false, payload: action.payload };
         case PRODUCT_LIST_FAIL:
-            return new ProductsListState(false, [], error);
+            return { loading: false, error: action.error };
         default:
             return state;
     }
