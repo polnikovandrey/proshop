@@ -2,45 +2,44 @@ import React, { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
 import { ProductData } from "../data/ProductData";
-import { ProductAction } from "../actions/productActions";
-import { appDispatch, useAppSelector } from "../hooks";
+import { useAppSelector } from "../hooks";
 import axios from "axios";
+import { ProductsListState } from "../reducers/productReducers";
+import store from "../store";
+import { PRODUCT_LIST_FAIL, PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS } from "../constants/productConstants";
 
 const HomeScreen = () => {
 
-    // TODO !!! ProductState
-    const productList = useAppSelector((state: { productList: { loading: boolean, error: string, products: ProductData[] } }) => state.productList);
-
-    const { loading, error, products } = productList;
-
-    const loadProductsList = () => async () => {
-        try {
-            appDispatch(ProductAction.createProductListRequestAction());
-            const { data }: { data: ProductData[] } = await axios.get('/api/product');
-            appDispatch(ProductAction.createProductListSuccessAction(data));
-        } catch (error: any) {
-            appDispatch(ProductAction.createProductListFailAction(error.response && error.response.data.message ? error.response.data.message : error.message));
-        }
-    };
+    const productList: ProductsListState = useAppSelector((state: { productList: ProductsListState }) => state.productList);
 
     useEffect(() => {
-        appDispatch(loadProductsList());
-    }, [ appDispatch ]);
+        (async () => {
+            try {
+                store.dispatch({ type: PRODUCT_LIST_REQUEST });
+                const { data }: { data: ProductData[] } = await axios.get('/api/product');
+                store.dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
+            } catch (error: any) {
+                store.dispatch({ type: PRODUCT_LIST_FAIL, error: error.response && error.response.data.message ? error.response.data.message : error.message});
+            }
+        })();
+    }, [ ]);
 
     return (
         <>
             <h1>Latest Products</h1>
-            { loading
+            {productList.loading
                 ? <h2>Loading...</h2>
-                : error
-                    ? <h3>{error}</h3>
+                : productList.error
+                    ? <h3>{productList.error}</h3>
                     : (
                         <Row>
-                            {products.map((productData: ProductData) => {
-                                return <Col key={productData._id} sm={12} md={6} lg={4} xl={3}>
-                                    <Product productData={productData}/>
-                                </Col>
-                            })}
+                            {productList.payload ?
+                                productList.payload.map((productData: ProductData) => {
+                                    return <Col key={productData._id} sm={12} md={6} lg={4} xl={3}>
+                                        <Product productData={productData}/>
+                                    </Col>
+                                })
+                            : <h3>Empty</h3>}
                         </Row>
                     )}
         </>
