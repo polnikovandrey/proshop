@@ -5,6 +5,8 @@ import { ProductData } from "../data/ProductData";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { ProductsListState } from "../reducers/productReducers";
 import { loadProductListAction } from "../actions/productActions";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
 
 const HomeScreen = () => {
 
@@ -22,9 +24,9 @@ const HomeScreen = () => {
         <>
             <h1>Latest Products</h1>
             {productList.loading
-                ? <h2>Loading...</h2>
+                ? <Loader/>
                 : productList.error
-                    ? <h3>{productList.error}</h3>
+                    ? <Message variant='danger'>{productList.error}</Message>
                     : (
                         <Row>
                             {productList.payload ?
