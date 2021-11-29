@@ -1,11 +1,12 @@
-import { productListReducer } from "./reducers/productReducers";
+import { productDetailsReducer, productListReducer } from "./reducers/productReducers";
 import { configureStore } from "@reduxjs/toolkit";
 import { EnhancedStore } from "@reduxjs/toolkit/src/configureStore";
 
 const store: EnhancedStore = configureStore(
     {
         reducer: {
-            productList: productListReducer
+            productList: productListReducer,
+            productDetails: productDetailsReducer
         }
     }
 );
