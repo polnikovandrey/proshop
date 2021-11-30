@@ -5,7 +5,7 @@ import { Button, Card, Col, FormControl, Image, ListGroup, Row } from "react-boo
 import { Rating } from "../components/Rating";
 import { ProductRatingData } from "../data/ProductRatingData";
 import { ProductsDetailsState } from "../reducers/productReducers";
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { loadProductDetailsAction } from "../actions/productActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";

@@ -8,7 +8,7 @@ import {
     PRODUCT_LIST_SUCCESS
 } from "../constants/productConstants";
 import { ProductDetailsAction, ProductListAction } from "../actions/productActions";
-import { ActionToState } from "./reducers";
+import { ActionToState } from "../store/types";
 
 export type ProductsListState = { loading?: boolean, payload?: ProductData[], error?: string };
 
