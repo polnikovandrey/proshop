@@ -1,7 +1,8 @@
 import { productDetailsReducer, productListReducer } from "../reducers/productReducers";
 import { configureStore } from "@reduxjs/toolkit";
 import { EnhancedStore } from "@reduxjs/toolkit/src/configureStore";
-import { CartItem, cartReducer } from "../reducers/cartReducers";
+import { cartReducer } from "../reducers/cartReducers";
+import { CartItem } from "./types";
 
 const cartItemsLocalStorageItem = localStorage.getItem('cartItems');
 const cartItemsFromStorage: CartItem[] = cartItemsLocalStorageItem ? JSON.parse(cartItemsLocalStorageItem) : [];

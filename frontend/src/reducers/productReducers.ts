@@ -1,4 +1,3 @@
-import { ProductData } from "../data/ProductData";
 import {
     PRODUCT_DETAILS_FAIL,
     PRODUCT_DETAILS_REQUEST,
@@ -7,10 +6,7 @@ import {
     PRODUCT_LIST_REQUEST,
     PRODUCT_LIST_SUCCESS
 } from "../constants/productConstants";
-import { ProductDetailsAction, ProductListAction } from "../actions/productActions";
-import { ActionToState } from "../store/types";
-
-export type ProductsListState = { loading?: boolean, payload?: ProductData[], error?: string };
+import { ActionToState, ProductDetailsAction, ProductListAction, ProductsDetailsState, ProductsListState } from "../store/types";
 
 const initialListState: ProductsListState = {};
 
@@ -32,8 +28,6 @@ const productListActionToState: ActionToState<ProductsListState, ProductListActi
 };
 
 
-
-export type ProductsDetailsState = { loading?: boolean, payload?: ProductData, error?: string };
 
 const initialDetailsState: ProductsDetailsState = {};
 

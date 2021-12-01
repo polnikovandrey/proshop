@@ -1,10 +1,5 @@
 import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constants/cartConstants";
-import { ActionToState } from "../store/types";
-import { CartAction } from "../actions/cartActions";
-
-export type CartItem = { productId: string, name: string, image: string, price: number, countInStock: number, qty: number };
-
-export type CartState = { cartItems: CartItem[] };
+import { ActionToState, CartAction, CartItem, CartState } from "../store/types";
 
 const initialCartState: CartState = { cartItems: [] };
 

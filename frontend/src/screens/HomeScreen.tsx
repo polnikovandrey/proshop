@@ -3,10 +3,10 @@ import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
 import { ProductData } from "../data/ProductData";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { ProductsListState } from "../reducers/productReducers";
 import { loadProductListAction } from "../actions/productActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { ProductsListState } from "../store/types";
 
 const HomeScreen = () => {
 

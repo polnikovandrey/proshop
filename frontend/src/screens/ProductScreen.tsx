@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 import { Button, Card, Col, FormControl, Image, ListGroup, Row } from "react-bootstrap";
 import { Rating } from "../components/Rating";
 import { ProductRatingData } from "../data/ProductRatingData";
-import { ProductsDetailsState } from "../reducers/productReducers";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { loadProductDetailsAction } from "../actions/productActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { History } from "history";
+import { ProductsDetailsState } from "../store/types";
 
 const ProductScreen = ({ history, match }: { history: History, match: match<{ id: string }> }) => {
 

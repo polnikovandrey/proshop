@@ -9,10 +9,7 @@ import {
     PRODUCT_LIST_SUCCESS
 } from "../constants/productConstants";
 import axios from "axios";
-import { createActionDispatcher } from "../store/types";
-
-export type ProductListAction = { type: string, payload?: ProductData[], error?: string };
-
+import { createActionDispatcher, ProductDetailsAction, ProductListAction } from "../store/types";
 
 const productListDispatcher = createActionDispatcher<ProductListAction>();
 
@@ -26,8 +23,6 @@ export const loadProductListAction = async (dispatch: AppDispatch) => {
     }
 };
 
-
-export type ProductDetailsAction = { type: string, payload?: ProductData, error?: string };
 
 const productDetailDispatcher = createActionDispatcher<ProductDetailsAction>();
 
