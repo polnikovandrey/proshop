@@ -1,12 +1,12 @@
 import { ProductData } from "../data/ProductData";
-import { AppDispatch } from "../store/store";
 import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constants/cartConstants";
 import { CartAction, createActionDispatcher } from "../store/types";
 import axios from "axios";
+import { Dispatch } from "redux";
 
 const cartActionDispatcher = createActionDispatcher<CartAction>();
 
-export const cartAddItemAction = async (id: string, qty: number, dispatch: AppDispatch) => {
+export const cartAddItemAction = async (id: string, qty: number, dispatch: Dispatch) => {
     const { data }: { data: ProductData } = await axios.get(`/api/product/${id}`);
     cartActionDispatcher(
         { dispatch,
@@ -15,6 +15,6 @@ export const cartAddItemAction = async (id: string, qty: number, dispatch: AppDi
     // localStorage.setItem('cartItems', JSON.stringify(store.getState().cart.cartItems));
 }
 
-export const cartRemoveItemAction = async (dispatch: AppDispatch) => {
+export const cartRemoveItemAction = async (dispatch: Dispatch) => {
     cartActionDispatcher( { dispatch, action: { type: CART_REMOVE_ITEM }});    // TODO !!! payload
 }

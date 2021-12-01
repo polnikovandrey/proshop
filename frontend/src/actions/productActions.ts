@@ -1,5 +1,4 @@
 import { ProductData } from "../data/ProductData";
-import { AppDispatch } from "../store/store";
 import {
     PRODUCT_DETAILS_FAIL,
     PRODUCT_DETAILS_REQUEST,
@@ -10,10 +9,11 @@ import {
 } from "../constants/productConstants";
 import axios from "axios";
 import { createActionDispatcher, ProductDetailsAction, ProductListAction } from "../store/types";
+import { Dispatch } from "redux";
 
 const productListDispatcher = createActionDispatcher<ProductListAction>();
 
-export const loadProductListAction = async (dispatch: AppDispatch) => {
+export const loadProductListAction = async (dispatch: Dispatch) => {
     try {
         productListDispatcher({ dispatch, action: { type: PRODUCT_LIST_REQUEST }});
         const { data }: { data: ProductData[] } = await axios.get('/api/product');
@@ -26,7 +26,7 @@ export const loadProductListAction = async (dispatch: AppDispatch) => {
 
 const productDetailDispatcher = createActionDispatcher<ProductDetailsAction>();
 
-export const loadProductDetailsAction = async (productId: string, dispatch: AppDispatch) => {
+export const loadProductDetailsAction = async (productId: string, dispatch: Dispatch) => {
     try {
         productDetailDispatcher({dispatch, action: { type: PRODUCT_DETAILS_REQUEST }});
         const { data }: { data: ProductData } = await axios.get(`/api/product/${productId}`);
