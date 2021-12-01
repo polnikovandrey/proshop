@@ -13,7 +13,7 @@ import { History } from "history";
 
 const ProductScreen = ({ history, match }: { history: History, match: match<{ id: string }> }) => {
 
-    const [ qty, setQty ] = useState(0);
+    const [ qty, setQty ] = useState(1);
 
     const productDetails: ProductsDetailsState = useAppSelector((state: { productDetails: ProductsDetailsState }) => state.productDetails);
 
