@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { EnhancedStore } from "@reduxjs/toolkit/src/configureStore";
-import { cartReducer } from "../reducers/cartReducers";
-import { productDetailsReducer, productListReducer } from "../reducers/productReducers";
 import { CartItem } from "./types";
+import { cartReducer } from "../slice/cartSlice";
+import { productDetailReducer, productListReducer } from "../slice/productSlice";
 
 const cartItemsLocalStorageItem = localStorage.getItem('cartItems');
 const cartItemsFromStorage: CartItem[] = cartItemsLocalStorageItem ? JSON.parse(cartItemsLocalStorageItem) : [];
@@ -12,7 +12,7 @@ const store: EnhancedStore = configureStore(
         reducer: {
             cart: cartReducer,
             productList: productListReducer,
-            productDetails: productDetailsReducer
+            productDetails: productDetailReducer
         },
         preloadedState: { cart: { cartItems: cartItemsFromStorage } }
     }
