@@ -14,7 +14,7 @@ const store: EnhancedStore = configureStore(
             productList: productListReducer,
             productDetails: productDetailReducer
         },
-        preloadedState: { cart: { cartItems: cartItemsFromStorage } }
+        preloadedState: { cart: { items: cartItemsFromStorage } }
     }
 );
 

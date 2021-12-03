@@ -4,16 +4,16 @@ import { RootState } from "../store/store";
 
 export const cartSlice = createSlice({
     name: 'cart',
-    initialState: { cartItems: [] } as CartState,
+    initialState: { items: [] } as CartState,
     reducers: {
         addCartItem: (state, action: PayloadAction<CartItem>) => {
             const actionItem: CartItem = action.payload;
-            const stateItem = state.cartItems.find(item => item.productId === actionItem.productId);
+            const stateItem = state.items.find(item => item.productId === actionItem.productId);
             // TODO !!! check reduxjs/toolkit state mutability
             if (stateItem) {
-                return { cartItems: state.cartItems.map(item => item.productId === stateItem.productId ? actionItem : item) };
+                return { items: state.items.map(item => item.productId === stateItem.productId ? actionItem : item) };
             } else {
-                return { cartItems: [ ...state.cartItems, actionItem ] };
+                return { items: [ ...state.items, actionItem ] };
             }
         },
         removeCartItem: (state) => {
@@ -25,6 +25,6 @@ export const cartSlice = createSlice({
 export const { addCartItem, removeCartItem } = cartSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectCartItems = (state: RootState) => state.cart.cartItems;
+export const selectCartItems = (state: RootState) => state.cart.items;
 
 export const cartReducer = cartSlice.reducer;
