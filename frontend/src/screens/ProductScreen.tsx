@@ -87,7 +87,7 @@ const ProductScreen = ({ history, match }: { history: History, match: match<{ id
                                                         <Row>
                                                             <Col>Qty</Col>
                                                             <Col>
-                                                                <FormControl as='select' value={qty} onChange={(e) => setQty(parseInt(e.target.value))}>
+                                                                <FormControl as='select' value={qty} onChange={(e) => setQty(Number(e.target.value))}>
                                                                     {
                                                                         [...Array(productDetails.item.countInStock)]
                                                                             .map((key: string, value: number) => {
