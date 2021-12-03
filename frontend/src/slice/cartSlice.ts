@@ -9,15 +9,15 @@ export const cartSlice = createSlice({
         addCartItem: (state, action: PayloadAction<CartItem>) => {
             const actionItem: CartItem = action.payload;
             const stateItem = state.items.find(item => item.productId === actionItem.productId);
-            // TODO !!! check reduxjs/toolkit state mutability
             if (stateItem) {
                 return { items: state.items.map(item => item.productId === stateItem.productId ? actionItem : item) };
             } else {
-                return { items: [ ...state.items, actionItem ] };
+                return { items: state.items.concat(actionItem) }
             }
         },
-        removeCartItem: (state) => {
-            return state;
+        removeCartItem: (state, action: PayloadAction<string>) => {
+            const productId: string = action.payload;
+            return { items: state.items.filter(item => item.productId !== productId) };
         }
     }
 });
