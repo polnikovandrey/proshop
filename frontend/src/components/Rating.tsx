@@ -1,48 +1,48 @@
 import React from "react";
-import { ProductRatingData } from "../data/ProductRatingData";
+import { ProductRatingItem } from "../store/types";
 
 // www.fontawesome.com styles are being used to draw stars
-export const Rating = ({ ratingData, color }: { ratingData: ProductRatingData, color: string }) => {
+export const Rating = ({ ratingItem, color }: { ratingItem: ProductRatingItem, color: string }) => {
     return (
         <div className='rating'>
             <span>
                 <i style={{ color }}
                    className={
-                       ratingData.rating >= 1
+                       ratingItem.rating >= 1
                            ? 'fas fa-star'
-                           : ratingData.rating > 0.5
+                           : ratingItem.rating > 0.5
                                ? 'fas fa-star-half-alt'
                                : 'far fa-star'}/>
                 <i style={{ color }}
                    className={
-                       ratingData.rating >= 2
+                       ratingItem.rating >= 2
                            ? 'fas fa-star'
-                           : ratingData.rating > 1.5
+                           : ratingItem.rating > 1.5
                                ? 'fas fa-star-half-alt'
                                : 'far fa-star'}/>
                 <i style={{ color }}
                    className={
-                       ratingData.rating >= 3
+                       ratingItem.rating >= 3
                            ? 'fas fa-star'
-                           : ratingData.rating > 2.5
+                           : ratingItem.rating > 2.5
                                ? 'fas fa-star-half-alt'
                                : 'far fa-star'}/>
                 <i style={{ color }}
                    className={
-                       ratingData.rating >= 4
+                       ratingItem.rating >= 4
                            ? 'fas fa-star'
-                           : ratingData.rating > 3.5
+                           : ratingItem.rating > 3.5
                                ? 'fas fa-star-half-alt'
                                : 'far fa-star'}/>
                 <i style={{ color }}
                    className={
-                       ratingData.rating >= 5
+                       ratingItem.rating >= 5
                            ? 'fas fa-star'
-                           : ratingData.rating > 4.5
+                           : ratingItem.rating > 4.5
                                ? 'fas fa-star-half-alt'
                                : 'far fa-star'}/>
             </span>
-            <span>{ratingData.numReviews} reviews</span>
+            <span>{ratingItem.numReviews} reviews</span>
         </div>
     );
 }

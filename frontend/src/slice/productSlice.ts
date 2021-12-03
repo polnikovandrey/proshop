@@ -1,7 +1,6 @@
-import { ProductsDetailsState, ProductsListState } from "../store/types";
+import { ProductItem, ProductsDetailsState, ProductsListState } from "../store/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store/store";
-import { ProductData } from "../data/ProductData";
 
 export const productListSlice = createSlice({
     name: 'productList',
@@ -10,7 +9,7 @@ export const productListSlice = createSlice({
         productListRequest: (state) => {
             return { loading: true };
         },
-        productListSuccess: (state, action: PayloadAction<ProductData[]>) => {
+        productListSuccess: (state, action: PayloadAction<ProductItem[]>) => {
             return { loading: false, payload: action.payload };
         },
         productListFail: (state, action: PayloadAction<string>) => {
@@ -34,7 +33,7 @@ export const productDetailSlice = createSlice({
         productDetailRequest: (state) => {
             return { loading: true };
         },
-        productDetailSuccess: (state, action: PayloadAction<ProductData>) => {
+        productDetailSuccess: (state, action: PayloadAction<ProductItem>) => {
             return { loading: false, payload: action.payload };
         },
         productDetailFail: (state, action: PayloadAction<string>) => {

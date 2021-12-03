@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
-import { ProductData } from "../data/ProductData";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { loadProductListAction } from "../actions/productActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { ProductsListState } from "../store/types";
+import { ProductItem, ProductsListState } from "../store/types";
 
 const HomeScreen = () => {
 
@@ -30,9 +29,9 @@ const HomeScreen = () => {
                     : (
                         <Row>
                             {productList.payload ?
-                                productList.payload.map((productData: ProductData) => {
+                                productList.payload.map((productData: ProductItem) => {
                                     return <Col key={productData._id} sm={12} md={6} lg={4} xl={3}>
-                                        <Product productData={productData}/>
+                                        <Product productItem={productData}/>
                                     </Col>
                                 })
                                 : <h3>Empty</h3>}

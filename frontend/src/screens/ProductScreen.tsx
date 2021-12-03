@@ -3,7 +3,6 @@ import { match } from "react-router";
 import { Link } from "react-router-dom";
 import { Button, Card, Col, FormControl, Image, ListGroup, Row } from "react-bootstrap";
 import { Rating } from "../components/Rating";
-import { ProductRatingData } from "../data/ProductRatingData";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { loadProductDetailsAction } from "../actions/productActions";
 import Loader from "../components/Loader";
@@ -48,7 +47,7 @@ const ProductScreen = ({ history, match }: { history: History, match: match<{ id
                                             <h3>{productDetails.payload.name}</h3>
                                         </ListGroup.Item>
                                         <ListGroup.Item>
-                                            <Rating ratingData={new ProductRatingData(productDetails.payload.rating, productDetails.payload.numReviews)}/>
+                                            <Rating ratingItem={{ rating: productDetails.payload.rating, numReviews: productDetails.payload.numReviews}}/>
                                         </ListGroup.Item>
                                         <ListGroup.Item>
                                             Price: ${productDetails.payload.price}
