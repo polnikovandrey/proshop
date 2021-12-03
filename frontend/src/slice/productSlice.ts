@@ -10,7 +10,7 @@ export const productListSlice = createSlice({
             return { loading: true };
         },
         productListSuccess: (state, action: PayloadAction<ProductItem[]>) => {
-            return { loading: false, payload: action.payload };
+            return { loading: false, items: action.payload };
         },
         productListFail: (state, action: PayloadAction<string>) => {
             return { loading: false, error: action.payload };
@@ -34,7 +34,7 @@ export const productDetailSlice = createSlice({
             return { loading: true };
         },
         productDetailSuccess: (state, action: PayloadAction<ProductItem>) => {
-            return { loading: false, payload: action.payload };
+            return { loading: false, item: action.payload };
         },
         productDetailFail: (state, action: PayloadAction<string>) => {
             return { loading: false, error: action.payload };

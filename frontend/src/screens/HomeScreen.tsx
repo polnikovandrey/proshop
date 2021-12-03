@@ -28,8 +28,8 @@ const HomeScreen = () => {
                     ? <Message variant='danger'>{productList.error}</Message>
                     : (
                         <Row>
-                            {productList.payload ?
-                                productList.payload.map((productData: ProductItem) => {
+                            {productList.items ?
+                                productList.items.map((productData: ProductItem) => {
                                     return <Col key={productData._id} sm={12} md={6} lg={4} xl={3}>
                                         <Product productItem={productData}/>
                                     </Col>

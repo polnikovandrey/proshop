@@ -35,25 +35,25 @@ const ProductScreen = ({ history, match }: { history: History, match: match<{ id
                 ? <Loader/>
                 : productDetails.error
                     ? <Message variant='danger'>{productDetails.error}</Message>
-                    : productDetails.payload
+                    : productDetails.item
                         ? (
                             <Row>
                                 <Col md={6}>
-                                    <Image src={productDetails.payload.image} alt={productDetails.payload.name} fluid/>
+                                    <Image src={productDetails.item.image} alt={productDetails.item.name} fluid/>
                                 </Col>
                                 <Col md={3}>
                                     <ListGroup variant='flush'>
                                         <ListGroup.Item>
-                                            <h3>{productDetails.payload.name}</h3>
+                                            <h3>{productDetails.item.name}</h3>
                                         </ListGroup.Item>
                                         <ListGroup.Item>
-                                            <Rating ratingItem={{ rating: productDetails.payload.rating, numReviews: productDetails.payload.numReviews}}/>
+                                            <Rating ratingItem={{ rating: productDetails.item.rating, numReviews: productDetails.item.numReviews}}/>
                                         </ListGroup.Item>
                                         <ListGroup.Item>
-                                            Price: ${productDetails.payload.price}
+                                            Price: ${productDetails.item.price}
                                         </ListGroup.Item>
                                         <ListGroup.Item>
-                                            Description: {productDetails.payload.description}
+                                            Description: {productDetails.item.description}
                                         </ListGroup.Item>
                                     </ListGroup>
                                 </Col>
@@ -66,7 +66,7 @@ const ProductScreen = ({ history, match }: { history: History, match: match<{ id
                                                         Price:
                                                     </Col>
                                                     <Col>
-                                                        <strong>${productDetails.payload.price}</strong>
+                                                        <strong>${productDetails.item.price}</strong>
                                                     </Col>
                                                 </Row>
                                             </ListGroup.Item>
@@ -76,20 +76,20 @@ const ProductScreen = ({ history, match }: { history: History, match: match<{ id
                                                         Status:
                                                     </Col>
                                                     <Col>
-                                                        <strong>{productDetails.payload.countInStock > 0 ? 'In stock' : 'Out of stock'}</strong>
+                                                        <strong>{productDetails.item.countInStock > 0 ? 'In stock' : 'Out of stock'}</strong>
                                                     </Col>
                                                 </Row>
                                             </ListGroup.Item>
 
                                             {
-                                                productDetails.payload.countInStock > 0 &&  (
+                                                productDetails.item.countInStock > 0 &&  (
                                                     <ListGroup.Item>
                                                         <Row>
                                                             <Col>Qty</Col>
                                                             <Col>
                                                                 <FormControl as='select' value={qty} onChange={(e) => setQty(parseInt(e.target.value))}>
                                                                     {
-                                                                        [...Array(productDetails.payload.countInStock)]
+                                                                        [...Array(productDetails.item.countInStock)]
                                                                             .map((key: string, value: number) => {
                                                                                 return (
                                                                                     <option key={value + 1} value={value + 1}>
@@ -106,7 +106,7 @@ const ProductScreen = ({ history, match }: { history: History, match: match<{ id
                                             }
 
                                             <ListGroup.Item>
-                                                <Button onClick={addToCartHandler} className='btn-block' type='button' disabled={productDetails.payload.countInStock === 0}>
+                                                <Button onClick={addToCartHandler} className='btn-block' type='button' disabled={productDetails.item.countInStock === 0}>
                                                     Add to cart
                                                 </Button>
                                             </ListGroup.Item>
