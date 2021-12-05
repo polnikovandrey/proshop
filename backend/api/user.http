@@ -1,10 +1,16 @@
 ### Authenticate user & get token
+# @info Use https://jwt.io/ to investigate response jwt value.
 POST {{apiUrl}}users/login
 Accept: application/json
-Authorization: Basic {{login}} {{password}}
 Content-Type: application/json
 
 {
   "email": "admin@example.com",
   "password": "123456"
 }
+> {% client.global.set("auth_Token", response.body.token); %}
+
+### Return logged-in user
+GET {{apiUrl}}users/profile
+Authorization: Bearer {{auth_Token}}
+Content-Type: application/json
