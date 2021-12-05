@@ -9,7 +9,16 @@ export interface User {
     admin: boolean
 }
 
-export const userSchema: Schema<User> = new mongoose.Schema(
+interface UserDocument extends User, Document {
+    save: () => Promise<void>,
+    matchPassword: (enteredPassword: string) => Promise<boolean>
+}
+
+interface UserModel extends Model<UserDocument> {
+    findByEmail: (email: string) => Promise<UserDocument>;
+}
+
+export const userSchema: Schema<UserDocument> = new mongoose.Schema(
     {
         name: {
             type: String,
@@ -35,8 +44,22 @@ export const userSchema: Schema<User> = new mongoose.Schema(
     }
 );
 
-export const matchUserPassword: (user: User, enteredPassword: string) => Promise<boolean> = (user, enteredPassword) => {
-    return bcrypt.compare(enteredPassword, user.password);
+userSchema.pre('save', async function (next) {
+    // If the save call is creating a new user - hash the password, skip otherwise.
+    if (this.isModified('password')) {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+    } else {
+        next();
+    }
+});
+
+userSchema.methods.matchPassword = async function(enteredPassword: string) {
+    return bcrypt.compare(enteredPassword, this.password);
 };
 
-export const UserModel: Model<User> = mongoose.model<User>('User', userSchema);
+userSchema.statics.findByEmail = async function (email: string) {
+    return this.findOne({ email });
+}
+
+export const UserModel = mongoose.model<UserDocument, UserModel>('User', userSchema);

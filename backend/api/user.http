@@ -10,6 +10,19 @@ Content-Type: application/json
 }
 > {% client.global.set("auth_Token", response.body.token); %}
 
+### Register a new user
+POST {{apiUrl}}users
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Steve Smith",
+  "email": "steve@example.com",
+  "password": "123456"
+}
+> {% client.global.set("auth_Token", response.body.token); %}
+
+
 ### Return logged-in user
 GET {{apiUrl}}users/profile
 Authorization: Bearer {{auth_Token}}

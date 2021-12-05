@@ -1,4 +1,4 @@
-import { matchUserPassword, User, UserModel } from "../models/userModel.js";
+import { User, UserModel } from "../models/userModel.js";
 import expressAsyncHandler from "express-async-handler"; // Note usage of express-async-handler wrapper to catch express errors during async...await
 import { Request, Response } from "express";
 import generateToken from "../utils/generateToken.js";
@@ -8,8 +8,8 @@ import generateToken from "../utils/generateToken.js";
 // @access  Public
 export const authUser = expressAsyncHandler(async (req: Request, res: Response) => {
     const { email, password }: { email: string, password: string } = req.body;
-    const user: User = await UserModel.findOne({ email });
-    if (user && (await matchUserPassword(user, password))) {
+    const user = await UserModel.findByEmail(email);
+    if (user && (await user.matchPassword(password))) {
         res.json(
             {
                 _id: user._id,
@@ -23,6 +23,36 @@ export const authUser = expressAsyncHandler(async (req: Request, res: Response) 
         throw new Error('Invalid email or password');
     }
 });
+
+
+// @desc    Register a new user
+// @route   POST /api/users
+// @access  Public
+export const registerUser = expressAsyncHandler(async (req: Request, res: Response) => {
+    const { name, email, password }: { name: string, email: string, password: string } = req.body;
+    const userExists = await UserModel.findByEmail(email);
+    if (userExists) {
+        res.status(400);
+        throw new Error('User already exists');
+    } else {
+        const user = await UserModel.create({ name, email, password });
+        if (user) {
+            res.status(201)
+                .json(
+                    {
+                        _id: user._id,
+                        name: user.name,
+                        email: user.email,
+                        admin: user.admin,
+                        token: generateToken(user._id)
+                    });
+        } else {
+            res.status(400);
+            throw new Error('Invalid user data');
+        }
+    }
+});
+
 
 // @desc    Get logged-in user
 // @route   GET /api/users/profile
