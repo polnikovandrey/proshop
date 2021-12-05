@@ -1,4 +1,5 @@
 import mongoose, { Model, ObjectId, Schema } from "mongoose";
+import bcrypt from "bcryptjs";
 
 export interface User {
     _id: ObjectId,
@@ -33,5 +34,9 @@ export const userSchema: Schema<User> = new mongoose.Schema(
         timestamps: true
     }
 );
+
+export const matchUserPassword: (user: User, enteredPassword: string) => Promise<boolean> = (user, enteredPassword) => {
+    return bcrypt.compare(enteredPassword, user.password);
+};
 
 export const UserModel: Model<User> = mongoose.model<User>('User', userSchema);

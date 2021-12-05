@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express, { Express } from 'express';
 import connectDb from "./config/db.js";
 import productRouter from "./routes/productRoutes.js";
+import userRouter from "./routes/userRoutes.js";
 import { errorHandler, notFoundHandler } from "./middleware/errorMiddleware.js";
 
 
@@ -11,7 +12,10 @@ connectDb().then();
 
 const app: Express = express();
 
+app.use(express.json());            // Parse a json POST requests body.
+
 app.use('/api/product', productRouter);
+app.use('/api/users', userRouter);
 
 app.use(notFoundHandler);
 

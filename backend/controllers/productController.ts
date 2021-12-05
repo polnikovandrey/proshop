@@ -1,10 +1,11 @@
 import { Product, ProductModel } from "../models/productModel.js";
-import expressAsyncHandler from "express-async-handler"; // Note usage of express-async-handler wrapper to catch express errors during async...await
+import expressAsyncHandler from "express-async-handler";
+import { Request, Response } from "express"; // Note usage of express-async-handler wrapper to catch express errors during async...await
 
 // @desc    Fetch all products
 // @route   GET /api/products
 // @access  Public
-export const getProducts = expressAsyncHandler(async (req, res) => {
+export const getProducts = expressAsyncHandler(async (req: Request, res: Response) => {
     const products: Product[] = await ProductModel.find({});
     res.json(products);
 });
@@ -12,7 +13,7 @@ export const getProducts = expressAsyncHandler(async (req, res) => {
 // @desc    Fetch a single product
 // @route   GET /api/products/:id
 // @access  Public
-export const getProductById = expressAsyncHandler(async (req, res) => {
+export const getProductById = expressAsyncHandler(async (req: Request, res: Response) => {
     const product: Product = await ProductModel.findById(req.params.id);
     if (product) {
         res.json(product);

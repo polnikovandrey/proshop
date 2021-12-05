@@ -1,0 +1,10 @@
+### Authenticate user & get token
+POST {{apiUrl}}users/login
+Accept: application/json
+Authorization: Basic {{login}} {{password}}
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "123456"
+}
