@@ -5,15 +5,16 @@ import { cartAddItemAction, cartRemoveItemAction } from "../actions/cartActions"
 import { History } from "history";
 import { Link } from "react-router-dom";
 import { Button, Card, Col, FormControl, Image, ListGroup, Row } from "react-bootstrap";
-import { CartState } from "../store/types";
 import Message from "../components/Message";
+import { selectCartItems } from "../slice/cartSlice";
+import { CartItem } from "../store/types";
 
 const CartScreen = ({ history, location, match }: { history: History, location: Location, match: match<{ id: string }> }) => {
     const productId: string = match.params.id;
     const qty: number = location.search ? Number(location.search.split('=')[1]) : 1;            // location.search = ?qty=5
     const dispatch = useAppDispatch();
 
-    const { items } = useAppSelector((state: { cart: CartState }) => state.cart);
+    const items: CartItem[] = useAppSelector(selectCartItems);
 
     const checkoutHandler = () => {
         history.push('/login?redirect=shipping');

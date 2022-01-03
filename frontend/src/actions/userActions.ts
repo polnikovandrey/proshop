@@ -6,7 +6,6 @@ import axios, { AxiosRequestConfig } from "axios";
 export const userLoginAction = async (email: string, password: string, dispatch: Dispatch) => {
     try {
         dispatch(userLoginRequest());
-
         const config: AxiosRequestConfig = {
             headers: {
                 'Content-Type': 'application/json'

@@ -21,7 +21,7 @@ export const productListSlice = createSlice({
 export const { productListRequest, productListSuccess, productListFail } = productListSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectProductList = (state: RootState) => state.productList;
+export const selectProductList: (state: RootState) => ProductsListState = state => state.productList;
 
 export const productListReducer = productListSlice.reducer;
 
@@ -45,6 +45,6 @@ export const productDetailSlice = createSlice({
 export const { productDetailRequest, productDetailSuccess, productDetailFail } = productDetailSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectProductDetail = (state: RootState) => state.productDetail;
+export const selectProductDetail: (state: RootState) => ProductsDetailsState = state => state.productDetail;
 
 export const productDetailReducer = productDetailSlice.reducer;

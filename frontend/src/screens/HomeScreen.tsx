@@ -6,10 +6,11 @@ import { loadProductListAction } from "../actions/productActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { ProductItem, ProductsListState } from "../store/types";
+import { selectProductList } from "../slice/productSlice";
 
 const HomeScreen = () => {
 
-    const productList: ProductsListState = useAppSelector((state: { productList: ProductsListState }) => state.productList);
+    const productList: ProductsListState = useAppSelector(selectProductList);
 
     const dispatch = useAppDispatch();
 

@@ -9,12 +9,13 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { History } from "history";
 import { ProductsDetailsState } from "../store/types";
+import { selectProductDetail } from "../slice/productSlice";
 
 const ProductScreen = ({ history, match }: { history: History, match: match<{ id: string }> }) => {
 
     const [ qty, setQty ] = useState(1);
 
-    const productDetails: ProductsDetailsState = useAppSelector((state: { productDetails: ProductsDetailsState }) => state.productDetails);
+    const productDetails: ProductsDetailsState = useAppSelector(selectProductDetail);
 
     const dispatch = useAppDispatch();
 

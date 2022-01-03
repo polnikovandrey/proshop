@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store/store";
 
 export const userSlice = createSlice({
-    name: 'user',
+    name: 'userLogin',
     initialState: { } as UserState,
     reducers: {
         userLoginRequest: () => {
@@ -24,6 +24,6 @@ export const userSlice = createSlice({
 export const { userLoginRequest, userLoginSuccess, userLoginFail, userLogout } = userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectUser = (state: RootState) => state.user;
+export const selectUser: (state: RootState) => UserState = state => state.userLogin;
 
 export const userReducer = userSlice.reducer;
