@@ -6,7 +6,7 @@ export const productListSlice = createSlice({
     name: 'productList',
     initialState: {} as ProductsListState,
     reducers: {
-        productListRequest: (state) => {
+        productListRequest: () => {
             return { loading: true };
         },
         productListSuccess: (state, action: PayloadAction<ProductItem[]>) => {
@@ -30,7 +30,7 @@ export const productDetailSlice = createSlice({
     name: 'productDetail',
     initialState: {} as ProductsDetailsState,
     reducers: {
-        productDetailRequest: (state) => {
+        productDetailRequest: () => {
             return { loading: true };
         },
         productDetailSuccess: (state, action: PayloadAction<ProductItem>) => {
