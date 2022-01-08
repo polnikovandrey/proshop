@@ -9,7 +9,7 @@ const cartItemsLocalStorageItem = localStorage.getItem('cartItems');
 const cartItemsFromStorage: CartItem[] = cartItemsLocalStorageItem ? JSON.parse(cartItemsLocalStorageItem) : [];
 
 const userLocalStorageItem = localStorage.getItem('user');
-const userFromStorage: UserState = userLocalStorageItem ? { user: JSON.parse(userLocalStorageItem) } : { };
+const userFromStorage: UserState = userLocalStorageItem ? { userInfo: JSON.parse(userLocalStorageItem) } : { };
 
 const store: EnhancedStore = configureStore(
     {
@@ -17,11 +17,11 @@ const store: EnhancedStore = configureStore(
             cart: cartReducer,
             productList: productListReducer,
             productDetails: productDetailReducer,
-            userLogin: userReducer
+            user: userReducer
         },
         preloadedState: {
             cart: { items: cartItemsFromStorage },
-            userLogin: userFromStorage
+            user: userFromStorage
         }
     }
 );

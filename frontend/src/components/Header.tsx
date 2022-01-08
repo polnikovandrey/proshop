@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEventHandler } from 'react';
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from "react-router-bootstrap";
@@ -9,7 +9,7 @@ import { userLogoutAction } from "../actions/userActions";
 const Header = () => {
     const userState: UserState = useAppSelector(selectUser);
     const dispatch = useAppDispatch();
-    const logoutHandler = async () => {
+    const logoutHandler: FormEventHandler = async () => {
         await userLogoutAction(dispatch);
     };
     return <header>
@@ -24,8 +24,8 @@ const Header = () => {
                         <LinkContainer to='/cart'>
                             <Nav.Link><i className="fas fa-shopping-cart"/> Cart</Nav.Link>
                         </LinkContainer>
-                        { userState.user ? (
-                            <NavDropdown title={userState.user.name} id='username'>
+                        { userState.userInfo ? (
+                            <NavDropdown title={userState.userInfo.name} id='username'>
                                 <LinkContainer to='/profile'>
                                     <NavDropdown.Item>Profile</NavDropdown.Item>
                                 </LinkContainer>
