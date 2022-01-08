@@ -11,7 +11,7 @@ export type ProductItem = {
     numReviews: number };
 export type ProductRatingItem = { rating: number, numReviews: number };
 export type CartItem = { productId: string, name: string, image: string, price: number, countInStock: number, qty: number };
-export type UserInfo = { };
+export type UserInfo = { _id: string, name: string, email: string, admin: boolean, token: string };
 
 export type CartState = { items: CartItem[] };
 export type ProductsListState = { loading: boolean, items?: ProductItem[], error?: string };
