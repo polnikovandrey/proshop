@@ -16,7 +16,7 @@ interface UserModel extends Model<UserDocument> {
     findByEmail: (email: string) => Promise<UserDocument>;
 }
 
-export const userSchema: Schema<UserDocument, UserModel> = new mongoose.Schema(
+const userSchema: Schema<UserDocument, UserModel> = new mongoose.Schema(
     {
         name: {
             type: String,

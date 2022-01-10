@@ -17,3 +17,4 @@ export type CartState = { items: CartItem[] };
 export type ProductsListState = { loading: boolean, items?: ProductItem[], error?: string };
 export type ProductsDetailsState = { loading: boolean, item?: ProductItem, error?: string };
 export type UserState = { loading?: boolean, userInfo?: UserInfo, error?: string }
+export type UserDetailsState = { loading?: boolean, userDetail?: UserInfo, error?: string }

@@ -4,6 +4,7 @@ import { CartItem, UserState } from "./types";
 import { cartReducer } from "../slice/cartSlice";
 import { productDetailReducer, productListReducer } from "../slice/productSlice";
 import { userReducer } from "../slice/userSlice";
+import { userDetailsReducer } from "../slice/userDetailsSlice";
 
 const cartItemsLocalStorageItem = localStorage.getItem('cartItems');
 const cartItemsFromStorage: CartItem[] = cartItemsLocalStorageItem ? JSON.parse(cartItemsLocalStorageItem) : [];
@@ -17,7 +18,8 @@ const store: EnhancedStore = configureStore(
             cart: cartReducer,
             productList: productListReducer,
             productDetails: productDetailReducer,
-            user: userReducer
+            user: userReducer,
+            userDetails: userDetailsReducer
         },
         preloadedState: {
             cart: { items: cartItemsFromStorage },

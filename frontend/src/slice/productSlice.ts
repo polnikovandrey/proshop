@@ -45,6 +45,6 @@ export const productDetailSlice = createSlice({
 export const { productDetailRequest, productDetailSuccess, productDetailFail } = productDetailSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectProductDetail: (state: RootState) => ProductsDetailsState = state => state.productDetail;
+export const selectProductDetail: (state: RootState) => ProductsDetailsState = state => state.productDetails;
 
 export const productDetailReducer = productDetailSlice.reducer;

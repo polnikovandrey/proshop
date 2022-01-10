@@ -30,7 +30,11 @@ export const userSlice = createSlice({
     }
 });
 
-export const { userLoginRequest, userLoginSuccess, userLoginFail, userLogout, userRegisterRequest, userRegisterSuccess, userRegisterFail } = userSlice.actions;
+export const {
+    userLoginRequest, userLoginSuccess, userLoginFail,
+    userLogout,
+    userRegisterRequest, userRegisterSuccess, userRegisterFail
+} = userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectUser: (state: RootState) => UserState = state => state.user;
