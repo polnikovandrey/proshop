@@ -2,7 +2,7 @@ import { ObjectId } from "mongoose";
 import dotenv from "dotenv";
 import { users } from "./data/users.js";
 import { products } from "./data/products.js";
-import { User, UserModel } from "./models/userModel.js";
+import { UserDocument, UserModel } from "./models/userModel.js";
 import { ProductModel } from "./models/productModel.js";
 import { OrderModel } from "./models/orderModel.js";
 import connectDb from "./config/db.js";
@@ -17,7 +17,7 @@ const importData = async () => {
         await ProductModel.deleteMany();
         await UserModel.deleteMany();
 
-        const createdUsers: User[] = await UserModel.insertMany(users);
+        const createdUsers: UserDocument[] = await UserModel.insertMany(users);
         const adminUserId: ObjectId = createdUsers[0]._id;
 
         products.forEach(product => product.user = adminUserId);

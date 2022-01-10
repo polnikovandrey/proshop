@@ -1,4 +1,4 @@
-import { User, UserModel } from "../models/userModel.js";
+import { UserDocument, UserModel } from "../models/userModel.js";
 import expressAsyncHandler from "express-async-handler"; // Note usage of express-async-handler wrapper to catch express errors during async...await
 import { Request, Response } from "express";
 import generateToken from "../utils/generateToken.js";
@@ -8,15 +8,15 @@ import generateToken from "../utils/generateToken.js";
 // @access  Public
 export const authUser = expressAsyncHandler(async (req: Request, res: Response) => {
     const { email, password }: { email: string, password: string } = req.body;
-    const user = await UserModel.findByEmail(email);
-    if (user && (await user.matchPassword(password))) {
+    const userDocument: UserDocument = await UserModel.findByEmail(email);
+    if (userDocument && (await userDocument.matchPassword(password))) {
         res.json(
             {
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                admin: user.admin,
-                token: generateToken(user._id)
+                _id: userDocument._id,
+                name: userDocument.name,
+                email: userDocument.email,
+                admin: userDocument.admin,
+                token: generateToken(userDocument._id)
             });
     } else {
         res.status(401);
@@ -30,8 +30,8 @@ export const authUser = expressAsyncHandler(async (req: Request, res: Response) 
 // @access  Public
 export const registerUser = expressAsyncHandler(async (req: Request, res: Response) => {
     const { name, email, password }: { name: string, email: string, password: string } = req.body;
-    const userExists = await UserModel.findByEmail(email);
-    if (userExists) {
+    const userDocument: UserDocument = await UserModel.findByEmail(email);
+    if (userDocument) {
         res.status(400);
         throw new Error('User already exists');
     } else {
@@ -54,11 +54,11 @@ export const registerUser = expressAsyncHandler(async (req: Request, res: Respon
 });
 
 
-// @desc    Get logged-in user
+// @desc    Get user profile
 // @route   GET /api/users/profile
 // @access  Private
 export const getUserProfile = expressAsyncHandler(async (req: Request, res: Response) => {
-    const aUser: User = await UserModel.findById(req.body.user._id);
+    const aUser: UserDocument = await UserModel.findById(req.body.user._id);
     if (aUser) {
         res.json(
             {
@@ -69,6 +69,33 @@ export const getUserProfile = expressAsyncHandler(async (req: Request, res: Resp
                 token: generateToken(aUser._id)
             }
         );
+    } else {
+        res.status(404);
+        throw new Error('User not found');
+    }
+    res.send(req.body.user);
+});
+
+// @desc    Update user profile
+// @route   PUT /api/users/profile
+// @access  Private
+export const updateUserProfile = expressAsyncHandler(async (req: Request, res: Response) => {
+    const aUser: UserDocument = await UserModel.findById(req.body.user._id);
+    if (aUser) {
+        aUser.name = req.body.name || aUser.name;
+        aUser.email = req.body.email || aUser.email;
+        if (req.body.password) {
+            aUser.password = req.body.password;
+        }
+        const updatedUser: UserDocument = await aUser.save();
+        res.json(
+            {
+                _id: updatedUser._id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                admin: updatedUser.admin,
+                token: generateToken(updatedUser._id)
+            });
     } else {
         res.status(404);
         throw new Error('User not found');

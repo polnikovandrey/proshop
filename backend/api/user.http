@@ -5,7 +5,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "admin@example.com",
+  "email": "john@example.com",
   "password": "123456"
 }
 > {% client.global.set("auth_Token", response.body.token); %}
@@ -23,7 +23,19 @@ Content-Type: application/json
 > {% client.global.set("auth_Token", response.body.token); %}
 
 
-### Return logged-in user
+### Return user profile
 GET {{apiUrl}}users/profile
 Authorization: Bearer {{auth_Token}}
 Content-Type: application/json
+
+
+### Update user profile
+PUT {{apiUrl}}users/profile
+Authorization: Bearer {{auth_Token}}
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "123456"
+}
