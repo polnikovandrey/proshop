@@ -4,13 +4,13 @@ import { CartItem, UserState } from "./types";
 import { cartReducer } from "../slice/cartSlice";
 import { productDetailReducer, productListReducer } from "../slice/productSlice";
 import { userReducer } from "../slice/userSlice";
-import { userDetailsReducer } from "../slice/userDetailsSlice";
+import { userProfileReducer } from "../slice/userProfileSlice";
 
 const cartItemsLocalStorageItem = localStorage.getItem('cartItems');
 const cartItemsFromStorage: CartItem[] = cartItemsLocalStorageItem ? JSON.parse(cartItemsLocalStorageItem) : [];
 
 const userLocalStorageItem = localStorage.getItem('user');
-const userFromStorage: UserState = userLocalStorageItem ? { userInfo: JSON.parse(userLocalStorageItem) } : { };
+const userFromStorage: UserState = userLocalStorageItem ? { user: JSON.parse(userLocalStorageItem) } : { };
 
 const store: EnhancedStore = configureStore(
     {
@@ -18,12 +18,12 @@ const store: EnhancedStore = configureStore(
             cart: cartReducer,
             productList: productListReducer,
             productDetails: productDetailReducer,
-            user: userReducer,
-            userDetails: userDetailsReducer
+            userInfo: userReducer,
+            userProfile: userProfileReducer
         },
         preloadedState: {
             cart: { items: cartItemsFromStorage },
-            user: userFromStorage
+            userInfo: userFromStorage
         }
     }
 );

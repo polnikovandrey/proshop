@@ -1,11 +1,11 @@
 import { Dispatch } from "redux";
 import axios, { AxiosRequestConfig } from "axios";
 import { UserInfo } from "../store/types";
-import { userDetailsClear, userDetailsFail, userDetailsRequest, userDetailsSuccess } from "../slice/userDetailsSlice";
+import { userProfileClear, userProfileFail, userProfileRequest, userProfileSuccess } from "../slice/userProfileSlice";
 
-export const getUserDetailsAction = async (id: string, token: string, dispatch: Dispatch) => {
+export const getUserProfileAction = async (id: string, token: string, dispatch: Dispatch) => {
     try {
-        dispatch(userDetailsRequest());
+        dispatch(userProfileRequest());
         const config: AxiosRequestConfig = {
             headers: {
                 'Content-Type': 'application/json',
@@ -13,12 +13,12 @@ export const getUserDetailsAction = async (id: string, token: string, dispatch: 
             }
         };
         const { data }: { data: UserInfo } = await axios.get(`/api/users/${id}`, config);
-        dispatch(userDetailsSuccess(data));
+        dispatch(userProfileSuccess(data));
     } catch (error: any) {
-        dispatch(userDetailsFail(error.response && error.response.data.message ? error.response.data.message : error.message));
+        dispatch(userProfileFail(error.response && error.response.data.message ? error.response.data.message : error.message));
     }
 };
 
-export const clearUserDetailsAction = (dispatch: Dispatch) => {
-    dispatch(userDetailsClear());
+export const clearUserProfileAction = (dispatch: Dispatch) => {
+    dispatch(userProfileClear());
 }

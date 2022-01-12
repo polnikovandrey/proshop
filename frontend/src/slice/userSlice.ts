@@ -3,14 +3,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store/store";
 
 export const userSlice = createSlice({
-    name: 'user',
+    name: 'userInfo',
     initialState: { } as UserState,
     reducers: {
         userLoginRequest: () => {
             return { loading: true };
         },
         userLoginSuccess: (state, action: PayloadAction<UserInfo>) => {
-            return { userInfo: action.payload };
+            return { user: action.payload };
         },
         userLoginFail: (state, action: PayloadAction<string>) => {
             return { error: action.payload };
@@ -22,7 +22,7 @@ export const userSlice = createSlice({
             return { loading: true };
         },
         userRegisterSuccess: (state, action: PayloadAction<UserInfo>) => {
-            return { userInfo: action.payload };
+            return { user: action.payload };
         },
         userRegisterFail: (state, action: PayloadAction<string>) => {
             return { error: action.payload };
@@ -37,6 +37,6 @@ export const {
 } = userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectUser: (state: RootState) => UserState = state => state.user;
+export const selectUserInfo: (state: RootState) => UserState = state => state.userInfo;
 
 export const userReducer = userSlice.reducer;

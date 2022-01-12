@@ -8,19 +8,19 @@ import { userLoginAction } from "../actions/userActions";
 import { History } from "history";
 import FormContainer from "../components/FormContainer";
 import { UserState } from "../store/types";
-import { selectUser } from "../slice/userSlice";
+import { selectUserInfo } from "../slice/userSlice";
 
 const LoginScreen = ({ history, location }: { history: History, location: Location }) => {
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
 
-    const userState: UserState = useAppSelector(selectUser);
+    const userState: UserState = useAppSelector(selectUserInfo);
     const dispatch = useAppDispatch();
 
     const redirect: string = location.search ? location.search.split('=')[1] : '/';
 
     useEffect(() => {
-        if (userState?.userInfo) {
+        if (userState?.user) {
             history.push(redirect);
         }
     }, [ history, redirect, userState ]);

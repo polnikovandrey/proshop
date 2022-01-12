@@ -4,9 +4,10 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { History } from "history";
-import { selectUser } from "../slice/userSlice";
-import { selectUserDetails } from "../slice/userDetailsSlice";
-import { clearUserDetailsAction, getUserDetailsAction } from "../actions/userDetailsActions";
+import { selectUserInfo } from "../slice/userSlice";
+import { selectUserProfile } from "../slice/userProfileSlice";
+import { clearUserProfileAction, getUserProfileAction } from "../actions/userDetailsActions";
+import { UserInfo } from "../store/types";
 
 const ProfileScreen = ({ history }: { history: History }) => {
     const [ name, setName ] = useState('');
@@ -15,27 +16,28 @@ const ProfileScreen = ({ history }: { history: History }) => {
     const [ confirmPassword, setConfirmPassword ] = useState('');
     const [ message, setMessage ] = useState('');
 
-    const userDetailsState = useAppSelector(selectUserDetails);
-    const { userDetail } = userDetailsState;
-    const userState = useAppSelector(selectUser);
-    const { userInfo } = userState;
+    const userProfileState = useAppSelector(selectUserProfile);
+    const userInfoState = useAppSelector(selectUserInfo);
     const dispatch = useAppDispatch();
+    const userProfile: UserInfo | undefined = userProfileState.user;
+    const userInfo: UserInfo | undefined = userInfoState.user;
+
 
     useEffect(() => {
         if (userInfo) {
-            if (userDetail?.name) {
-                setName(userDetail.name);
-                setEmail(userDetail.email);
+            if (userProfile?.name) {
+                setName(userProfile.name);
+                setEmail(userProfile.email);
             } else {
                 (async () => {
-                    await getUserDetailsAction('profile', userInfo.token, dispatch);
+                    await getUserProfileAction('profile', userInfo.token, dispatch);
                 })();
             }
         } else {
             history.push('/login');
-            clearUserDetailsAction(dispatch)
+            clearUserProfileAction(dispatch)
         }
-    }, [ dispatch, history, userDetail, userInfo ]);
+    }, [ dispatch, history, userInfo, userProfile ]);
 
     const submitHandler: FormEventHandler = async (event) => {
         event.preventDefault();
@@ -50,8 +52,8 @@ const ProfileScreen = ({ history }: { history: History }) => {
             <Col md={3}>
                 <h2>User Profile</h2>
                 { message && <Message variant='danger'>{message}</Message> }
-                { userDetailsState?.error && <Message variant='danger'>{userDetailsState.error}</Message> }
-                { userDetailsState?.loading && <Loader/> }
+                { userProfileState?.error && <Message variant='danger'>{userProfileState.error}</Message> }
+                { userProfileState?.loading && <Loader/> }
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId='name'>
                         <Form.Label>Name</Form.Label>

@@ -8,7 +8,7 @@ import { userRegisterAction } from "../actions/userActions";
 import { History } from "history";
 import FormContainer from "../components/FormContainer";
 import { UserState } from "../store/types";
-import { selectUser } from "../slice/userSlice";
+import { selectUserInfo } from "../slice/userSlice";
 
 const RegisterScreen = ({ history, location }: { history: History, location: Location }) => {
     const [ name, setName ] = useState('');
@@ -17,13 +17,13 @@ const RegisterScreen = ({ history, location }: { history: History, location: Loc
     const [ confirmPassword, setConfirmPassword ] = useState('');
     const [ message, setMessage ] = useState('');
 
-    const userState: UserState = useAppSelector(selectUser);
+    const userState: UserState = useAppSelector(selectUserInfo);
     const dispatch = useAppDispatch();
 
     const redirect: string = location.search ? location.search.split('=')[1] : '/';
 
     useEffect(() => {
-        if (userState?.userInfo) {
+        if (userState?.user) {
             history.push(redirect);
         }
     }, [ history, redirect, userState ]);
