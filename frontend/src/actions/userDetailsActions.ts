@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import axios, { AxiosRequestConfig } from "axios";
 import { UserInfo } from "../store/types";
-import { userDetailsFail, userDetailsRequest, userDetailsSuccess } from "../slice/userDetailsSlice";
+import { userDetailsClear, userDetailsFail, userDetailsRequest, userDetailsSuccess } from "../slice/userDetailsSlice";
 
 export const getUserDetailsAction = async (id: string, token: string, dispatch: Dispatch) => {
     try {
@@ -18,3 +18,7 @@ export const getUserDetailsAction = async (id: string, token: string, dispatch: 
         dispatch(userDetailsFail(error.response && error.response.data.message ? error.response.data.message : error.message));
     }
 };
+
+export const clearUserDetailsAction = (dispatch: Dispatch) => {
+    dispatch(userDetailsClear());
+}

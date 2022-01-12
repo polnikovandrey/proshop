@@ -6,7 +6,7 @@ import Loader from "../components/Loader";
 import { History } from "history";
 import { selectUser } from "../slice/userSlice";
 import { selectUserDetails } from "../slice/userDetailsSlice";
-import { getUserDetailsAction } from "../actions/userDetailsActions";
+import { clearUserDetailsAction, getUserDetailsAction } from "../actions/userDetailsActions";
 
 const ProfileScreen = ({ history }: { history: History }) => {
     const [ name, setName ] = useState('');
@@ -23,7 +23,7 @@ const ProfileScreen = ({ history }: { history: History }) => {
 
     useEffect(() => {
         if (userInfo) {
-            if (userDetail?.name) {     // TODO !!! clean after logout
+            if (userDetail?.name) {
                 setName(userDetail.name);
                 setEmail(userDetail.email);
             } else {
@@ -33,6 +33,7 @@ const ProfileScreen = ({ history }: { history: History }) => {
             }
         } else {
             history.push('/login');
+            clearUserDetailsAction(dispatch)
         }
     }, [ dispatch, history, userDetail, userInfo ]);
 

@@ -14,12 +14,15 @@ export const userDetailsSlice = createSlice({
         },
         userDetailsFail: (state, action: PayloadAction<string>) => {
             return { error: action.payload };
+        },
+        userDetailsClear: () => {
+            return { };
         }
     }
 });
 
 export const {
-    userDetailsRequest, userDetailsSuccess, userDetailsFail
+    userDetailsRequest, userDetailsSuccess, userDetailsFail, userDetailsClear
 } = userDetailsSlice.actions;
 
 export const selectUserDetails: (state: RootState) => UserDetailsState = state => state.userDetails;
