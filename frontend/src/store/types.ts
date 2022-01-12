@@ -12,7 +12,7 @@ export type ProductItem = {
 export type ProductRatingItem = { rating: number, numReviews: number };
 export type CartItem = { productId: string, name: string, image: string, price: number, countInStock: number, qty: number };
 export type UserInfo = { _id: string, name: string, email: string, admin: boolean, token: string };
-export type UserProfile = { name: string, email: string }
+export type UserProfile = { name: string, email: string, password?: string }
 
 export type CartState = { items: CartItem[] };
 export type ProductsListState = { loading: boolean, items?: ProductItem[], error?: string };

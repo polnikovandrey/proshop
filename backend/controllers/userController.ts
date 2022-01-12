@@ -73,19 +73,19 @@ export const getUserProfile = expressAsyncHandler(async (req: Request, res: Resp
         res.status(404);
         throw new Error('User not found');
     }
-    res.send(req.body.user);
 });
 
 // @desc    Update user profile
 // @route   PUT /api/users/profile
 // @access  Private
 export const updateUserProfile = expressAsyncHandler(async (req: Request, res: Response) => {
-    const aUser: UserDocument = await UserModel.findById(req.body.user._id);
+    const profile: { _id: string, name: string, email: string, password: string } = req.body.userProfile;
+    const aUser: UserDocument = await UserModel.findById(profile._id);
     if (aUser) {
-        aUser.name = req.body.name || aUser.name;
-        aUser.email = req.body.email || aUser.email;
-        if (req.body.password) {
-            aUser.password = req.body.password;
+        aUser.name = profile.name || aUser.name;
+        aUser.email = profile.email || aUser.email;
+        if (profile.password) {
+            aUser.password = profile.password;
         }
         const updatedUser: UserDocument = await aUser.save();
         res.json(
@@ -100,5 +100,4 @@ export const updateUserProfile = expressAsyncHandler(async (req: Request, res: R
         res.status(404);
         throw new Error('User not found');
     }
-    res.send(req.body.user);
 });

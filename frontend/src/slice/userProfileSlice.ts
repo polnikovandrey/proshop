@@ -6,8 +6,9 @@ export const userProfileSlice = createSlice({
     name: 'userProfile',
     initialState: { } as UserProfileState,
     reducers: {
-        userProfileRequest: () => {
-            return { loading: true };
+        userProfileRequest: (state) => {
+            state.success = false;
+            state.loading = true;
         },
         userProfileSuccess: (state, action: PayloadAction<UserProfile>) => {
             return { user: action.payload };
@@ -18,11 +19,11 @@ export const userProfileSlice = createSlice({
         userProfileReset: () => {
             return { };
         },
-        userProfileUpdateRequest: () => {
-            return { loading: true };
+        userProfileUpdateRequest: (state) => {
+            state.loading = true;
         },
         userProfileUpdateSuccess: (state, action: PayloadAction<UserProfile>) => {
-            return { user: action.payload };
+            return { success: true, user: action.payload };
         },
         userProfileUpdateFail: (state, action: PayloadAction<string>) => {
             return { error: action.payload };

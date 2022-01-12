@@ -6,8 +6,7 @@ import Loader from "../components/Loader";
 import { History } from "history";
 import { selectUserInfo } from "../slice/userSlice";
 import { selectUserProfile } from "../slice/userProfileSlice";
-import { clearUserProfileAction, getUserProfileAction } from "../actions/userProfileActions";
-import { UserInfo, UserProfile } from "../store/types";
+import { clearUserProfileAction, getUserProfileAction, updateUserProfileAction } from "../actions/userProfileActions";
 
 const ProfileScreen = ({ history }: { history: History }) => {
     const [ name, setName ] = useState('');
@@ -19,32 +18,31 @@ const ProfileScreen = ({ history }: { history: History }) => {
     const userProfileState = useAppSelector(selectUserProfile);
     const userInfoState = useAppSelector(selectUserInfo);
     const dispatch = useAppDispatch();
-    const userProfile: UserProfile | undefined = userProfileState.user;
-    const userInfo: UserInfo | undefined = userInfoState.user;
-
 
     useEffect(() => {
-        if (userInfo) {
-            if (userProfile?.name) {
-                setName(userProfile.name);
-                setEmail(userProfile.email);
+        const userStateInfo = userInfoState.user;
+        if (userStateInfo) {
+            if (userProfileState.user?.name) {
+                setName(userProfileState.user.name);
+                setEmail(userProfileState.user.email);
             } else {
                 (async () => {
-                    await getUserProfileAction('profile', userInfo.token, dispatch);
+                    await getUserProfileAction('profile', userStateInfo.token, dispatch);
                 })();
             }
         } else {
             history.push('/login');
             clearUserProfileAction(dispatch)
         }
-    }, [ dispatch, history, userInfo, userProfile ]);
+    }, [ dispatch, history, userInfoState, userProfileState ]);
 
     const submitHandler: FormEventHandler = async (event) => {
         event.preventDefault();
+        const userInfo = userInfoState.user;
         if (password !== confirmPassword) {
             setMessage('Passwords do not match.');
-        } else {
-            // DISPATCH UPDATE PROFILE
+        } else if (userInfo && userProfileState.user) {
+            await updateUserProfileAction(userInfo._id, userInfo.token, { name, email, password }, dispatch);
         }
     };
     return (
@@ -53,6 +51,7 @@ const ProfileScreen = ({ history }: { history: History }) => {
                 <h2>User Profile</h2>
                 { message && <Message variant='danger'>{message}</Message> }
                 { userProfileState?.error && <Message variant='danger'>{userProfileState.error}</Message> }
+                { userProfileState.success && <Message variant='success'>Profile updated</Message>}
                 { userProfileState?.loading && <Loader/> }
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId='name'>
