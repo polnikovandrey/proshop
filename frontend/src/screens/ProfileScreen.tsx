@@ -6,8 +6,8 @@ import Loader from "../components/Loader";
 import { History } from "history";
 import { selectUserInfo } from "../slice/userSlice";
 import { selectUserProfile } from "../slice/userProfileSlice";
-import { clearUserProfileAction, getUserProfileAction } from "../actions/userDetailsActions";
-import { UserInfo } from "../store/types";
+import { clearUserProfileAction, getUserProfileAction } from "../actions/userProfileActions";
+import { UserInfo, UserProfile } from "../store/types";
 
 const ProfileScreen = ({ history }: { history: History }) => {
     const [ name, setName ] = useState('');
@@ -19,7 +19,7 @@ const ProfileScreen = ({ history }: { history: History }) => {
     const userProfileState = useAppSelector(selectUserProfile);
     const userInfoState = useAppSelector(selectUserInfo);
     const dispatch = useAppDispatch();
-    const userProfile: UserInfo | undefined = userProfileState.user;
+    const userProfile: UserProfile | undefined = userProfileState.user;
     const userInfo: UserInfo | undefined = userInfoState.user;
 
 
