@@ -15,6 +15,9 @@ const userFromStorage: UserState = userLocalStorageItem ? { user: JSON.parse(use
 const shippingAddressStorageItem = localStorage.getItem('shippingAddress');
 const shippingAddressFromStorage: ShippingAddress = shippingAddressStorageItem ? JSON.parse(shippingAddressStorageItem) : {};
 
+const paymentMethodStorageItem = localStorage.getItem('paymentMethod');
+const paymentMethodFromStorage: string = paymentMethodStorageItem ? JSON.parse(paymentMethodStorageItem) : 'PayPal';
+
 const store: EnhancedStore = configureStore(
     {
         reducer: {
@@ -25,7 +28,7 @@ const store: EnhancedStore = configureStore(
             userProfile: userProfileReducer
         },
         preloadedState: {
-            cart: { items: cartItemsFromStorage, shippingAddress: shippingAddressFromStorage },
+            cart: { items: cartItemsFromStorage, shippingAddress: shippingAddressFromStorage, paymentMethod: paymentMethodFromStorage },
             userInfo: userFromStorage
         }
     }
