@@ -3,6 +3,7 @@ import express, { Express } from 'express';
 import connectDb from "./config/db.js";
 import productRouter from "./routes/productRoutes.js";
 import userRouter from "./routes/userRoutes.js";
+import orderRouter from "./routes/orderRoutes.js";
 import { errorHandler, notFoundHandler } from "./middleware/errorMiddleware.js";
 
 
@@ -16,6 +17,7 @@ app.use(express.json());            // Parse a json POST requests body.
 
 app.use('/api/product', productRouter);
 app.use('/api/users', userRouter);
+app.use('/api/orders', orderRouter);
 
 app.use(notFoundHandler);
 
