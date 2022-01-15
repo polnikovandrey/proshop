@@ -1,8 +1,8 @@
 import axios from "axios";
 import { Dispatch } from "redux";
-import { addCartItem, removeCartItem } from "../slice/cartSlice";
+import { addCartItem, removeCartItem, saveShippingAddress } from "../slice/cartSlice";
 import store from "../store/store";
-import { ProductItem } from "../store/types";
+import { ProductItem, ShippingAddress } from "../store/types";
 
 export const cartAddItemAction = async (id: string, qty: number, dispatch: Dispatch) => {
     const { data }: { data: ProductItem } = await axios.get(`/api/product/${id}`);
@@ -13,4 +13,9 @@ export const cartAddItemAction = async (id: string, qty: number, dispatch: Dispa
 export const cartRemoveItemAction = async (id: string, dispatch: Dispatch) => {
     dispatch(removeCartItem(id));
     localStorage.setItem('cartItems', JSON.stringify(store.getState().cart.items));
+}
+
+export const saveShippingAddressAction = async (data: ShippingAddress, dispatch: Dispatch) => {
+    dispatch(saveShippingAddress(data));
+    localStorage.setItem('shippingAddress', JSON.stringify(data));
 }

@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { EnhancedStore } from "@reduxjs/toolkit/src/configureStore";
-import { CartItem, UserState } from "./types";
+import { CartItem, ShippingAddress, UserState } from "./types";
 import { cartReducer } from "../slice/cartSlice";
 import { productDetailReducer, productListReducer } from "../slice/productSlice";
 import { userReducer } from "../slice/userSlice";
@@ -12,6 +12,9 @@ const cartItemsFromStorage: CartItem[] = cartItemsLocalStorageItem ? JSON.parse(
 const userLocalStorageItem = localStorage.getItem('user');
 const userFromStorage: UserState = userLocalStorageItem ? { user: JSON.parse(userLocalStorageItem) } : { };
 
+const shippingAddressStorageItem = localStorage.getItem('shippingAddress');
+const shippingAddressFromStorage: ShippingAddress = shippingAddressStorageItem ? JSON.parse(shippingAddressStorageItem) : {};
+
 const store: EnhancedStore = configureStore(
     {
         reducer: {
@@ -22,7 +25,7 @@ const store: EnhancedStore = configureStore(
             userProfile: userProfileReducer
         },
         preloadedState: {
-            cart: { items: cartItemsFromStorage },
+            cart: { items: cartItemsFromStorage, shippingAddress: shippingAddressFromStorage },
             userInfo: userFromStorage
         }
     }
