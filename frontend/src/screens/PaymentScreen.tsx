@@ -4,12 +4,12 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { History } from "history";
 import FormContainer from "../components/FormContainer";
 import { ShippingAddress } from "../store/types";
-import { selectShippingAddress } from "../slice/cartSlice";
+import { selectCart } from "../slice/cartSlice";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { savePaymentMethodAction } from "../actions/cartActions";
 
 const PaymentScreen = ({ history }: { history: History }) => {
-    const shippingAddress: ShippingAddress = useAppSelector(selectShippingAddress);
+    const { shippingAddress }: { shippingAddress: ShippingAddress } = useAppSelector(selectCart);
     if (!shippingAddress) {
         history.push('/shipping');
     }

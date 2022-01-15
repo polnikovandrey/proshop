@@ -15,6 +15,7 @@ export type UserInfo = { _id: string, name: string, email: string, admin: boolea
 export type UserProfile = { name: string, email: string, password?: string };
 export type ShippingAddress = { address: string, city: string, postalCode: string, country: string };
 export type CartState = { items: CartItem[], shippingAddress: ShippingAddress, paymentMethod: string };
+export type Order = CartState & { itemsPrice: number, shippingPrice: number, taxPrice: number, totalPrice: number };
 export type ProductsListState = { loading: boolean, items?: ProductItem[], error?: string };
 export type ProductsDetailsState = { loading: boolean, item?: ProductItem, error?: string };
 export type UserState = { loading?: boolean, user?: UserInfo, error?: string }

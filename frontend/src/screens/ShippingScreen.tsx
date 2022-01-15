@@ -4,12 +4,12 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { History } from "history";
 import FormContainer from "../components/FormContainer";
 import { ShippingAddress } from "../store/types";
-import { selectShippingAddress } from "../slice/cartSlice";
+import { selectCart } from "../slice/cartSlice";
 import { saveShippingAddressAction } from "../actions/cartActions";
 import CheckoutSteps from "../components/CheckoutSteps";
 
 const ShippingScreen = ({ history }: { history: History }) => {
-    const shippingAddress: ShippingAddress = useAppSelector(selectShippingAddress);
+    const { shippingAddress }: { shippingAddress: ShippingAddress } = useAppSelector(selectCart);
     const [ address, setAddress ] = useState(shippingAddress.address);
     const [ city, setCity ] = useState(shippingAddress.city);
     const [ postalCode, setPostalCode ] = useState(shippingAddress.postalCode);
