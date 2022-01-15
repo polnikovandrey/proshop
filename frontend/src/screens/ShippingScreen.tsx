@@ -6,11 +6,10 @@ import FormContainer from "../components/FormContainer";
 import { ShippingAddress } from "../store/types";
 import { selectShippingAddress } from "../slice/cartSlice";
 import { saveShippingAddressAction } from "../actions/cartActions";
+import CheckoutSteps from "../components/CheckoutSteps";
 
 const ShippingScreen = ({ history }: { history: History }) => {
-
     const shippingAddress: ShippingAddress = useAppSelector(selectShippingAddress);
-
     const [ address, setAddress ] = useState(shippingAddress.address);
     const [ city, setCity ] = useState(shippingAddress.city);
     const [ postalCode, setPostalCode ] = useState(shippingAddress.postalCode);
@@ -23,6 +22,7 @@ const ShippingScreen = ({ history }: { history: History }) => {
     };
     return (
         <FormContainer>
+            <CheckoutSteps step1 step2 />
             <h1>Shipping</h1>
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId='address'>
