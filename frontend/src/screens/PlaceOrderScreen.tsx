@@ -1,21 +1,35 @@
-import React, { FormEventHandler } from 'react';
-import { CartState, Order } from "../store/types";
-import { useAppSelector } from "../store/hooks";
+import React, { FormEventHandler, useEffect } from 'react';
+import { CartState, Order, OrderCreateState } from "../store/types";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { selectCart } from "../slice/cartSlice";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import Message from "../components/Message";
 import { Link } from 'react-router-dom';
+import { createOrderAction } from "../actions/orderActions";
+import { selectUserInfo } from "../slice/userSlice";
+import { selectOrderCreate } from "../slice/orderCreateSlice";
+import { History } from "history";
 
-const PlaceOrderScreen = () => {
+const PlaceOrderScreen = ({ history }: { history: History }) => {
     const cart: CartState = useAppSelector(selectCart);
     const itemsPrice: number = cart.items.reduce((acc, item) => acc + item.price * item.qty, 0);
     const shippingPrice: number = itemsPrice > 100 ? 0 : 100;
     const taxPrice: number = Number((0.15 * itemsPrice).toFixed(2));
     const totalPrice: number = itemsPrice + shippingPrice + taxPrice;
     const order: Order = { ...cart, itemsPrice, shippingPrice, taxPrice, totalPrice };
-    const placeOrderHandler: FormEventHandler = (e) => {
-        console.log('order');
+    const dispatch = useAppDispatch();
+    const stateCreateOrder: OrderCreateState = useAppSelector(selectOrderCreate);
+    useEffect(() => {
+        if (stateCreateOrder.order) {
+            history.push(`/order/${stateCreateOrder.order._id}`);
+        }
+    }, [history, stateCreateOrder]);
+    const userInfoState = useAppSelector(selectUserInfo);
+    const placeOrderHandler: FormEventHandler = async () => {
+        if (userInfoState.user) {
+            await createOrderAction(order, userInfoState.user.token, dispatch);
+        }
     };
     const addDecimals: (num: number) => string = num => (Math.round(num * 100) / 100).toFixed(2);
     return (
@@ -54,7 +68,7 @@ const PlaceOrderScreen = () => {
                                                         </Link>
                                                     </Col>
                                                     <Col md={4}>
-                                                        {item.qty} x ${item.price} = ${item.qty * item.price}
+                                                        {item.qty} x ${addDecimals(item.price)} = ${addDecimals(item.qty * item.price)}
                                                     </Col>
                                                 </Row>
                                             </ListGroup.Item>
@@ -95,7 +109,10 @@ const PlaceOrderScreen = () => {
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
-                                <Button type='button' className='btn-block' disabled={order.items.length === 0} onClick={placeOrderHandler}/>
+                                <Button type='button' className='btn-block' disabled={order.items.length === 0} onClick={placeOrderHandler}>Place Order</Button>
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                                {stateCreateOrder.error && <Message variant='danger'>{stateCreateOrder.error}</Message>}
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>

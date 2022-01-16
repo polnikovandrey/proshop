@@ -44,6 +44,6 @@ export const addOrderItems = expressAsyncHandler(async (req: Request, res: Respo
             shippingPrice,
             totalPrice
         }).save();
-        res.status(201).json({ createdOrder });
+        res.status(201).json(createdOrder);
     }
 });

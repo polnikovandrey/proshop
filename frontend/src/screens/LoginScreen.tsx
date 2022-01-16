@@ -25,11 +25,9 @@ const LoginScreen = ({ history, location }: { history: History, location: Locati
         }
     }, [ history, redirect, userState ]);
 
-    const submitHandler: FormEventHandler = event => {
+    const submitHandler: FormEventHandler = async (event) => {
         event.preventDefault();
-        (async () => {
-            await userLoginAction(email, password, dispatch);
-        })();
+        await userLoginAction(email, password, dispatch);
     }
     return (
         <FormContainer>
