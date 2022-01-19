@@ -1,12 +1,12 @@
 import React, { FormEventHandler, useEffect } from 'react';
-import { CartState, Order, OrderCreateState } from "../store/types";
+import { CartState, Order, OrderState } from "../store/types";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { selectCart } from "../slice/cartSlice";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import Message from "../components/Message";
 import { Link } from 'react-router-dom';
-import { createOrderAction } from "../actions/orderActions";
+import { orderCreateAction } from "../actions/orderActions";
 import { selectUserInfo } from "../slice/userSlice";
 import { selectOrderCreate } from "../slice/orderCreateSlice";
 import { History } from "history";
@@ -19,7 +19,7 @@ const PlaceOrderScreen = ({ history }: { history: History }) => {
     const totalPrice: number = itemsPrice + shippingPrice + taxPrice;
     const order: Order = { ...cart, itemsPrice, shippingPrice, taxPrice, totalPrice };
     const dispatch = useAppDispatch();
-    const stateCreateOrder: OrderCreateState = useAppSelector(selectOrderCreate);
+    const stateCreateOrder: OrderState = useAppSelector(selectOrderCreate);
     useEffect(() => {
         if (stateCreateOrder.order) {
             history.push(`/order/${stateCreateOrder.order._id}`);
@@ -28,7 +28,7 @@ const PlaceOrderScreen = ({ history }: { history: History }) => {
     const userInfoState = useAppSelector(selectUserInfo);
     const placeOrderHandler: FormEventHandler = async () => {
         if (userInfoState.user) {
-            await createOrderAction(order, userInfoState.user.token, dispatch);
+            await orderCreateAction(order, userInfoState.user.token, dispatch);
         }
     };
     const addDecimals: (num: number) => string = num => (Math.round(num * 100) / 100).toFixed(2);

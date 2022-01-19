@@ -2,8 +2,9 @@ import axios, { AxiosRequestConfig } from "axios";
 import { Dispatch } from "redux";
 import { Order } from "../store/types";
 import { orderCreateFail, orderCreateRequest, orderCreateSuccess } from "../slice/orderCreateSlice";
+import { orderDetailFail, orderDetailRequest, orderDetailSuccess } from "../slice/orderDetailSlice";
 
-export const createOrderAction = async (order: Order, token: string, dispatch: Dispatch) => {
+export const orderCreateAction = async (order: Order, token: string, dispatch: Dispatch) => {
     try {
         dispatch(orderCreateRequest());
         const config: AxiosRequestConfig = {
@@ -16,5 +17,20 @@ export const createOrderAction = async (order: Order, token: string, dispatch: D
         dispatch(orderCreateSuccess(data));
     } catch (error: any) {
         dispatch(orderCreateFail(error.response && error.response.data.message ? error.response.data.message : error.message));
+    }
+};
+
+export const orderDetailAction = async (orderId: string, token: string, dispatch: Dispatch) => {
+    try {
+        dispatch(orderDetailRequest());
+        const config: AxiosRequestConfig = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+        const { data }: { data: Order } = await axios.get(`/api/orders/${orderId}`, config);
+        dispatch(orderDetailSuccess(data));
+    } catch (error: any) {
+        dispatch(orderDetailFail(error.response && error.response.data.message ? error.response.data.message : error.message));
     }
 };
