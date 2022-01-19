@@ -1,0 +1,4 @@
+### Get order by id
+GET {{apiUrl}}orders/61e419063b9394c4295b3933
+Authorization: Bearer {{auth_Token}}
+Content-Type: application/json

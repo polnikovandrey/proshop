@@ -1,6 +1,6 @@
 import expressAsyncHandler from "express-async-handler";
 import { Request, Response } from "express";
-import { OrderModel } from "../models/orderModel.js";
+import { Order, OrderModel } from "../models/orderModel.js";
 import mongoose, { Document } from "mongoose";
 import { UserDocument } from "../models/userModel.js";
 
@@ -45,5 +45,19 @@ export const addOrderItems = expressAsyncHandler(async (req: Request, res: Respo
             totalPrice
         }).save();
         res.status(201).json(createdOrder);
+    }
+});
+
+// @desc    Get order by id
+// @route   GET /api/orders/:id
+// @access  Private
+export const getOrderById = expressAsyncHandler(async (req: Request, res: Response) => {
+    const id: string = req.params.id;
+    const order: Order = await OrderModel.findById(id).populate('user', 'name email');
+    if (order) {
+        res.json(order);
+    } else {
+        res.status(404);
+        throw new Error('Order not found');
     }
 });
