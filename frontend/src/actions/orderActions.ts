@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { Dispatch } from "redux";
-import { Order } from "../store/types";
+import { Order, OrderDetail } from "../store/types";
 import { orderCreateFail, orderCreateRequest, orderCreateSuccess } from "../slice/orderCreateSlice";
 import { orderDetailFail, orderDetailRequest, orderDetailSuccess } from "../slice/orderDetailSlice";
 
@@ -28,7 +28,7 @@ export const orderDetailAction = async (orderId: string, token: string, dispatch
                 Authorization: `Bearer ${token}`
             }
         };
-        const { data }: { data: Order } = await axios.get(`/api/orders/${orderId}`, config);
+        const { data }: { data: OrderDetail } = await axios.get(`/api/orders/${orderId}`, config);
         dispatch(orderDetailSuccess(data));
     } catch (error: any) {
         dispatch(orderDetailFail(error.response && error.response.data.message ? error.response.data.message : error.message));

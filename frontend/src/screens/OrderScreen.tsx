@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { match } from "react-router";
-import { addDecimals, OrderState } from "../store/types";
+import { addDecimals, OrderDetailState } from "../store/types";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import Message from "../components/Message";
@@ -12,18 +12,18 @@ import Loader from "../components/Loader";
 
 const OrderScreen = ({ match }: { match: match<{ id: string }> }) => {
     const dispatch = useAppDispatch();
-    const orderDetailState: OrderState = useAppSelector(selectOrderDetail);
+    const orderDetailState: OrderDetailState = useAppSelector(selectOrderDetail);
     const { loading, order, error } = orderDetailState;
     const userInfoState = useAppSelector(selectUserInfo);
     const token: string = userInfoState.user?.token || '';
     const orderId: string = match.params.id;
     useEffect(() => {
-        if (token) {
+        if (token && (!order || order._id !== orderId)) {
             (async () => {
                 await orderDetailAction(orderId, token, dispatch);
             })();
         }
-    }, [token, orderId, dispatch]);
+    }, [token, orderId, order, dispatch]);
     return loading
         ? <Loader/>
         : error
@@ -37,14 +37,28 @@ const OrderScreen = ({ match }: { match: match<{ id: string }> }) => {
                             <ListGroup.Item>
                                 <h2>Shipping</h2>
                                 <p>
+                                    <strong>Name: </strong>{order.user.name}
+                                </p>
+                                <p>
+                                    <strong>Email: </strong><a href={`mailto:${order.user.email}`}>{order.user.email}</a>
+                                </p>
+                                <p>
                                     <strong>Address: </strong>
                                     {order.shippingAddress.address}, {order.shippingAddress.city}, {order.shippingAddress.postalCode}, {order.shippingAddress.country}
                                 </p>
+                                {order.delivered
+                                    ? <Message variant='success'>Delivered on {order.deliveredAt}</Message>
+                                    : <Message variant='danger'>Not delivered</Message>}
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <h2>Payment Method</h2>
-                                <strong>Method: </strong>
-                                {order.paymentMethod}
+                                <p>
+                                    <strong>Method: </strong>
+                                    {order.paymentMethod}
+                                </p>
+                                {order.paid
+                                    ? <Message variant='success'>Paid on {order.paidAt}</Message>
+                                    : <Message variant='danger'>Not paid</Message>}
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <h2>Order Items</h2>
