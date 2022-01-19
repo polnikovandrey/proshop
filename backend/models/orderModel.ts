@@ -4,7 +4,7 @@ import { Product } from "./productModel";
 
 export interface Order {
     user: mongoose.Schema.Types.ObjectId,
-    orderItems: OrderItem[],
+    items: OrderItem[],
     shippingAddress: ShippingAddress,
     paymentMethod: string,
     paymentResult: PaymentResult,
@@ -26,27 +26,6 @@ export interface ShippingAddress {
     postalCode: string,
     country: string
 }
-
-const shippingAddressSchema: mongoose.Schema<ShippingAddress> = new mongoose.Schema<ShippingAddress>(
-    {
-        address: {
-            type: String,
-            required: true
-        },
-        city: {
-            type: String,
-            required: true
-        },
-        postalCode: {
-            type: String,
-            required: true
-        },
-        country: {
-            type: String,
-            required: true
-        }
-    }
-);
 
 export interface PaymentResult {
     id: string,
@@ -116,8 +95,25 @@ const orderSchema: mongoose.Schema<Order> = new mongoose.Schema<Order>(
             required: true,
             ref: 'User'
         },
-        orderItems: [ orderItemSchema ],
-        shippingAddress: shippingAddressSchema,
+        items: [ orderItemSchema ],
+        shippingAddress: {
+            address: {
+                type: String,
+                required: true
+            },
+            city: {
+                type: String,
+                required: true
+            },
+            postalCode: {
+                type: String,
+                required: true
+            },
+            country: {
+                type: String,
+                required: true
+            }
+        },
         paymentMethod: {
             type: String,
             required: true

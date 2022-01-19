@@ -21,3 +21,5 @@ export type ProductsListState = { loading: boolean, items?: ProductItem[], error
 export type ProductsDetailsState = { loading: boolean, item?: ProductItem, error?: string };
 export type UserState = { loading?: boolean, user?: UserInfo, error?: string }
 export type UserProfileState = { loading?: boolean, success?: boolean, user?: UserProfile, error?: string }
+
+export const addDecimals: (num: number) => string = num => (Math.round(num * 100) / 100).toFixed(2);

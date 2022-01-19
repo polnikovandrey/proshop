@@ -32,7 +32,7 @@ export const addOrderItems = expressAsyncHandler(async (req: Request, res: Respo
     } else {
         const createdOrder: Document = await new OrderModel({
             user: new mongoose.Types.ObjectId(user._id),
-            orderItems: items.map(item => ({
+            items: items.map(item => ({
                 name: item.name,
                 quality: item.qty,
                 image: item.image,

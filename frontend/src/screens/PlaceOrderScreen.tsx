@@ -1,5 +1,5 @@
 import React, { FormEventHandler, useEffect } from 'react';
-import { CartState, Order, OrderState } from "../store/types";
+import { addDecimals, CartState, Order, OrderState } from "../store/types";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { selectCart } from "../slice/cartSlice";
 import CheckoutSteps from "../components/CheckoutSteps";
@@ -19,19 +19,18 @@ const PlaceOrderScreen = ({ history }: { history: History }) => {
     const totalPrice: number = itemsPrice + shippingPrice + taxPrice;
     const order: Order = { ...cart, itemsPrice, shippingPrice, taxPrice, totalPrice };
     const dispatch = useAppDispatch();
-    const stateCreateOrder: OrderState = useAppSelector(selectOrderCreate);
+    const createOrderState: OrderState = useAppSelector(selectOrderCreate);
     useEffect(() => {
-        if (stateCreateOrder.order) {
-            history.push(`/order/${stateCreateOrder.order._id}`);
+        if (createOrderState.order) {
+            history.push(`/order/${createOrderState.order._id}`);
         }
-    }, [history, stateCreateOrder]);
+    }, [history, createOrderState]);
     const userInfoState = useAppSelector(selectUserInfo);
     const placeOrderHandler: FormEventHandler = async () => {
         if (userInfoState.user) {
             await orderCreateAction(order, userInfoState.user.token, dispatch);
         }
     };
-    const addDecimals: (num: number) => string = num => (Math.round(num * 100) / 100).toFixed(2);
     return (
         <>
             <CheckoutSteps step1 step2 step3 step4 />
@@ -112,7 +111,7 @@ const PlaceOrderScreen = ({ history }: { history: History }) => {
                                 <Button type='button' className='btn-block' disabled={order.items.length === 0} onClick={placeOrderHandler}>Place Order</Button>
                             </ListGroup.Item>
                             <ListGroup.Item>
-                                {stateCreateOrder.error && <Message variant='danger'>{stateCreateOrder.error}</Message>}
+                                {createOrderState.error && <Message variant='danger'>{createOrderState.error}</Message>}
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
