@@ -4,9 +4,9 @@ import { addCartItem, removeCartItem, savePaymentMethod, saveShippingAddress } f
 import store from "../store/store";
 import { ProductItem, ShippingAddress } from "../store/types";
 
-export const cartAddItemAction = async (id: string, qty: number, dispatch: Dispatch) => {
+export const cartAddItemAction = async (id: string, quality: number, dispatch: Dispatch) => {
     const { data }: { data: ProductItem } = await axios.get(`/api/product/${id}`);
-    dispatch(addCartItem({ productId: data._id, name: data.name, image: data.image, price: data.price, countInStock: data.countInStock, qty: qty}));
+    dispatch(addCartItem({ productId: data._id, name: data.name, image: data.image, price: data.price, countInStock: data.countInStock, quality: quality}));
     localStorage.setItem('cartItems', JSON.stringify(store.getState().cart.items));
 };
 

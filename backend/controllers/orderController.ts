@@ -18,7 +18,7 @@ export const addOrderItems = expressAsyncHandler(async (req: Request, res: Respo
         shippingPrice,
         totalPrice
     }: {
-        items: { productId: string, name: string, image: string, price: number, countInStock: number, qty: number }[],
+        items: { productId: string, name: string, image: string, price: number, countInStock: number, quality: number }[],
         shippingAddress: string,
         paymentMethod: string,
         itemsPrice: number,
@@ -34,12 +34,13 @@ export const addOrderItems = expressAsyncHandler(async (req: Request, res: Respo
             user: new mongoose.Types.ObjectId(user._id),
             items: items.map(item => ({
                 name: item.name,
-                quality: item.qty,
+                quality: item.quality,
                 image: item.image,
                 price: item.price,
                 product: new mongoose.Types.ObjectId(item.productId) })),
             shippingAddress,
             paymentMethod,
+            itemsPrice,
             taxPrice,
             shippingPrice,
             totalPrice

@@ -8,6 +8,7 @@ export interface Order {
     shippingAddress: ShippingAddress,
     paymentMethod: string,
     paymentResult: PaymentResult,
+    itemsPrice: number,
     taxPrice: number,
     shippingPrice: number,
     totalPrice: number,
@@ -119,6 +120,11 @@ const orderSchema: mongoose.Schema<Order> = new mongoose.Schema<Order>(
             required: true
         },
         paymentResult: paymentResultSchema,
+        itemsPrice: {
+            type: Number,
+            required: true,
+            default: 0.0
+        },
         taxPrice: {
             type: Number,
             required: true,

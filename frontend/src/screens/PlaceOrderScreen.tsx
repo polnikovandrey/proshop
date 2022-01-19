@@ -13,7 +13,7 @@ import { History } from "history";
 
 const PlaceOrderScreen = ({ history }: { history: History }) => {
     const cart: CartState = useAppSelector(selectCart);
-    const itemsPrice: number = cart.items.reduce((acc, item) => acc + item.price * item.qty, 0);
+    const itemsPrice: number = cart.items.reduce((acc, item) => acc + item.price * item.quality, 0);
     const shippingPrice: number = itemsPrice > 100 ? 0 : 100;
     const taxPrice: number = Number((0.15 * itemsPrice).toFixed(2));
     const totalPrice: number = itemsPrice + shippingPrice + taxPrice;
@@ -67,7 +67,7 @@ const PlaceOrderScreen = ({ history }: { history: History }) => {
                                                         </Link>
                                                     </Col>
                                                     <Col md={4}>
-                                                        {item.qty} x ${addDecimals(item.price)} = ${addDecimals(item.qty * item.price)}
+                                                        {item.quality} x ${addDecimals(item.price)} = ${addDecimals(item.quality * item.price)}
                                                     </Col>
                                                 </Row>
                                             </ListGroup.Item>

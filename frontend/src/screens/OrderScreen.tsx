@@ -64,7 +64,7 @@ const OrderScreen = ({ match }: { match: match<{ id: string }> }) => {
                                                             </Link>
                                                         </Col>
                                                         <Col md={4}>
-                                                            {item.qty} x ${addDecimals(item.price)} = ${addDecimals(item.qty * item.price)}
+                                                            {item.quality} x ${addDecimals(item.price)} = ${addDecimals(item.quality * item.price)}
                                                         </Col>
                                                     </Row>
                                                 </ListGroup.Item>

@@ -13,7 +13,7 @@ import { selectProductDetail } from "../slice/productSlice";
 
 const ProductScreen = ({ history, match }: { history: History, match: match<{ id: string }> }) => {
 
-    const [ qty, setQty ] = useState(1);
+    const [ quality, setQuality ] = useState(1);
 
     const productDetails: ProductsDetailsState = useAppSelector(selectProductDetail);
 
@@ -26,7 +26,7 @@ const ProductScreen = ({ history, match }: { history: History, match: match<{ id
     }, [ match, dispatch ]);
 
     const addToCartHandler = () => {
-        history.push(`/cart/${match.params.id}?qty=${qty}`);
+        history.push(`/cart/${match.params.id}?quality=${quality}`);
     };
 
     return (
@@ -86,9 +86,9 @@ const ProductScreen = ({ history, match }: { history: History, match: match<{ id
                                                 productDetails.item.countInStock > 0 &&  (
                                                     <ListGroup.Item>
                                                         <Row>
-                                                            <Col>Qty</Col>
+                                                            <Col>Quality</Col>
                                                             <Col>
-                                                                <FormControl as='select' value={qty} onChange={(e) => setQty(Number(e.target.value))}>
+                                                                <FormControl as='select' value={quality} onChange={(e) => setQuality(Number(e.target.value))}>
                                                                     {
                                                                         [...Array(productDetails.item.countInStock)]
                                                                             .map((key: string, value: number) => {
