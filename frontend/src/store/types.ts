@@ -19,6 +19,7 @@ export type Order = CartState & { _id?: string, itemsPrice: number, shippingPric
 export type OrderState = { loading?: boolean, order?: Order, error?: string };
 export type OrderDetail = Order & { user: UserInfo, paid: boolean, paidAt: Date, delivered: boolean, deliveredAt: Date }
 export type OrderDetailState = { loading?: boolean, order?: OrderDetail, error?: string }
+export type OrderPayState = { loading?: boolean, success?: boolean, error?: string }
 export type ProductsListState = { loading: boolean, items?: ProductItem[], error?: string };
 export type ProductsDetailsState = { loading: boolean, item?: ProductItem, error?: string };
 export type UserState = { loading?: boolean, user?: UserInfo, error?: string }
