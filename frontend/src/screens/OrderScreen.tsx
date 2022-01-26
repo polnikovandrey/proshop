@@ -1,29 +1,54 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { match } from "react-router";
-import { addDecimals, OrderDetailState } from "../store/types";
+import { addDecimals, OrderDetailState, OrderPayState } from "../store/types";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import Message from "../components/Message";
 import { Link } from 'react-router-dom';
-import { orderDetailAction } from "../actions/orderActions";
+import { orderDetailAction, orderPayAction, orderPayResetAction } from "../actions/orderActions";
 import { selectUserInfo } from "../slice/userSlice";
 import { selectOrderDetail } from "../slice/orderDetailSlice";
 import Loader from "../components/Loader";
+import axios from "axios";
+import { selectOrderPay } from "../slice/orderPaySlice";
+import { PayPalButton } from "react-paypal-button-v2";
 
 const OrderScreen = ({ match }: { match: match<{ id: string }> }) => {
+    const [ sdkReady, setSdkReady ] = useState(false);
     const dispatch = useAppDispatch();
     const orderDetailState: OrderDetailState = useAppSelector(selectOrderDetail);
     const { loading, order, error } = orderDetailState;
+    const orderPayState: OrderPayState = useAppSelector(selectOrderPay);
+    const { loading: payLoading, success: paySuccess, error: payError } = orderPayState;
     const userInfoState = useAppSelector(selectUserInfo);
     const token: string = userInfoState.user?.token || '';
     const orderId: string = match.params.id;
+    const addPayPalScript = async () => {
+        const { data: clientId }: { data: string } = await axios.get('/api/config/paypal');
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+        script.async = true;
+        script.onload = () => setSdkReady(true);
+        document.body.appendChild(script);
+    };
     useEffect(() => {
-        if (token && (!order || order._id !== orderId)) {
-            (async () => {
+        (async () => {
+            if (!order || order._id !== orderId || paySuccess) {
+                await orderPayResetAction(dispatch);
                 await orderDetailAction(orderId, token, dispatch);
-            })();
-        }
-    }, [token, orderId, order, dispatch]);
+            } else if (!order.paid) {
+                if (window.paypal) {
+                    setSdkReady(true);
+                } else {
+                    await addPayPalScript();
+                }
+            }
+        })();
+    }, [ dispatch, order, orderId, paySuccess, sdkReady, token ]);
+    const successPaymentHandler = async (paymentDetails: any, paymentData: any) => {
+        await orderPayAction(orderId, paymentDetails, token, dispatch);
+    };
     return loading
         ? <Loader/>
         : error
@@ -118,6 +143,14 @@ const OrderScreen = ({ match }: { match: match<{ id: string }> }) => {
                                         <Col>${addDecimals(order.totalPrice)}</Col>
                                     </Row>
                                 </ListGroup.Item>
+                                {!order.paid && (
+                                    <ListGroup.Item>
+                                        {payLoading && <Loader/>}
+                                        {!sdkReady ? <Loader/> : (
+                                            <PayPalButton amount={addDecimals(order.totalPrice)} onSuccess={successPaymentHandler}/>
+                                        )}
+                                    </ListGroup.Item>
+                                )}
                             </ListGroup>
                         </Card>
                     </Col>

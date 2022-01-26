@@ -14,23 +14,6 @@ export interface PaymentResult {
     email_address: string
 }
 
-const paymentResultSchema: mongoose.Schema<PaymentResult> = new mongoose.Schema<PaymentResult>(
-    {
-        id: {
-            type: String
-        },
-        status: {
-            type: String
-        },
-        updateTime: {
-            type: String
-        },
-        email_address: {
-            type: String
-        }
-    }
-);
-
 export interface OrderItem {
     name: string,
     quality: number,
@@ -123,7 +106,20 @@ const orderSchema: mongoose.Schema<OrderDocument, OrderModel> = new mongoose.Sch
             type: String,
             required: true
         },
-        paymentResult: paymentResultSchema,
+        paymentResult: {
+            id: {
+                type: String
+            },
+            status: {
+                type: String
+            },
+            updateTime: {
+                type: String
+            },
+            email_address: {
+                type: String
+            }
+        },
         itemsPrice: {
             type: Number,
             required: true,

@@ -52,6 +52,6 @@ export const orderPayAction = async (orderId: string, paymentResult: any, token:
     }
 };
 
-export const orderPayResetAction = async (orderId: string, token: string, dispatch: Dispatch) => {
+export const orderPayResetAction = async (dispatch: Dispatch) => {
     dispatch(orderPayReset());
 };
