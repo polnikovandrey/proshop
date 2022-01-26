@@ -1,5 +1,5 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
+import mongoose from 'mongoose';
 
 export interface User {
     name: string,
@@ -8,15 +8,15 @@ export interface User {
     admin: boolean
 }
 
-export interface UserDocument extends User, Document {
+export interface UserDocument extends User, mongoose.Document {
     matchPassword: (enteredPassword: string) => Promise<boolean>
 }
 
-interface UserModel extends Model<UserDocument> {
+interface UserModel extends mongoose.Model<UserDocument> {
     findByEmail: (email: string) => Promise<UserDocument>;
 }
 
-const userSchema: Schema<UserDocument, UserModel> = new mongoose.Schema(
+const userSchema: mongoose.Schema<UserDocument, UserModel> = new mongoose.Schema(
     {
         name: {
             type: String,
@@ -52,7 +52,7 @@ userSchema.pre<UserDocument>('save', async function (next) {
     }
 })
 
-userSchema.methods.matchPassword = async function(enteredPassword: string) {
+userSchema.methods.matchPassword = async function (enteredPassword: string) {
     return bcrypt.compare(enteredPassword, this.password);
 };
 

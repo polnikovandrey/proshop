@@ -1,19 +1,4 @@
-import mongoose from "mongoose";
-import { User } from "./userModel.js";
-
-export interface Product {
-    user: mongoose.Schema.Types.ObjectId,
-    name: string,
-    image: string,
-    brand: string,
-    category: string,
-    description: string,
-    reviews: Review[],
-    rating: number,
-    numReviews: number,
-    price: number,
-    countInStock: number
-}
+import mongoose from 'mongoose';
 
 interface Review {
     name: string,
@@ -41,7 +26,27 @@ const reviewSchema: mongoose.Schema<Review> = new mongoose.Schema<Review>(
     }
 );
 
-export const productSchema: mongoose.Schema<Product> = new mongoose.Schema(
+export interface Product {
+    user: mongoose.Schema.Types.ObjectId,
+    name: string,
+    image: string,
+    brand: string,
+    category: string,
+    description: string,
+    reviews: Review[],
+    rating: number,
+    numReviews: number,
+    price: number,
+    countInStock: number
+}
+
+export interface ProductDocument extends Product, Document {
+}
+
+interface ProductModel extends mongoose.Model<ProductDocument> {
+}
+
+export const productSchema: mongoose.Schema<ProductDocument, ProductModel> = new mongoose.Schema(
     {
         user: {
             type: mongoose.Schema.Types.ObjectId,
@@ -95,4 +100,4 @@ export const productSchema: mongoose.Schema<Product> = new mongoose.Schema(
     }
 );
 
-export const ProductModel: mongoose.Model<Product> = mongoose.model<Product>('Product', productSchema);
+export const ProductModel = mongoose.model<ProductDocument, ProductModel>('Product', productSchema);

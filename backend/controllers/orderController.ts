@@ -1,14 +1,14 @@
 import expressAsyncHandler from "express-async-handler";
 import { Request, Response } from "express";
-import { Order, OrderModel } from "../models/orderModel.js";
-import mongoose, { Document } from "mongoose";
+import { Order, OrderDocument, OrderModel } from "../models/orderModel.js";
+import mongoose from 'mongoose';
 import { UserDocument } from "../models/userModel.js";
 
 // @desc    Create new order
 // @route   POST /api/orders
 // @access  Private
 export const addOrderItems = expressAsyncHandler(async (req: Request, res: Response) => {
-    const { user } : { user: UserDocument } = req.body;
+    const { user }: { user: UserDocument } = req.body;
     const {
         items,
         shippingAddress,
@@ -30,14 +30,15 @@ export const addOrderItems = expressAsyncHandler(async (req: Request, res: Respo
         res.status(400);
         throw new Error('No order items');
     } else {
-        const createdOrder: Document = await new OrderModel({
+        const createdOrder: Order = await new OrderModel({
             user: new mongoose.Types.ObjectId(user._id),
             items: items.map(item => ({
                 name: item.name,
                 quality: item.quality,
                 image: item.image,
                 price: item.price,
-                product: new mongoose.Types.ObjectId(item.productId) })),
+                product: new mongoose.Types.ObjectId(item.productId)
+            })),
             shippingAddress,
             paymentMethod,
             itemsPrice,
@@ -57,6 +58,29 @@ export const getOrderById = expressAsyncHandler(async (req: Request, res: Respon
     const order: Order = await OrderModel.findById(id).populate('user', 'name email');
     if (order) {
         res.json(order);
+    } else {
+        res.status(404);
+        throw new Error('Order not found');
+    }
+});
+
+// @desc    Update order to paid
+// @route   PUT /api/orders/:id/pay
+// @access  Private
+export const updateOrderToPaid = expressAsyncHandler(async (req: Request, res: Response) => {
+    const id: string = req.params.id;
+    const order: OrderDocument = await OrderModel.findById(id);
+    if (order) {
+        order.paid = true;
+        order.paidAt = new Date();
+        order.paymentResult = {
+            id: req.body.id,
+            status: req.body.status,
+            updateTime: req.body.update_time,
+            email_address: req.body.payer.email_address
+        };
+        const updatedOrder: Order = await order.save();
+        res.json(updatedOrder);
     } else {
         res.status(404);
         throw new Error('Order not found');

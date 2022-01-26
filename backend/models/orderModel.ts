@@ -1,25 +1,4 @@
-import mongoose from "mongoose";
-import { User } from "./userModel";
-import { Product } from "./productModel";
-
-export interface Order {
-    user: mongoose.Schema.Types.ObjectId,
-    items: OrderItem[],
-    shippingAddress: ShippingAddress,
-    paymentMethod: string,
-    paymentResult: PaymentResult,
-    itemsPrice: number,
-    taxPrice: number,
-    shippingPrice: number,
-    totalPrice: number,
-    paid: boolean,
-    paidAt: Date,
-    delivered: boolean,
-    deliveredAt: Date,
-    email: string,
-    password: string,
-    admin: boolean
-}
+import mongoose from 'mongoose';
 
 export interface ShippingAddress {
     address: string,
@@ -89,7 +68,32 @@ const orderItemSchema: mongoose.Schema<OrderItem> = new mongoose.Schema<OrderIte
     }
 );
 
-const orderSchema: mongoose.Schema<Order> = new mongoose.Schema<Order>(
+export interface Order {
+    user: mongoose.Schema.Types.ObjectId,
+    items: OrderItem[],
+    shippingAddress: ShippingAddress,
+    paymentMethod: string,
+    paymentResult: PaymentResult,
+    itemsPrice: number,
+    taxPrice: number,
+    shippingPrice: number,
+    totalPrice: number,
+    paid: boolean,
+    paidAt: Date,
+    delivered: boolean,
+    deliveredAt: Date,
+    email: string,
+    password: string,
+    admin: boolean
+}
+
+export interface OrderDocument extends Order, mongoose.Document {
+}
+
+interface OrderModel extends mongoose.Model<OrderDocument> {
+}
+
+const orderSchema: mongoose.Schema<OrderDocument, OrderModel> = new mongoose.Schema(
     {
         user: {
             type: mongoose.Schema.Types.ObjectId,
@@ -162,4 +166,4 @@ const orderSchema: mongoose.Schema<Order> = new mongoose.Schema<Order>(
     }
 );
 
-export const OrderModel: mongoose.Model<Order> = mongoose.model<Order>('Order', orderSchema);
+export const OrderModel = mongoose.model<OrderDocument, OrderModel>('Order', orderSchema);
