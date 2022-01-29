@@ -1,5 +1,5 @@
 import React, { FormEventHandler, useEffect } from 'react';
-import { addDecimals, CartState, Order, OrderState } from "../store/types";
+import { CartState, numberToPrice, numberToPriceString, Order, OrderState } from "../store/types";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { selectCart } from "../slice/cartSlice";
 import CheckoutSteps from "../components/CheckoutSteps";
@@ -13,10 +13,10 @@ import { History } from "history";
 
 const PlaceOrderScreen = ({ history }: { history: History }) => {
     const cart: CartState = useAppSelector(selectCart);
-    const itemsPrice: number = cart.items.reduce((acc, item) => acc + item.price * item.quality, 0);
-    const shippingPrice: number = itemsPrice > 100 ? 0 : 100;
-    const taxPrice: number = Number((0.15 * itemsPrice).toFixed(2));
-    const totalPrice: number = itemsPrice + shippingPrice + taxPrice;
+    const itemsPrice: number = numberToPrice(cart.items.reduce((acc, item) => acc + item.price * item.quantity, 0));
+    const shippingPrice: number = numberToPrice(itemsPrice > 100 ? 0 : 100);
+    const taxPrice: number = numberToPrice(0.15 * itemsPrice);
+    const totalPrice: number = numberToPrice(itemsPrice + shippingPrice + taxPrice);
     const order: Order = { ...cart, itemsPrice, shippingPrice, taxPrice, totalPrice };
     const dispatch = useAppDispatch();
     const createOrderState: OrderState = useAppSelector(selectOrderCreate);
@@ -67,7 +67,7 @@ const PlaceOrderScreen = ({ history }: { history: History }) => {
                                                         </Link>
                                                     </Col>
                                                     <Col md={4}>
-                                                        {item.quality} x ${addDecimals(item.price)} = ${addDecimals(item.quality * item.price)}
+                                                        {item.quantity} x ${numberToPriceString(item.price)} = ${numberToPriceString(item.quantity * item.price)}
                                                     </Col>
                                                 </Row>
                                             </ListGroup.Item>
@@ -86,25 +86,25 @@ const PlaceOrderScreen = ({ history }: { history: History }) => {
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Items</Col>
-                                    <Col>${addDecimals(order.itemsPrice)}</Col>
+                                    <Col>${numberToPriceString(order.itemsPrice)}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Shipping</Col>
-                                    <Col>${addDecimals(order.shippingPrice)}</Col>
+                                    <Col>${numberToPriceString(order.shippingPrice)}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Tax</Col>
-                                    <Col>${addDecimals(order.taxPrice)}</Col>
+                                    <Col>${numberToPriceString(order.taxPrice)}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Total</Col>
-                                    <Col>${addDecimals(order.totalPrice)}</Col>
+                                    <Col>${numberToPriceString(order.totalPrice)}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>

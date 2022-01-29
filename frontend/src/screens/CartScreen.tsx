@@ -11,7 +11,7 @@ import { CartItem } from "../store/types";
 
 const CartScreen = ({ history, location, match }: { history: History, location: Location, match: match<{ id: string }> }) => {
     const productId: string = match.params.id;
-    const quality: number = location.search ? Number(location.search.split('=')[1]) : 1;            // location.search = ?quality=5
+    const quantity: number = location.search ? Number(location.search.split('=')[1]) : 1;            // location.search = ?quantity=5
     const dispatch = useAppDispatch();
     const { items }: { items: CartItem[] } = useAppSelector(selectCart);
     const checkoutHandler = () => {
@@ -20,10 +20,10 @@ const CartScreen = ({ history, location, match }: { history: History, location: 
     useEffect(() => {
         if (productId) {
             (async () => {
-                await cartAddItemAction(productId, quality, dispatch);
+                await cartAddItemAction(productId, quantity, dispatch);
             })();
         }
-    }, [ dispatch, productId, quality ]);
+    }, [ dispatch, productId, quantity ]);
     return (
         <Row>
             <Col md={8}>
@@ -45,7 +45,7 @@ const CartScreen = ({ history, location, match }: { history: History, location: 
                                             <Col md={2}>${item.price}</Col>
                                             <Col md={2}>
                                                 <FormControl as='select'
-                                                             value={item.quality}
+                                                             value={item.quantity}
                                                              onChange={(e) => cartAddItemAction(item.productId, Number(e.target.value), dispatch)}>
                                                     {
                                                         [...Array(item.countInStock)]
@@ -75,8 +75,8 @@ const CartScreen = ({ history, location, match }: { history: History, location: 
                 <Card>
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
-                            <h2>Subtotal ({items.reduce((accumulator, currentItem) => accumulator + currentItem.quality, 0)}) items</h2>
-                            ${items.reduce((accumulator, currentItem) => accumulator + currentItem.quality * currentItem.price, 0).toFixed(2)}
+                            <h2>Subtotal ({items.reduce((accumulator, currentItem) => accumulator + currentItem.quantity, 0)}) items</h2>
+                            ${items.reduce((accumulator, currentItem) => accumulator + currentItem.quantity * currentItem.price, 0).toFixed(2)}
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <Button type='button' className='btn-block' disabled={items.length === 0} onClick={checkoutHandler}>

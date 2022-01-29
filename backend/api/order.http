@@ -1,4 +1,9 @@
 ### Get order by id
-GET {{apiUrl}}orders/61e419063b9394c4295b3933
+GET {{apiUrl}}orders/61e8574288d3d83c7c5795c5
+Authorization: Bearer {{auth_Token}}
+Content-Type: application/json
+
+### Get user orders
+GET {{apiUrl}}orders/userOrderList
 Authorization: Bearer {{auth_Token}}
 Content-Type: application/json

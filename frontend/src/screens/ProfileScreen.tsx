@@ -7,6 +7,8 @@ import { History } from "history";
 import { selectUserInfo } from "../slice/userSlice";
 import { selectUserProfile } from "../slice/userProfileSlice";
 import { clearUserProfileAction, getUserProfileAction, updateUserProfileAction } from "../actions/userProfileActions";
+import { selectOrderUserList } from "../slice/orderUserListSlice";
+import { orderUserListAction } from "../actions/orderActions";
 
 const ProfileScreen = ({ history }: { history: History }) => {
     const [ name, setName ] = useState('');
@@ -16,25 +18,29 @@ const ProfileScreen = ({ history }: { history: History }) => {
     const [ message, setMessage ] = useState('');
 
     const userProfileState = useAppSelector(selectUserProfile);
+    const { user: userProfileInfo } = userProfileState;
     const userInfoState = useAppSelector(selectUserInfo);
+    const { user: userStateInfo } = userInfoState;
+    const orderUserListState = useAppSelector(selectOrderUserList);
+    const { loading: ordersLoading, orders, error: ordersError } = orderUserListState;
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        const userStateInfo = userInfoState.user;
         if (userStateInfo) {
-            if (userProfileState.user?.name) {
-                setName(userProfileState.user.name);
-                setEmail(userProfileState.user.email);
+            if (userProfileInfo?.name) {
+                setName(userProfileInfo.name);
+                setEmail(userProfileInfo.email);
             } else {
                 (async () => {
                     await getUserProfileAction('profile', userStateInfo.token, dispatch);
+                    await orderUserListAction(userStateInfo.token, dispatch);
                 })();
             }
         } else {
             history.push('/login');
             clearUserProfileAction(dispatch)
         }
-    }, [ dispatch, history, userInfoState, userProfileState ]);
+    }, [ dispatch, history, userStateInfo, userProfileInfo ]);
 
     const submitHandler: FormEventHandler = async (event) => {
         event.preventDefault();

@@ -4,6 +4,7 @@ import { Order, OrderDetail } from "../store/types";
 import { orderCreateFail, orderCreateRequest, orderCreateSuccess } from "../slice/orderCreateSlice";
 import { orderDetailFail, orderDetailRequest, orderDetailSuccess } from "../slice/orderDetailSlice";
 import { orderPayFail, orderPayRequest, orderPayReset, orderPaySuccess } from "../slice/orderPaySlice";
+import { orderUserListFail, orderUserListRequest, orderUserListSuccess } from "../slice/orderUserListSlice";
 
 export const orderCreateAction = async (order: Order, token: string, dispatch: Dispatch) => {
     try {
@@ -21,7 +22,7 @@ export const orderCreateAction = async (order: Order, token: string, dispatch: D
     }
 };
 
-export const orderDetailAction = async (orderId: string, token: string, dispatch: Dispatch) => {
+export const orderDetailAction = async (orderId: string, token: string, dispatch: Dispatch) => {    // TODO !!! clean state after "Proceed to checkout"? Next order unavailable!
     try {
         dispatch(orderDetailRequest());
         const config: AxiosRequestConfig = {
@@ -54,4 +55,19 @@ export const orderPayAction = async (orderId: string, paymentResult: any, token:
 
 export const orderPayResetAction = async (dispatch: Dispatch) => {
     dispatch(orderPayReset());
+};
+
+export const orderUserListAction = async (token: string, dispatch: Dispatch) => {
+    try {
+        dispatch(orderUserListRequest());
+        const config: AxiosRequestConfig = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+        const { data }: { data: OrderDetail[] } = await axios.get('/api/orders/userOrderList', config);
+        dispatch(orderUserListSuccess(data));
+    } catch (error: any) {
+        dispatch(orderUserListFail(error.response && error.response.data.message ? error.response.data.message : error.message));
+    }
 };

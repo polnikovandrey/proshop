@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { match } from "react-router";
-import { addDecimals, OrderDetailState, OrderPayState } from "../store/types";
+import { numberToPriceString, OrderDetailState, OrderPayState } from "../store/types";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import Message from "../components/Message";
@@ -103,7 +103,7 @@ const OrderScreen = ({ match }: { match: match<{ id: string }> }) => {
                                                             </Link>
                                                         </Col>
                                                         <Col md={4}>
-                                                            {item.quality} x ${addDecimals(item.price)} = ${addDecimals(item.quality * item.price)}
+                                                            {item.quantity} x ${item.price} = ${item.quantity * item.price}
                                                         </Col>
                                                     </Row>
                                                 </ListGroup.Item>
@@ -122,32 +122,32 @@ const OrderScreen = ({ match }: { match: match<{ id: string }> }) => {
                                 <ListGroup.Item>
                                     <Row>
                                         <Col>Items</Col>
-                                        <Col>${addDecimals(order.itemsPrice)}</Col>
+                                        <Col>${numberToPriceString(order.itemsPrice)}</Col>
                                     </Row>
                                 </ListGroup.Item>
                                 <ListGroup.Item>
                                     <Row>
                                         <Col>Shipping</Col>
-                                        <Col>${addDecimals(order.shippingPrice)}</Col>
+                                        <Col>${numberToPriceString(order.shippingPrice)}</Col>
                                     </Row>
                                 </ListGroup.Item>
                                 <ListGroup.Item>
                                     <Row>
                                         <Col>Tax</Col>
-                                        <Col>${addDecimals(order.taxPrice)}</Col>
+                                        <Col>${numberToPriceString(order.taxPrice)}</Col>
                                     </Row>
                                 </ListGroup.Item>
                                 <ListGroup.Item>
                                     <Row>
                                         <Col>Total</Col>
-                                        <Col>${addDecimals(order.totalPrice)}</Col>
+                                        <Col>${numberToPriceString(order.totalPrice)}</Col>
                                     </Row>
                                 </ListGroup.Item>
                                 {!order.paid && (
                                     <ListGroup.Item>
                                         {payLoading && <Loader/>}
                                         {!sdkReady ? <Loader/> : (
-                                            <PayPalButton amount={addDecimals(order.totalPrice)} onSuccess={successPaymentHandler}/>
+                                            <PayPalButton amount={numberToPriceString(order.totalPrice)} onSuccess={successPaymentHandler}/>
                                         )}
                                     </ListGroup.Item>
                                 )}

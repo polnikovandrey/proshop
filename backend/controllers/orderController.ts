@@ -18,7 +18,7 @@ export const addOrderItems = expressAsyncHandler(async (req: Request, res: Respo
         shippingPrice,
         totalPrice
     }: {
-        items: { productId: string, name: string, image: string, price: number, countInStock: number, quality: number }[],
+        items: { productId: string, name: string, image: string, price: number, countInStock: number, quantity: number }[],
         shippingAddress: string,
         paymentMethod: string,
         itemsPrice: number,
@@ -34,7 +34,7 @@ export const addOrderItems = expressAsyncHandler(async (req: Request, res: Respo
             user: new mongoose.Types.ObjectId(user._id),
             items: items.map(item => ({
                 name: item.name,
-                quality: item.quality,
+                quantity: item.quantity,
                 image: item.image,
                 price: item.price,
                 product: new mongoose.Types.ObjectId(item.productId)
@@ -85,4 +85,13 @@ export const updateOrderToPaid = expressAsyncHandler(async (req: Request, res: R
         res.status(404);
         throw new Error('Order not found');
     }
+});
+
+// @desc    Get logged-in user orders
+// @route   GET /api/orders/userOrderList
+// @access  Private
+export const getUserOrderList = expressAsyncHandler(async (req: Request, res: Response) => {
+    const { user }: { user: UserDocument } = req.body;
+    const orders: Order[] = await OrderModel.find({ user: { _id: user._id }} as {});
+    res.json(orders);
 });

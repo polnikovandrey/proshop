@@ -16,7 +16,7 @@ export interface PaymentResult {
 
 export interface OrderItem {
     name: string,
-    quality: number,
+    quantity: number,
     image: string,
     price: number,
     product: mongoose.Schema.Types.ObjectId
@@ -28,7 +28,7 @@ const orderItemSchema: mongoose.Schema<OrderItem> = new mongoose.Schema<OrderIte
             type: String,
             required: true
         },
-        quality: {
+        quantity: {
             type: Number,
             required: true
         },
