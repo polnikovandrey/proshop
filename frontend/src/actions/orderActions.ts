@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { Dispatch } from "redux";
-import { Order, OrderDetail } from "../store/types";
+import { Order, OrderDetail, PaymentResult } from "../store/types";
 import { orderCreateFail, orderCreateRequest, orderCreateSuccess } from "../slice/orderCreateSlice";
 import { orderDetailFail, orderDetailRequest, orderDetailSuccess } from "../slice/orderDetailSlice";
 import { orderPayFail, orderPayRequest, orderPayReset, orderPaySuccess } from "../slice/orderPaySlice";
@@ -37,7 +37,7 @@ export const orderDetailAction = async (orderId: string, token: string, dispatch
     }
 };
 
-export const orderPayAction = async (orderId: string, paymentResult: any, token: string, dispatch: Dispatch) => {     // TODO !!! paymentResult type
+export const orderPayAction = async (orderId: string, paymentResult: PaymentResult, token: string, dispatch: Dispatch) => {
     try {
         dispatch(orderPayRequest());
         const config: AxiosRequestConfig = {
@@ -46,7 +46,7 @@ export const orderPayAction = async (orderId: string, paymentResult: any, token:
                 Authorization: `Bearer ${token}`
             }
         };
-        const { data }: { data: OrderDetail } = await axios.put(`/api/orders/${orderId}/paid`, paymentResult, config);
+        const { data }: { data: OrderDetail } = await axios.put(`/api/orders/${orderId}/paid`, paymentResult, config);      // TODO !!! del data ?
         dispatch(orderPaySuccess());
     } catch (error: any) {
         dispatch(orderPayFail(error.response && error.response.data.message ? error.response.data.message : error.message));

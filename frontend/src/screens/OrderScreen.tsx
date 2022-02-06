@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { match } from "react-router";
-import { numberToPriceString, OrderDetailState, OrderPayState } from "../store/types";
+import { numberToPriceString, OrderDetailState, OrderPayState, PaymentResult } from "../store/types";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import Message from "../components/Message";
@@ -19,7 +19,7 @@ const OrderScreen = ({ match }: { match: match<{ id: string }> }) => {
     const orderDetailState: OrderDetailState = useAppSelector(selectOrderDetail);
     const { loading, order, error } = orderDetailState;
     const orderPayState: OrderPayState = useAppSelector(selectOrderPay);
-    const { loading: payLoading, success: paySuccess, error: payError } = orderPayState;
+    const { loading: payLoading, success: paySuccess, error: payError } = orderPayState;        // TODO !!! del payError ?
     const userInfoState = useAppSelector(selectUserInfo);
     const token: string = userInfoState.user?.token || '';
     const orderId: string = match.params.id;
@@ -46,8 +46,8 @@ const OrderScreen = ({ match }: { match: match<{ id: string }> }) => {
             }
         })();
     }, [ dispatch, order, orderId, paySuccess, sdkReady, token ]);
-    const successPaymentHandler = async (paymentDetails: any, paymentData: any) => {
-        await orderPayAction(orderId, paymentDetails, token, dispatch);
+    const successPaymentHandler = async (paymentResult: PaymentResult, paymentData: any) => {
+        await orderPayAction(orderId, paymentResult, token, dispatch);
     };
     return loading
         ? <Loader/>
