@@ -36,7 +36,7 @@ export const {
     userRegisterRequest, userRegisterSuccess, userRegisterFail
 } = userSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
+
 export const selectUserInfo: (state: RootState) => UserState = state => state.userInfo;
 
 export const userReducer = userSlice.reducer;

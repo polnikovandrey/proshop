@@ -20,7 +20,6 @@ export const orderCreateSlice = createSlice({
 
 export const { orderCreateRequest, orderCreateSuccess, orderCreateFail } = orderCreateSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
 export const selectOrderCreate: (state: RootState) => OrderState = state => state.orderCreate;
 
 export const orderCreateReducer = orderCreateSlice.reducer;

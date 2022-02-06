@@ -23,7 +23,7 @@ export const orderPaySlice = createSlice({
 
 export const { orderPayRequest, orderPaySuccess, orderPayFail, orderPayReset } = orderPaySlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
+
 export const selectOrderPay: (state: RootState) => OrderPayState = state => state.orderPay;
 
 export const orderPayReducer = orderPaySlice.reducer;

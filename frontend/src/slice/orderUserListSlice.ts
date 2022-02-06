@@ -14,13 +14,16 @@ export const orderUserListSlice = createSlice({
         },
         orderUserListFail: (state, action: PayloadAction<string>) => {
             return { error: action.payload };
+        },
+        orderUserListReset: () => {
+            return { orders: [] };
         }
     }
 });
 
-export const { orderUserListRequest, orderUserListSuccess, orderUserListFail } = orderUserListSlice.actions;
+export const { orderUserListRequest, orderUserListSuccess, orderUserListFail, orderUserListReset } = orderUserListSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
+
 export const selectOrderUserList: (state: RootState) => OrderListState = state => state.orderUserList;
 
 export const orderUserListReducer = orderUserListSlice.reducer;

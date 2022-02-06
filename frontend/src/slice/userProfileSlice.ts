@@ -16,7 +16,7 @@ export const userProfileSlice = createSlice({
         userProfileFail: (state, action: PayloadAction<string>) => {
             return { error: action.payload };
         },
-        userProfileReset: () => {
+        userProfileReset: (state) => {
             return { };
         },
         userProfileUpdateRequest: (state) => {

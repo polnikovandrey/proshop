@@ -30,7 +30,7 @@ export const cartSlice = createSlice({
 
 export const { addCartItem, removeCartItem, saveShippingAddress, savePaymentMethod } = cartSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
+
 export const selectCart: (state: RootState) => CartState = state => state.cart;
 
 export const cartReducer = cartSlice.reducer;

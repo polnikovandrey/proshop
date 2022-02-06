@@ -29,6 +29,7 @@ const PlaceOrderScreen = ({ history }: { history: History }) => {
     const placeOrderHandler: FormEventHandler = async () => {
         if (userInfoState.user) {
             await orderCreateAction(order, userInfoState.user.token, dispatch);
+            await order
         }
     };
     return (

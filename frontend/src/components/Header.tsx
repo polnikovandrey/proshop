@@ -5,12 +5,16 @@ import { LinkContainer } from "react-router-bootstrap";
 import { UserState } from "../store/types";
 import { selectUserInfo } from "../slice/userSlice";
 import { userLogoutAction } from "../actions/userActions";
+import { clearUserProfileAction } from "../actions/userProfileActions";
+import { orderUserListResetAction } from "../actions/orderActions";
 
 const Header = () => {
     const userState: UserState = useAppSelector(selectUserInfo);
     const dispatch = useAppDispatch();
     const logoutHandler: FormEventHandler = async () => {
         await userLogoutAction(dispatch);
+        await clearUserProfileAction(dispatch);
+        await orderUserListResetAction(dispatch);
     };
     return <header>
         <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>

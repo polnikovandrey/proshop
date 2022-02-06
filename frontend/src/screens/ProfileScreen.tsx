@@ -6,7 +6,7 @@ import Loader from "../components/Loader";
 import { History } from "history";
 import { selectUserInfo } from "../slice/userSlice";
 import { selectUserProfile } from "../slice/userProfileSlice";
-import { clearUserProfileAction, getUserProfileAction, updateUserProfileAction } from "../actions/userProfileActions";
+import { getUserProfileAction, updateUserProfileAction } from "../actions/userProfileActions";
 import { selectOrderUserList } from "../slice/orderUserListSlice";
 import { orderUserListAction } from "../actions/orderActions";
 import { LinkContainer } from "react-router-bootstrap";
@@ -39,7 +39,6 @@ const ProfileScreen = ({ history }: { history: History }) => {
             }
         } else {
             history.push('/login');
-            clearUserProfileAction(dispatch)
         }
     }, [ dispatch, history, userStateInfo, userProfileInfo ]);
 

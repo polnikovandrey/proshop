@@ -20,7 +20,7 @@ export const orderDetailSlice = createSlice({
 
 export const { orderDetailRequest, orderDetailSuccess, orderDetailFail } = orderDetailSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
+
 export const selectOrderDetail: (state: RootState) => OrderDetailState = state => state.orderDetail;
 
 export const orderDetailReducer = orderDetailSlice.reducer;

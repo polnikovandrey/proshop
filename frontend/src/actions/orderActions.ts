@@ -4,7 +4,7 @@ import { Order, OrderDetail, PaymentResult } from "../store/types";
 import { orderCreateFail, orderCreateRequest, orderCreateSuccess } from "../slice/orderCreateSlice";
 import { orderDetailFail, orderDetailRequest, orderDetailSuccess } from "../slice/orderDetailSlice";
 import { orderPayFail, orderPayRequest, orderPayReset, orderPaySuccess } from "../slice/orderPaySlice";
-import { orderUserListFail, orderUserListRequest, orderUserListSuccess } from "../slice/orderUserListSlice";
+import { orderUserListFail, orderUserListRequest, orderUserListReset, orderUserListSuccess } from "../slice/orderUserListSlice";
 
 export const orderCreateAction = async (order: Order, token: string, dispatch: Dispatch) => {
     try {
@@ -71,3 +71,7 @@ export const orderUserListAction = async (token: string, dispatch: Dispatch) => 
         dispatch(orderUserListFail(error.response && error.response.data.message ? error.response.data.message : error.message));
     }
 };
+
+export const orderUserListResetAction = async (dispatch: Dispatch) => {
+    dispatch(orderUserListReset());
+}
