@@ -20,3 +20,12 @@ export const protect = expressAsyncHandler(async (req: Request, res: Response, n
         throw new Error('Not authorized, no token');
     }
 });
+
+export const admin = (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.user && req.body.user.admin) {
+        next();
+    } else {
+        res.status(401);
+        throw new Error('Not authorized as an admin');
+    }
+}

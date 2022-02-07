@@ -22,7 +22,7 @@ export const orderCreateAction = async (order: Order, token: string, dispatch: D
     }
 };
 
-export const orderDetailAction = async (orderId: string, token: string, dispatch: Dispatch) => {    // TODO !!! clean state after "Proceed to checkout"? Next order unavailable!
+export const orderDetailAction = async (orderId: string, token: string, dispatch: Dispatch) => {
     try {
         dispatch(orderDetailRequest());
         const config: AxiosRequestConfig = {

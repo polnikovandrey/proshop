@@ -101,3 +101,11 @@ export const updateUserProfile = expressAsyncHandler(async (req: Request, res: R
         throw new Error('User not found');
     }
 });
+
+// @desc    Get all users
+// @route   GET /api/users
+// @access  Private/Admin
+export const getUsers = expressAsyncHandler(async (req: Request, res: Response) => {
+    const users: UserDocument[] = await UserModel.find({});
+    res.json(users);
+});

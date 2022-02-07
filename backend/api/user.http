@@ -26,8 +26,6 @@ Content-Type: application/json
 ### Return user profile
 GET {{apiUrl}}users/profile
 Authorization: Bearer {{auth_Token}}
-Content-Type: application/json
-
 
 ### Update user profile
 PUT {{apiUrl}}users/profile
@@ -39,3 +37,7 @@ Content-Type: application/json
   "email": "john@example.com",
   "password": "123456"
 }
+
+### Get all users. Admin only.
+GET {{apiUrl}}users
+Authorization: Bearer {{auth_Token}}
