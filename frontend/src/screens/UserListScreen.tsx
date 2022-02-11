@@ -7,18 +7,24 @@ import { Button, Table } from "react-bootstrap";
 import Message from "../components/Message";
 import { LinkContainer } from "react-router-bootstrap";
 import { selectUserInfo } from "../slice/userSlice";
+import { History } from "history";
 
-const UserListScreen = () => {
+const UserListScreen = ({ history }: { history: History }) => {
     const dispatch = useAppDispatch();
     const userListState = useAppSelector(selectUserList);
     const { loading, users, error } = userListState;
     const userInfoState = useAppSelector(selectUserInfo);
     const token = userInfoState?.user?.token || '';
+    const admin = userInfoState.user?.admin;
     useEffect(() => {
         (async () => {
-            await userListAction(token, dispatch);
+            if (admin) {
+                await userListAction(token, dispatch);
+            } else {
+                history.push('/login');
+            }
         })();
-    }, [ dispatch, token ]);
+    }, [ admin, dispatch, history, token ]);
     function deleteHandler(userId: string) {
         console.log('delete');
     }

@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import { UserInfo, UserListInfo } from "../store/types";
 import { userLoginFail, userLoginRequest, userLoginSuccess, userLogout, userRegisterFail, userRegisterRequest, userRegisterSuccess } from "../slice/userSlice";
 import axios, { AxiosRequestConfig } from "axios";
-import { userListFail, userListRequest, userListSuccess } from "../slice/userListSlice";
+import { userListFail, userListRequest, userListReset, userListSuccess } from "../slice/userListSlice";
 import { userProfileReset } from "../slice/userProfileSlice";
 import { orderUserListReset } from "../slice/orderUserListSlice";
 
@@ -27,6 +27,7 @@ export const userLogoutAction = async (dispatch: Dispatch) => {
     dispatch(userLogout());
     dispatch(userProfileReset());
     dispatch(orderUserListReset());
+    dispatch(userListReset())
 };
 
 export const userRegisterAction = async (name: string, email: string, password: string, dispatch: Dispatch) => {

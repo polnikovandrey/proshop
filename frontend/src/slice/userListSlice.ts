@@ -14,11 +14,14 @@ export const userListSlice = createSlice({
         },
         userListFail: (state, action: PayloadAction<string>) => {
             return { error: action.payload };
+        },
+        userListReset: () => {
+            return { users: [] };
         }
     }
 });
 
-export const { userListRequest, userListSuccess, userListFail } = userListSlice.actions;
+export const { userListRequest, userListSuccess, userListFail, userListReset } = userListSlice.actions;
 
 export const selectUserList: (state: RootState) => UserListState = state => state.userList;
 
