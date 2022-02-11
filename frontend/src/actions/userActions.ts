@@ -5,6 +5,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import { userListFail, userListRequest, userListReset, userListSuccess } from "../slice/userListSlice";
 import { userProfileReset } from "../slice/userProfileSlice";
 import { orderUserListReset } from "../slice/orderUserListSlice";
+import { userDeleteFail, userDeleteRequest, userDeleteSuccess } from "../slice/userDeleteSlice";
 
 export const userLoginAction = async (email: string, password: string, dispatch: Dispatch) => {
     try {
@@ -59,5 +60,20 @@ export const userListAction = async (token: string, dispatch: Dispatch) => {
         dispatch(userListSuccess(data));
     } catch (error: any) {
         dispatch(userListFail(error.response && error.response.data.message ? error.response.data.message : error.message));
+    }
+};
+
+export const userDeleteAction = async (id: string, token: string, dispatch: Dispatch) => {
+    try {
+        dispatch(userDeleteRequest());
+        const config: AxiosRequestConfig = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+        await axios.delete(`/api/users/${id}`, config);
+        dispatch(userDeleteSuccess());
+    } catch (error: any) {
+        dispatch(userDeleteFail(error.response && error.response.data.message ? error.response.data.message : error.message));
     }
 };

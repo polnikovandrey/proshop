@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { selectUserList } from "../slice/userListSlice";
-import { userListAction } from "../actions/userActions";
+import { userDeleteAction, userListAction } from "../actions/userActions";
 import Loader from "../components/Loader";
 import { Button, Table } from "react-bootstrap";
 import Message from "../components/Message";
 import { LinkContainer } from "react-router-bootstrap";
 import { selectUserInfo } from "../slice/userSlice";
 import { History } from "history";
+import { selectUserDelete } from "../slice/userDeleteSlice";
 
 const UserListScreen = ({ history }: { history: History }) => {
     const dispatch = useAppDispatch();
@@ -16,6 +17,8 @@ const UserListScreen = ({ history }: { history: History }) => {
     const userInfoState = useAppSelector(selectUserInfo);
     const token = userInfoState?.user?.token || '';
     const admin = userInfoState.user?.admin;
+    const userDeleteState = useAppSelector(selectUserDelete);
+    const { success: successDelete } = userDeleteState;
     useEffect(() => {
         (async () => {
             if (admin) {
@@ -24,9 +27,11 @@ const UserListScreen = ({ history }: { history: History }) => {
                 history.push('/login');
             }
         })();
-    }, [ admin, dispatch, history, token ]);
-    function deleteHandler(userId: string) {
-        console.log('delete');
+    }, [ admin, dispatch, history, successDelete, token ]);
+    async function deleteHandler(userId: string) {
+        if (window.confirm('Are you sure?')) {
+            await userDeleteAction(userId, token, dispatch);
+        }
     }
     return (
         <>
