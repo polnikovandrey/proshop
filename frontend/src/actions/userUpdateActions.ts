@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import axios, { AxiosRequestConfig } from "axios";
 import { UserInfo, UserProfile } from "../store/types";
 import { userProfileByIdUpdateFail, userProfileByIdUpdateRequest, userProfileByIdUpdateReset, userProfileByIdUpdateSuccess } from "../slice/userUpdateSlice";
-import { userProfileUpdateSuccess } from "../slice/userProfileSlice";
+import { userProfileReset, userProfileUpdateSuccess } from "../slice/userProfileSlice";
 
 export const updateUserProfileByIdAction = async (token: string, aUserProfile: UserProfile, dispatch: Dispatch) => {
     try {
@@ -24,4 +24,5 @@ export const updateUserProfileByIdAction = async (token: string, aUserProfile: U
 
 export const resetUserProfileByIdAction = async (dispatch: Dispatch) => {
     dispatch(userProfileByIdUpdateReset());
+    dispatch(userProfileReset())
 };

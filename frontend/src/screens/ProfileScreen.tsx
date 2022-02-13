@@ -28,7 +28,7 @@ const ProfileScreen = ({ history }: { history: History }) => {
 
     useEffect(() => {
         if (userStateInfo) {
-            if (userProfileInfo?.name) {
+            if (userProfileInfo?.name && userProfileInfo?._id === userStateInfo._id) {
                 setName(userProfileInfo.name);
                 setEmail(userProfileInfo.email);
             } else {
