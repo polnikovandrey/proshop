@@ -22,3 +22,24 @@ Accept: application/json
 DELETE {{apiUrl}}product/618ea6f019c4c4bb8c46a701
 Accept: application/json
 Authorization: Bearer {{auth_Token}}
+
+### Add new simple product. Admin only.
+POST {{apiUrl}}product
+Accept: application/json
+Authorization: Bearer {{auth_Token}}
+
+### Update a product. Admin only.
+PUT {{apiUrl}}product/6209276134a5d9a8401a8742
+Accept: application/json
+Authorization: Bearer {{auth_Token}}
+Content-Type: application/json
+
+{
+  "name": "Product1",
+  "price": 100,
+  "description": "Product1 description",
+  "image": "/images/sample.jpg",
+  "brand": "Product1 brand",
+  "category": "Product1 category",
+  "countInStock": 200
+}

@@ -1,9 +1,10 @@
 import { ProductDocument, ProductModel } from "../models/productModel.js";
 import expressAsyncHandler from "express-async-handler";
-import { Request, Response } from "express"; // Note usage of express-async-handler wrapper to catch express errors during async...await
+import { Request, Response } from "express";
+import { UserDocument } from "../models/userModel";
 
 // @desc    Fetch all products
-// @route   GET /api/products
+// @route   GET /api/product
 // @access  Public
 export const getProducts = expressAsyncHandler(async (req: Request, res: Response) => {
     const products: ProductDocument[] = await ProductModel.find({});
@@ -11,7 +12,7 @@ export const getProducts = expressAsyncHandler(async (req: Request, res: Respons
 });
 
 // @desc    Fetch a single product
-// @route   GET /api/products/:id
+// @route   GET /api/product/:id
 // @access  Public
 export const getProductById = expressAsyncHandler(async (req: Request, res: Response) => {
     const product: ProductDocument = await ProductModel.findById(req.params.id);
@@ -35,4 +36,47 @@ export const deleteProduct = expressAsyncHandler(async (req: Request, res: Respo
         res.status(404);
         throw new Error('Product not found');
     }
+});
+
+// @desc    Create a product
+// @route   POST /api/product
+// @access  Private/Admin
+export const createProduct = expressAsyncHandler(async (req: Request, res: Response) => {
+    const { user }: { user: UserDocument } = req.body;
+    const createdProduct: ProductDocument = await ProductModel.create({
+        user: user._id,
+        name: 'Sample name',
+        image: '/images/sample.jpg',
+        brand: 'Sample brand',
+        category: 'Sample category',
+        description: 'Sample description',
+        numReviews: 0,
+        price: 0,
+        countInStock: 0
+    });
+    res.status(201).json(createdProduct);
+});
+
+// @desc    Update a product
+// @route   PUT /api/product/:id
+// @access  Private/Admin
+export const updateProduct = expressAsyncHandler(async (req: Request, res: Response) => {
+    const { name, price, description,  image, brand, category, countInStock } = req.body;
+    const { user }: { user: UserDocument } = req.body;
+    const product: ProductDocument = await ProductModel.findById(req.params.id);
+    if (product) {
+        product.name = name;
+        product.price = price;
+        product.description = description;
+        product.image = image;
+        product.brand = brand;
+        product.category = category;
+        product.countInStock = countInStock;
+        const updatedProduct: ProductDocument = await product.save();
+        res.json(updatedProduct);
+    } else {
+        res.status(404);
+        throw new Error('Product not found');
+    }
+    res.status(201).json(product);
 });
