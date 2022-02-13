@@ -45,3 +45,18 @@ Authorization: Bearer {{auth_Token}}
 ### Delete a user. Admin only.
 DELETE {{apiUrl}}users/61ace0a177bc23ca1bdeafb7
 Authorization: Bearer {{auth_Token}}
+
+### Get user by id. Admin only.
+GET {{apiUrl}}users/618ea6ef19c4c4bb8c46a6fa
+Authorization: Bearer {{auth_Token}}
+
+### Update user by id
+PUT {{apiUrl}}users/618ea6ef19c4c4bb8c46a6fa
+Authorization: Bearer {{auth_Token}}
+Content-Type: application/json
+
+{
+  "name": "Jane Doe",
+  "email": "jane@example.com",
+  "admin": false
+}

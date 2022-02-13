@@ -123,3 +123,39 @@ export const deleteUser = expressAsyncHandler(async (req: Request, res: Response
         throw new Error('User not found')
     }
 });
+
+// @desc    Get user by id
+// @route   GET /api/users/:id
+// @access  Private/Admin
+export const getUserById = expressAsyncHandler(async (req: Request, res: Response) => {
+    const user: UserDocument = await UserModel.findById(req.params.id).select('-password');
+    if (user) {
+        res.json(user);
+    } else {
+        res.status(404);
+        throw new Error('User not found')
+    }
+});
+
+// @desc    Update user
+// @route   PUT /api/users/:id
+// @access  Private/Admin
+export const updateUser = expressAsyncHandler(async (req: Request, res: Response) => {
+    const aUser: UserDocument = await UserModel.findById(req.params.id);
+    if (aUser) {
+        aUser.name = req.body.name || aUser.name;
+        aUser.email = req.body.email || aUser.email;
+        aUser.admin = req.body.admin;
+        const updatedUser: UserDocument = await aUser.save();
+        res.json(
+            {
+                _id: updatedUser._id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                admin: updatedUser.admin
+            });
+    } else {
+        res.status(404);
+        throw new Error('User not found');
+    }
+});
