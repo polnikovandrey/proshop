@@ -30,6 +30,7 @@ export type UserListInfo = { _id: string, name: string, email: string, admin: bo
 export type UserListState = { loading?: boolean, users?: UserListInfo[], error?: string }
 export type UserDeleteStata = { loading?: boolean, success?: boolean, error?: string }
 export type PaymentResult = { id: string, status: string, updateTime: string, email_address: string };
+export type ProductDeleteStata = { loading?: boolean, success?: boolean, error?: string };
 
 export const numberToPriceString: (num: number) => string = num => (Math.round(num * 100) / 100).toFixed(2);
 export const numberToPrice: (num: number) => number = num => Number(numberToPriceString(num));

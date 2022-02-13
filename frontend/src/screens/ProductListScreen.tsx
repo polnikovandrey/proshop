@@ -8,7 +8,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import { selectUserInfo } from "../slice/userSlice";
 import { History } from "history";
 import { selectProductList } from "../slice/productSlice";
-import { loadProductListAction } from "../actions/productActions";
+import { deleteProductAction, loadProductListAction } from "../actions/productActions";
+import { selectProductDelete } from "../slice/productDeleteSlice";
 
 const ProductListScreen = ({ history, match }: { history: History, match: match<{ id: string }> }) => {
     const dispatch = useAppDispatch();
@@ -16,7 +17,9 @@ const ProductListScreen = ({ history, match }: { history: History, match: match<
     const productListState = useAppSelector(selectProductList)
     const { loading, items, error } = productListState;
     const { user } = useAppSelector(selectUserInfo);
-    const { token, admin } = user || {};
+    const { token, admin } = user || { token: '', admin: false };
+    const { loading: loadingDelete, success: successDelete, error: errorDelete } = useAppSelector(selectProductDelete);
+
     useEffect(() => {
         (async () => {
             if (admin) {
@@ -25,13 +28,13 @@ const ProductListScreen = ({ history, match }: { history: History, match: match<
                 history.push('/login');
             }
         })();
-    }, [ admin, dispatch, history ]);
-    async function createProductHandler() {
+    }, [ admin, dispatch, history, successDelete ]);
+    const createProductHandler = async () => {
         // TODO create product
     }
-    async function deleteHandler(productId: string) {
+    const deleteHandler = async (productId: string) => {
         if (window.confirm('Are you sure?')) {
-            // TODO delete product
+            await deleteProductAction(productId, token, dispatch);
         }
     }
     return (
@@ -46,47 +49,45 @@ const ProductListScreen = ({ history, match }: { history: History, match: match<
                     </Button>
                 </Col>
             </Row>
-            {loading
-                ? <Loader/>
-                : error
-                    ? <Message variant='danger'>{error}</Message>
-                    : (
-                        <Table striped bordered hover responsive className='table-sm'>
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>NAME</th>
-                                <th>PRICE</th>
-                                <th>CATEGORY</th>
-                                <th>BRAND</th>
-                                <th/>
+            { (loading || loadingDelete) && <Loader/>}
+            { (error || errorDelete) && <Message variant='danger'>{error || errorDelete}</Message>}
+            { (!loading && !loadingDelete && !error && !errorDelete) && (
+                <Table striped bordered hover responsive className='table-sm'>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>NAME</th>
+                        <th>PRICE</th>
+                        <th>CATEGORY</th>
+                        <th>BRAND</th>
+                        <th/>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        items?.map(product => (
+                            <tr key={product._id}>
+                                <td>{product._id}</td>
+                                <td>{product.name}</td>
+                                <td>${product.price}</td>
+                                <td>{product.category}</td>
+                                <td>{product.brand}</td>
+                                <td>
+                                    <LinkContainer to={`product/${product._id}/edit`}>
+                                        <Button variant='light' className='btn-sm'>
+                                            <i className='fas fa-edit'/>
+                                        </Button>
+                                    </LinkContainer>
+                                    <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(product._id)}>
+                                        <i className='fas fa-trash'/>
+                                    </Button>
+                                </td>
                             </tr>
-                            </thead>
-                            <tbody>
-                            {
-                                items?.map(product => (
-                                    <tr key={product._id}>
-                                        <td>{product._id}</td>
-                                        <td>{product.name}</td>
-                                        <td>${product.price}</td>
-                                        <td>{product.category}</td>
-                                        <td>{product.brand}</td>
-                                        <td>
-                                            <LinkContainer to={`product/${product._id}/edit`}>
-                                                <Button variant='light' className='btn-sm'>
-                                                    <i className='fas fa-edit'/>
-                                                </Button>
-                                            </LinkContainer>
-                                            <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(product._id)}>
-                                                <i className='fas fa-trash'/>
-                                            </Button>
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                            </tbody>
-                        </Table>
-                    )}
+                        ))
+                    }
+                    </tbody>
+                </Table>
+            )}
         </>
     );
 };

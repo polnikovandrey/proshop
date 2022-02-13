@@ -12,6 +12,7 @@ import { orderUserListReducer } from "../slice/orderUserListSlice";
 import { userListReducer } from "../slice/userListSlice";
 import { userDeleteReducer } from "../slice/userDeleteSlice";
 import { userUpdateReducer } from "../slice/userUpdateSlice";
+import { productDeleteReducer } from "../slice/productDeleteSlice";
 
 const cartItemsLocalStorageItem = localStorage.getItem('cartItems');
 const cartItemsFromStorage: CartItem[] = cartItemsLocalStorageItem ? JSON.parse(cartItemsLocalStorageItem) : [];
@@ -35,6 +36,7 @@ const store: EnhancedStore = configureStore(
             orderPay: orderPayReducer,
             productList: productListReducer,
             productDetails: productDetailReducer,
+            productDelete: productDeleteReducer,
             userInfo: userReducer,
             userList: userListReducer,
             userDelete: userDeleteReducer,

@@ -17,3 +17,8 @@ Accept: application/json
 ### Get an error while requesting a wrong api (testing the custor error handling, see errorMiddleware.ts).
 GET {{apiUrl}}no_such_api
 Accept: application/json
+
+### Delete a particular product by id. Admin only.
+DELETE {{apiUrl}}product/618ea6f019c4c4bb8c46a701
+Accept: application/json
+Authorization: Bearer {{auth_Token}}

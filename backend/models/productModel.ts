@@ -40,7 +40,7 @@ export interface Product {
     countInStock: number
 }
 
-export interface ProductDocument extends Product, Document {
+export interface ProductDocument extends Product, mongoose.Document {
 }
 
 interface ProductModel extends mongoose.Model<ProductDocument> {
