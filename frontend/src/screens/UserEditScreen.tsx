@@ -30,7 +30,7 @@ const UserEditScreen = ({ history, match }: { history: History, match: match<{ i
             if (successUpdate) {
                 await resetUserProfileByIdAction(dispatch);
                 history.push('/admin/userList')
-            } else if (!user?.name || user._id != userId ) {
+            } else if (!user?.name || user._id !== userId ) {
                 await getUserProfileAction(userId, token, dispatch);
             } else {
                 setName(user.name);
