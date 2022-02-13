@@ -35,7 +35,14 @@ export const userProfileSlice = createSlice({
 });
 
 export const {
-    userProfileRequest, userProfileSuccess, userProfileFail, userProfileReset, userProfileUpdateRequest, userProfileUpdateSuccess, userProfileUpdateFail, userProfileUpdateReset
+    userProfileRequest,
+    userProfileSuccess,
+    userProfileFail,
+    userProfileReset,
+    userProfileUpdateRequest,
+    userProfileUpdateSuccess,
+    userProfileUpdateFail,
+    userProfileUpdateReset
 } = userProfileSlice.actions;
 
 export const selectUserProfile: (state: RootState) => UserProfileState = state => state.userProfile;

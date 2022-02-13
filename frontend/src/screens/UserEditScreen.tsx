@@ -10,6 +10,8 @@ import FormContainer from "../components/FormContainer";
 import { selectUserProfile } from "../slice/userProfileSlice";
 import { getUserProfileAction } from "../actions/userProfileActions";
 import { selectUserInfo } from "../slice/userSlice";
+import { selectUserUpdate } from "../slice/userUpdateSlice";
+import { resetUserProfileByIdAction, updateUserProfileByIdAction } from "../actions/userUpdateActions";
 
 const UserEditScreen = ({ history, match }: { history: History, match: match<{ id: string }> }) => {
     const userId: string = match.params.id;
@@ -20,10 +22,15 @@ const UserEditScreen = ({ history, match }: { history: History, match: match<{ i
     const token = userInfoState?.user?.token || '';
     const userProfileState = useAppSelector(selectUserProfile);
     const { loading, user, error } = userProfileState;
+    const userUpdateState = useAppSelector(selectUserUpdate);
+    const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = userUpdateState;
     const dispatch = useAppDispatch();
     useEffect(() => {
         (async () => {
-            if (!user?.name || user._id != userId ) {
+            if (successUpdate) {
+                await resetUserProfileByIdAction(dispatch);
+                history.push('/admin/userList')
+            } else if (!user?.name || user._id != userId ) {
                 await getUserProfileAction(userId, token, dispatch);
             } else {
                 setName(user.name);
@@ -31,16 +38,19 @@ const UserEditScreen = ({ history, match }: { history: History, match: match<{ i
                 setAdmin(user.admin!);
             }
         })();
-    }, [ dispatch, token, userId, user ]);
+    }, [ dispatch, history, successUpdate, token, userId, user ]);
 
     const submitHandler: FormEventHandler = async (event) => {
         event.preventDefault();
+        await updateUserProfileByIdAction(token, { _id: userId, name, email, admin }, dispatch);
     };
     return (
         <>
             <Link to='/admin/userList' className='btn btn-light my-3'>Go back</Link>
             <FormContainer>
                 <h1>Edit user</h1>
+                { loadingUpdate && <Loader/> }
+                { errorUpdate && <Message variant='danger'>{errorUpdate}</Message> }
                 { loading
                     ? <Loader/>
                     : error

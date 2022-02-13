@@ -20,8 +20,7 @@ export const getUserProfileAction = async (id: string, token: string, dispatch: 
     }
 };
 
-export const updateUserProfileAction = async (id: string, token: string, userProfile: UserProfile, dispatch: Dispatch) => {
-    const dataOut = { userProfile: { _id: id, name: userProfile.name, email: userProfile.email, password: userProfile.password }};
+export const updateUserProfileAction = async (token: string, aUserProfile: UserProfile, dispatch: Dispatch) => {
     try {
         dispatch(userProfileUpdateRequest());
         const config: AxiosRequestConfig = {
@@ -30,7 +29,7 @@ export const updateUserProfileAction = async (id: string, token: string, userPro
                 Authorization: `Bearer ${token}`
             }
         };
-        const { data }: { data: UserInfo } = await axios.put(`/api/users/profile`, dataOut, config);
+        const { data }: { data: UserInfo } = await axios.put(`/api/users/profile`, aUserProfile, config);
         const userProfile: UserProfile = { name: data.name, email: data.email };
         dispatch(userProfileUpdateSuccess(userProfile));
     } catch (error: any) {

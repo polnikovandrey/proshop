@@ -79,7 +79,7 @@ export const getUserProfile = expressAsyncHandler(async (req: Request, res: Resp
 // @route   PUT /api/users/profile
 // @access  Private
 export const updateUserProfile = expressAsyncHandler(async (req: Request, res: Response) => {
-    const profile: { _id: string, name: string, email: string, password: string } = req.body.userProfile;
+    const profile: { _id: string, name: string, email: string, password: string } = req.body;
     const aUser: UserDocument = await UserModel.findById(profile._id);
     if (aUser) {
         aUser.name = profile.name || aUser.name;

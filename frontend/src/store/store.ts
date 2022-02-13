@@ -11,6 +11,7 @@ import { orderPayReducer } from "../slice/orderPaySlice";
 import { orderUserListReducer } from "../slice/orderUserListSlice";
 import { userListReducer } from "../slice/userListSlice";
 import { userDeleteReducer } from "../slice/userDeleteSlice";
+import { userUpdateReducer } from "../slice/userUpdateSlice";
 
 const cartItemsLocalStorageItem = localStorage.getItem('cartItems');
 const cartItemsFromStorage: CartItem[] = cartItemsLocalStorageItem ? JSON.parse(cartItemsLocalStorageItem) : [];
@@ -37,7 +38,8 @@ const store: EnhancedStore = configureStore(
             userInfo: userReducer,
             userList: userListReducer,
             userDelete: userDeleteReducer,
-            userProfile: userProfileReducer
+            userProfile: userProfileReducer,
+            userUpdate: userUpdateReducer
         },
         preloadedState: {
             cart: { items: cartItemsFromStorage, shippingAddress: shippingAddressFromStorage, paymentMethod: paymentMethodFromStorage },

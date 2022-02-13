@@ -48,7 +48,7 @@ const ProfileScreen = ({ history }: { history: History }) => {
         if (password !== confirmPassword) {
             setMessage('Passwords do not match.');
         } else if (userInfo && userProfileState.user) {
-            await updateUserProfileAction(userInfo._id, userInfo.token, { name, email, password }, dispatch);
+            await updateUserProfileAction(userInfo.token, { _id: userInfo._id, name, email, password }, dispatch);
         }
     };
     return (
