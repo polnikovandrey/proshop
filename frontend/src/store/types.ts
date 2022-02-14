@@ -2,7 +2,7 @@ export type CartItem = { productId: string, name: string, image: string, price: 
 export type CartState = { items: CartItem[], shippingAddress: ShippingAddress, paymentMethod: string };
 export type Order = CartState & { _id?: string, itemsPrice: number, shippingPrice: number, taxPrice: number, totalPrice: number };
 export type OrderDetail = Order & { user: UserInfo, createdAt: Date, paid: boolean, paidAt: Date, delivered: boolean, deliveredAt: Date }
-export type ProductItem = {
+export type ProductItemBase = {
     _id: string,
     name: string,
     image: string,
@@ -10,9 +10,9 @@ export type ProductItem = {
     brand: string,
     category: string,
     price: number,
-    countInStock: number,
-    rating: number,
-    numReviews: number };
+    countInStock: number
+}
+export type ProductItem = ProductItemBase & { rating: number, numReviews: number };
 export type ProductRatingItem = { rating: number, numReviews: number };
 export type UserInfo = { _id: string, name: string, email: string, admin: boolean, token: string };
 export type UserProfile = { _id?: string, name: string, email: string, password?: string, admin?: boolean };
@@ -28,6 +28,7 @@ export type ProductCreateState = { loading?: boolean, product?: ProductItem, suc
 export type ProductDeleteState = { loading?: boolean, success?: boolean, error?: string };
 export type ProductsDetailsState = { loading: boolean, item?: ProductItem, error?: string };
 export type ProductsListState = { loading: boolean, items?: ProductItem[], error?: string };
+export type ProductUpdateState = { loading?: boolean, product?: ProductItem, success?: boolean, error?: string };
 
 export type UserState = { loading?: boolean, user?: UserInfo, error?: string }
 export type UserProfileState = { loading?: boolean, success?: boolean, user?: UserProfile, error?: string }

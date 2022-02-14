@@ -14,6 +14,7 @@ import { userDeleteReducer } from "../slice/userDeleteSlice";
 import { userUpdateReducer } from "../slice/userUpdateSlice";
 import { productDeleteReducer } from "../slice/productDeleteSlice";
 import { productCreateReducer } from "../slice/productCreateSlice";
+import { productUpdateReducer } from "../slice/productUpdateSlice";
 
 const cartItemsLocalStorageItem = localStorage.getItem('cartItems');
 const cartItemsFromStorage: CartItem[] = cartItemsLocalStorageItem ? JSON.parse(cartItemsLocalStorageItem) : [];
@@ -39,6 +40,7 @@ const store: EnhancedStore = configureStore(
             productDetails: productDetailReducer,
             productDelete: productDeleteReducer,
             productList: productListReducer,
+            productUpdate: productUpdateReducer,
             userInfo: userReducer,
             userList: userListReducer,
             userDelete: userDeleteReducer,
