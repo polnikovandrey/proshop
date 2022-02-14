@@ -1,10 +1,10 @@
-import { ProductDeleteStata } from "../store/types";
+import { ProductDeleteState } from "../store/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store/store";
 
 export const productDeleteSlice = createSlice({
     name: 'productDelete',
-    initialState: { } as ProductDeleteStata,
+    initialState: { } as ProductDeleteState,
     reducers: {
         productDeleteRequest: () => {
             return { loading: true };
@@ -20,6 +20,6 @@ export const productDeleteSlice = createSlice({
 
 export const { productDeleteRequest, productDeleteSuccess, productDeleteFail } = productDeleteSlice.actions;
 
-export const selectProductDelete: (state: RootState) => ProductDeleteStata = state => state.productDelete;
+export const selectProductDelete: (state: RootState) => ProductDeleteState = state => state.productDelete;
 
 export const productDeleteReducer = productDeleteSlice.reducer;

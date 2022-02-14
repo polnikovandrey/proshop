@@ -8,8 +8,9 @@ import { LinkContainer } from "react-router-bootstrap";
 import { selectUserInfo } from "../slice/userSlice";
 import { History } from "history";
 import { selectProductList } from "../slice/productSlice";
-import { deleteProductAction, loadProductListAction } from "../actions/productActions";
+import { createProductAction, deleteProductAction, loadProductListAction, resetCreateProductAction } from "../actions/productActions";
 import { selectProductDelete } from "../slice/productDeleteSlice";
+import { selectProductCreate } from "../slice/productCreateSlice";
 
 const ProductListScreen = ({ history, match }: { history: History, match: match<{ id: string }> }) => {
     const dispatch = useAppDispatch();
@@ -19,18 +20,22 @@ const ProductListScreen = ({ history, match }: { history: History, match: match<
     const { user } = useAppSelector(selectUserInfo);
     const { token, admin } = user || { token: '', admin: false };
     const { loading: loadingDelete, success: successDelete, error: errorDelete } = useAppSelector(selectProductDelete);
+    const { loading: loadingCreate, product: createdProduct, success: successCreate, error: errorCreate } = useAppSelector(selectProductCreate);
 
     useEffect(() => {
         (async () => {
-            if (admin) {
-                await loadProductListAction(dispatch);
-            } else {
+            resetCreateProductAction(dispatch);
+            if (!admin) {
                 history.push('/login');
+            } else if (successCreate && createdProduct) {
+                history.push(`/admin/product/${createdProduct._id}/edit`);
+            } else {
+                await loadProductListAction(dispatch);
             }
         })();
-    }, [ admin, dispatch, history, successDelete ]);
+    }, [ admin, createdProduct, dispatch, history, successCreate, successDelete ]);
     const createProductHandler = async () => {
-        // TODO create product
+        await createProductAction(token, dispatch);
     }
     const deleteHandler = async (productId: string) => {
         if (window.confirm('Are you sure?')) {
@@ -49,9 +54,9 @@ const ProductListScreen = ({ history, match }: { history: History, match: match<
                     </Button>
                 </Col>
             </Row>
-            { (loading || loadingDelete) && <Loader/>}
-            { (error || errorDelete) && <Message variant='danger'>{error || errorDelete}</Message>}
-            { (!loading && !loadingDelete && !error && !errorDelete) && (
+            { (loading || loadingDelete || loadingCreate) && <Loader/>}
+            { (error || errorDelete || errorCreate) && <Message variant='danger'>{error || errorDelete || errorCreate}</Message>}
+            { (!loading && !loadingDelete && !loadingCreate && !error && !errorDelete && !errorCreate) && (
                 <Table striped bordered hover responsive className='table-sm'>
                     <thead>
                     <tr>
