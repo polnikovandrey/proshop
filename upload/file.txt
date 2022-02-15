@@ -1,0 +1,1 @@
+Stub file to append upload folder to the git repository.

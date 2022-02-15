@@ -4,8 +4,9 @@ import connectDb from "./config/db.js";
 import productRouter from "./routes/productRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import orderRouter from "./routes/orderRoutes.js";
+import uploadRouter from "./routes/uploadRoutes.js";
 import { errorHandler, notFoundHandler } from "./middleware/errorMiddleware.js";
-
+import path from "path";
 
 dotenv.config();
 
@@ -18,8 +19,12 @@ app.use(express.json());            // Parse a json POST requests body.
 app.use('/api/product', productRouter);
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
+app.use('/api/upload', uploadRouter);
 
 app.get('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID));
+
+const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 app.use(notFoundHandler);
 
