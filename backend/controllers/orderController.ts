@@ -95,3 +95,12 @@ export const getUserOrderList = expressAsyncHandler(async (req: Request, res: Re
     const orders: Order[] = await OrderModel.find({ user: { _id: user._id }} as {});
     res.json(orders);
 });
+
+// @desc    Get all orders
+// @route   GET /api/orders
+// @access  Private/Admin
+export const getOrders = expressAsyncHandler(async (req: Request, res: Response) => {
+    const { user }: { user: UserDocument } = req.body;
+    const orders: Order[] = await OrderModel.find({ }).populate('user', 'id name');
+    res.json(orders);
+});

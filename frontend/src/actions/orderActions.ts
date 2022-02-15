@@ -5,6 +5,7 @@ import { orderCreateFail, orderCreateRequest, orderCreateSuccess } from "../slic
 import { orderDetailFail, orderDetailRequest, orderDetailSuccess } from "../slice/orderDetailSlice";
 import { orderPayFail, orderPayRequest, orderPayReset, orderPaySuccess } from "../slice/orderPaySlice";
 import { orderUserListFail, orderUserListRequest, orderUserListSuccess } from "../slice/orderUserListSlice";
+import { orderListFail, orderListRequest, orderListSuccess } from "../slice/orderListSlice";
 
 export const orderCreateAction = async (order: Order, token: string, dispatch: Dispatch) => {
     try {
@@ -69,5 +70,20 @@ export const orderUserListAction = async (token: string, dispatch: Dispatch) => 
         dispatch(orderUserListSuccess(data));
     } catch (error: any) {
         dispatch(orderUserListFail(error.response && error.response.data.message ? error.response.data.message : error.message));
+    }
+};
+
+export const orderListAction = async (token: string, dispatch: Dispatch) => {
+    try {
+        dispatch(orderListRequest());
+        const config: AxiosRequestConfig = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+        const { data: orders }: { data: OrderDetail[] } = await axios.get('/api/orders', config);
+        dispatch(orderListSuccess(orders));
+    } catch (error: any) {
+        dispatch(orderListFail(error.response && error.response.data.message ? error.response.data.message : error.message));
     }
 };

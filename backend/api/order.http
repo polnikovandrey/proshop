@@ -7,3 +7,8 @@ Content-Type: application/json
 GET {{apiUrl}}orders/userOrderList
 Authorization: Bearer {{auth_Token}}
 Content-Type: application/json
+
+### Get all orders. Admin only.
+GET {{apiUrl}}orders
+Authorization: Bearer {{auth_Token}}
+Content-Type: application/json
