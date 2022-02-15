@@ -31,7 +31,7 @@ function checkFileType(file: Express.Multer.File, callback: FileFilterCallback) 
 }
 
 uploadRouter.post('/', upload.single('image'), (req, res) => {
-    res.send(`/${req.file.path}`);
+    res.send(`\\${req.file.path}`);
 });
 
 export default uploadRouter;

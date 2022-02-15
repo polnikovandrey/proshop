@@ -1,4 +1,4 @@
-import React, { FormEventHandler, useEffect, useState } from "react";
+import React, { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
 import { match } from "react-router";
 import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -11,6 +11,7 @@ import { selectUserInfo } from "../slice/userSlice";
 import { selectProductDetail } from "../slice/productSlice";
 import { loadProductDetailsAction, resetUpdateProductAction, updateProductAction } from "../actions/productActions";
 import { selectProductUpdate } from "../slice/productUpdateSlice";
+import axios from "axios";
 
 const ProductEditScreen = ({ history, match }: { history: History, match: match<{ id: string }> }) => {
     const productId: string = match.params.id;
@@ -21,6 +22,7 @@ const ProductEditScreen = ({ history, match }: { history: History, match: match<
     const [ category, setCategory ] = useState('');
     const [ countInStock, setCountInStock ] = useState(0);
     const [ description, setDescription ] = useState('');
+    const [ uploading, setUploading ] = useState(false);
 
     const userInfoState = useAppSelector(selectUserInfo);
     const token = userInfoState?.user?.token || '';
@@ -57,6 +59,25 @@ const ProductEditScreen = ({ history, match }: { history: History, match: match<
         const updateProduct = { _id: productId, name, price, image, brand, category, countInStock, description };
         await updateProductAction(updateProduct, token, dispatch);
     };
+    const uploadFileHandler: FormEventHandler = async (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files![0];
+        const formData = new FormData();
+        formData.append('image', file);
+        setUploading(true);
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            const { data:imageUrl }: { data: string } = await axios.post('/api/upload', formData, config);
+            setImage(imageUrl);
+            setUploading(false);
+        } catch (err: any) {
+            console.error(err);
+            setUploading(false);
+        }
+    };
     return (
         <>
             <Link to='/admin/productList' className='btn btn-light my-3'>Go back</Link>
@@ -78,6 +99,8 @@ const ProductEditScreen = ({ history, match }: { history: History, match: match<
                             <Form.Group controlId='image'>
                                 <Form.Label>Image</Form.Label>
                                 <Form.Control type='text' placeholder='Enter image url' value={image} onChange={(e) => setImage(e.target.value)}/>
+                                <Form.Control type='file' onChange={uploadFileHandler}/>
+                                { uploading && <Loader/> }
                             </Form.Group>
                             <Form.Group controlId='brand'>
                                 <Form.Label>Brand</Form.Label>
