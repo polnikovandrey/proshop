@@ -19,6 +19,7 @@ export type UserProfile = { _id?: string, name: string, email: string, password?
 export type ShippingAddress = { address: string, city: string, postalCode: string, country: string };
 
 export type OrderState = { loading?: boolean, order?: Order, error?: string };
+export type OrderDeliverState = { loading?: boolean, success?: boolean, error?: string }
 export type OrderDetailState = { loading?: boolean, order?: OrderDetail, error?: string }
 export type OrderListState = { loading?: boolean, orders?: OrderDetail[], error?: string }
 export type OrderPayState = { loading?: boolean, success?: boolean, error?: string }

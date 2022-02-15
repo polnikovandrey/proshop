@@ -1,26 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { match } from "react-router";
-import { numberToPriceString, OrderDetailState, OrderPayState, PaymentResult } from "../store/types";
+import { numberToPriceString, OrderDeliverState, OrderDetailState, OrderPayState, PaymentResult } from "../store/types";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import Message from "../components/Message";
 import { Link } from 'react-router-dom';
-import { orderDetailAction, orderPayAction, orderPayResetAction } from "../actions/orderActions";
+import { orderDeliverAction, orderDeliverResetAction, orderDetailAction, orderPayAction, orderPayResetAction } from "../actions/orderActions";
 import { selectUserInfo } from "../slice/userSlice";
 import { selectOrderDetail } from "../slice/orderDetailSlice";
 import Loader from "../components/Loader";
 import axios from "axios";
 import { selectOrderPay } from "../slice/orderPaySlice";
 import { PayPalButton } from "react-paypal-button-v2";
+import { selectOrderDeliver } from "../slice/orderDeliverSlice";
+import { History } from "history";
 
-const OrderScreen = ({ match }: { match: match<{ id: string }> }) => {
+const OrderScreen = ({ history, match }: { history: History, match: match<{ id: string }> }) => {
     const [ sdkReady, setSdkReady ] = useState(false);
     const dispatch = useAppDispatch();
     const orderDetailState: OrderDetailState = useAppSelector(selectOrderDetail);
     const { loading, order, error } = orderDetailState;
     const orderPayState: OrderPayState = useAppSelector(selectOrderPay);
-    const { loading: payLoading, success: paySuccess, error: payError } = orderPayState;        // TODO !!! del payError ?
+    const { loading: payLoading, success: paySuccess } = orderPayState;
+    const orderDeliverState: OrderDeliverState = useAppSelector(selectOrderDeliver);
+    const { loading: deliverLoading, success: deliverSuccess } = orderDeliverState;
     const userInfoState = useAppSelector(selectUserInfo);
+    const admin = userInfoState.user?.admin;
     const token: string = userInfoState.user?.token || '';
     const orderId: string = match.params.id;
     const addPayPalScript = async () => {
@@ -34,8 +39,11 @@ const OrderScreen = ({ match }: { match: match<{ id: string }> }) => {
     };
     useEffect(() => {
         (async () => {
-            if (!order || order._id !== orderId || paySuccess) {
+            if (!userInfoState.user) {
+                history.push('/login');
+            } else if (!order || order._id !== orderId || paySuccess || deliverSuccess) {
                 await orderPayResetAction(dispatch);
+                await orderDeliverResetAction(dispatch);
                 await orderDetailAction(orderId, token, dispatch);
             } else if (!order.paid) {
                 if (window.paypal) {
@@ -45,9 +53,12 @@ const OrderScreen = ({ match }: { match: match<{ id: string }> }) => {
                 }
             }
         })();
-    }, [ dispatch, order, orderId, paySuccess, sdkReady, token ]);
+    }, [ deliverSuccess, dispatch, order, orderId, paySuccess, sdkReady, token ]);
     const successPaymentHandler = async (paymentResult: PaymentResult, paymentData: any) => {
         await orderPayAction(orderId, paymentResult, token, dispatch);
+    };
+    const successDeliverHandler = async () => {
+        await orderDeliverAction(orderId, token, dispatch);
     };
     return loading
         ? <Loader/>
@@ -151,6 +162,14 @@ const OrderScreen = ({ match }: { match: match<{ id: string }> }) => {
                                         )}
                                     </ListGroup.Item>
                                 )}
+                                {deliverLoading && <Loader/>}
+                                {admin && !deliverLoading && order.paid && !order.delivered
+                                    && (
+                                    <ListGroup.Item type='button' className='btn btn-block' onClick={successDeliverHandler}>
+                                        Mark as delivered
+                                    </ListGroup.Item>
+                                    )
+                                }
                             </ListGroup>
                         </Card>
                     </Col>

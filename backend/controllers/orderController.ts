@@ -87,6 +87,23 @@ export const updateOrderToPaid = expressAsyncHandler(async (req: Request, res: R
     }
 });
 
+// @desc    Update order to delivered
+// @route   PUT /api/orders/:id/deliver
+// @access  Private/Admin
+export const updateOrderToDelivered = expressAsyncHandler(async (req: Request, res: Response) => {
+    const id: string = req.params.id;
+    const order: OrderDocument = await OrderModel.findById(id);
+    if (order) {
+        order.delivered = true;
+        order.deliveredAt = new Date();
+        const updatedOrder: Order = await order.save();
+        res.json(updatedOrder);
+    } else {
+        res.status(404);
+        throw new Error('Order not found');
+    }
+});
+
 // @desc    Get logged-in user orders
 // @route   GET /api/orders/userOrderList
 // @access  Private

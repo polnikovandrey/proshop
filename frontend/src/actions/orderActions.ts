@@ -6,6 +6,7 @@ import { orderDetailFail, orderDetailRequest, orderDetailSuccess } from "../slic
 import { orderPayFail, orderPayRequest, orderPayReset, orderPaySuccess } from "../slice/orderPaySlice";
 import { orderUserListFail, orderUserListRequest, orderUserListSuccess } from "../slice/orderUserListSlice";
 import { orderListFail, orderListRequest, orderListSuccess } from "../slice/orderListSlice";
+import { orderDeliverFail, orderDeliverRequest, orderDeliverReset, orderDeliverSuccess } from "../slice/orderDeliverSlice";
 
 export const orderCreateAction = async (order: Order, token: string, dispatch: Dispatch) => {
     try {
@@ -56,6 +57,25 @@ export const orderPayAction = async (orderId: string, paymentResult: PaymentResu
 
 export const orderPayResetAction = async (dispatch: Dispatch) => {
     dispatch(orderPayReset());
+};
+
+export const orderDeliverAction = async (orderId: string, token: string, dispatch: Dispatch) => {
+    try {
+        dispatch(orderDeliverRequest());
+        const config: AxiosRequestConfig = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+        const { data }: { data: OrderDetail } = await axios.put(`/api/orders/${orderId}/deliver`, { }, config);      // TODO !!! del data ?
+        dispatch(orderDeliverSuccess());
+    } catch (error: any) {
+        dispatch(orderDeliverFail(error.response && error.response.data.message ? error.response.data.message : error.message));
+    }
+};
+
+export const orderDeliverResetAction = async (dispatch: Dispatch) => {
+    dispatch(orderDeliverReset());
 };
 
 export const orderUserListAction = async (token: string, dispatch: Dispatch) => {
