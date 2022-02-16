@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
 
-interface Review {
+export interface Review {
     name: string,
     rating: number,
-    comment: string
+    comment: string,
+    user: mongoose.Schema.Types.ObjectId
 }
 
 const reviewSchema: mongoose.Schema<Review> = new mongoose.Schema<Review>(
@@ -19,6 +20,11 @@ const reviewSchema: mongoose.Schema<Review> = new mongoose.Schema<Review>(
         comment: {
             type: String,
             required: true
+        },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'User'
         }
     },
     {

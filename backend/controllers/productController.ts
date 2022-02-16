@@ -1,4 +1,4 @@
-import { ProductDocument, ProductModel } from "../models/productModel.js";
+import { ProductDocument, ProductModel, Review } from "../models/productModel.js";
 import expressAsyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import { UserDocument } from "../models/userModel";
@@ -73,10 +73,40 @@ export const updateProduct = expressAsyncHandler(async (req: Request, res: Respo
         product.category = category;
         product.countInStock = countInStock;
         const updatedProduct: ProductDocument = await product.save();
-        res.json(updatedProduct);
+        res.status(201).json(updatedProduct);
     } else {
         res.status(404);
         throw new Error('Product not found');
     }
-    res.status(201).json(product);
+});
+
+// @desc    Create new review
+// @route   POST /api/product/:id/review
+// @access  Private
+export const createProductReview = expressAsyncHandler(async (req: Request, res: Response) => {
+    const { rating, comment } = req.body;
+    const { user }: { user: UserDocument } = req.body;
+    const product: ProductDocument = await ProductModel.findById(req.params.id);
+    if (product) {
+        const alreadyReviewed = product.reviews.find(review => review.user.toString() === user._id.toString());
+        if (alreadyReviewed) {
+            res.status(400);
+            throw new Error('Product already reviewed')
+        } else {
+            const review: Review = {
+                name: user.name,
+                rating: Number(rating),
+                comment,
+                user: user._id
+            };
+            product.reviews.push(review);
+            product.numReviews = product.reviews.length;
+            product.rating = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
+            await product.save();
+            res.status(201).json({ message: 'Review added' });
+        }
+    } else {
+        res.status(404);
+        throw new Error('Product not found');
+    }
 });

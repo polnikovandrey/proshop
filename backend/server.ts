@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import express, { Express } from 'express';
+import morgan from "morgan";
 import connectDb from "./config/db.js";
 import productRouter from "./routes/productRoutes.js";
 import userRouter from "./routes/userRoutes.js";
@@ -13,6 +14,10 @@ dotenv.config();
 connectDb().then();
 
 const app: Express = express();
+
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'));
+}
 
 app.use(express.json());            // Parse a json POST requests body.
 

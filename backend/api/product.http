@@ -29,7 +29,7 @@ Accept: application/json
 Authorization: Bearer {{auth_Token}}
 
 ### Update a product. Admin only.
-PUT {{apiUrl}}product/6209276134a5d9a8401a8742
+PUT {{apiUrl}}product/620d1a65bbe4c408e6ed9d4b
 Accept: application/json
 Authorization: Bearer {{auth_Token}}
 Content-Type: application/json
@@ -42,4 +42,15 @@ Content-Type: application/json
   "brand": "Product1 brand",
   "category": "Product1 category",
   "countInStock": 200
+}
+
+### Create product review
+POST {{apiUrl}}product/620d1a65bbe4c408e6ed9d4b/review
+Accept: application/json
+Authorization: Bearer {{auth_Token}}
+Content-Type: application/json
+
+{
+  "rating": 100,
+  "comment": "The best product ever"
 }

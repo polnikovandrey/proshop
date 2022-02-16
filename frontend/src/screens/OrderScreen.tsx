@@ -25,6 +25,7 @@ const OrderScreen = ({ history, match }: { history: History, match: match<{ id: 
     const orderDeliverState: OrderDeliverState = useAppSelector(selectOrderDeliver);
     const { loading: deliverLoading, success: deliverSuccess } = orderDeliverState;
     const userInfoState = useAppSelector(selectUserInfo);
+    const { user: userInfoStateUser } = userInfoState;
     const admin = userInfoState.user?.admin;
     const token: string = userInfoState.user?.token || '';
     const orderId: string = match.params.id;
@@ -39,7 +40,7 @@ const OrderScreen = ({ history, match }: { history: History, match: match<{ id: 
     };
     useEffect(() => {
         (async () => {
-            if (!userInfoState.user) {
+            if (!userInfoStateUser) {
                 history.push('/login');
             } else if (!order || order._id !== orderId || paySuccess || deliverSuccess) {
                 await orderPayResetAction(dispatch);
@@ -53,7 +54,7 @@ const OrderScreen = ({ history, match }: { history: History, match: match<{ id: 
                 }
             }
         })();
-    }, [ deliverSuccess, dispatch, order, orderId, paySuccess, sdkReady, token ]);
+    }, [ deliverSuccess, dispatch, history, order, orderId, paySuccess, sdkReady, token, userInfoStateUser ]);
     const successPaymentHandler = async (paymentResult: PaymentResult, paymentData: any) => {
         await orderPayAction(orderId, paymentResult, token, dispatch);
     };
