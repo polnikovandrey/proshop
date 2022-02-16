@@ -2,6 +2,14 @@ export type CartItem = { productId: string, name: string, image: string, price: 
 export type CartState = { items: CartItem[], shippingAddress: ShippingAddress, paymentMethod: string };
 export type Order = CartState & { _id?: string, itemsPrice: number, shippingPrice: number, taxPrice: number, totalPrice: number };
 export type OrderDetail = Order & { user: UserInfo, createdAt: Date, paid: boolean, paidAt: Date, delivered: boolean, deliveredAt: Date }
+export type Review = {
+    _id: string,
+    name: string,
+    rating: number,
+    comment: string,
+    user: UserInfo,
+    createdAt: Date
+}
 export type ProductItemBase = {
     _id: string,
     name: string,
@@ -12,8 +20,8 @@ export type ProductItemBase = {
     price: number,
     countInStock: number
 }
-export type ProductItem = ProductItemBase & { rating: number, numReviews: number };
-export type ProductRatingItem = { rating: number, numReviews: number };
+export type ProductItem = ProductItemBase & { rating: number, numReviews: number, reviews: Review[] };
+export type ProductRatingItem = { rating: number, numReviews?: number };
 export type UserInfo = { _id: string, name: string, email: string, admin: boolean, token: string };
 export type UserProfile = { _id?: string, name: string, email: string, password?: string, admin?: boolean };
 export type ShippingAddress = { address: string, city: string, postalCode: string, country: string };
@@ -30,6 +38,9 @@ export type ProductDeleteState = { loading?: boolean, success?: boolean, error?:
 export type ProductsDetailsState = { loading: boolean, item?: ProductItem, error?: string };
 export type ProductsListState = { loading: boolean, items?: ProductItem[], error?: string };
 export type ProductUpdateState = { loading?: boolean, product?: ProductItem, success?: boolean, error?: string };
+
+export type CreateReviewDto = { rating: number, comment: string };
+export type ReviewCreateState = { loading?: boolean, success?: boolean, error?: string };
 
 export type UserState = { loading?: boolean, user?: UserInfo, error?: string }
 export type UserProfileState = { loading?: boolean, success?: boolean, user?: UserProfile, error?: string }

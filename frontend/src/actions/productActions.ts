@@ -1,10 +1,11 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { Dispatch } from "redux";
 import { productDetailFail, productDetailRequest, productDetailSuccess, productListFail, productListRequest, productListSuccess } from "../slice/productSlice";
-import { ProductItem, ProductItemBase } from "../store/types";
+import { CreateReviewDto, ProductItem, ProductItemBase } from "../store/types";
 import { productDeleteFail, productDeleteRequest, productDeleteSuccess } from "../slice/productDeleteSlice";
 import { productCreateFail, productCreateRequest, productCreateReset, productCreateSuccess } from "../slice/productCreateSlice";
 import { productUpdateFail, productUpdateRequest, productUpdateReset, productUpdateSuccess } from "../slice/productUpdateSlice";
+import { reviewCreateFail, reviewCreateRequest, reviewCreateReset, reviewCreateSuccess } from "../slice/reviewCreateSlice";
 
 export const loadProductListAction = async (dispatch: Dispatch) => {
     try {
@@ -83,4 +84,25 @@ export const updateProductAction = async (product: ProductItemBase, token: strin
 
 export const resetUpdateProductAction = (dispatch: Dispatch) => {
     dispatch(productUpdateReset());
+}
+
+export const createReviewAction = async (productId: string, review: CreateReviewDto, token: string, dispatch: Dispatch) => {
+    try {
+        dispatch(reviewCreateRequest());
+        const config: AxiosRequestConfig = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        };
+        await axios.post(`/api/product/${productId}/review`, review , config);
+        dispatch(reviewCreateSuccess());
+    } catch (error: any) {
+        const errorMessage: string = error.response && error.response.data.message ? error.response.data.message : error.message;
+        dispatch(reviewCreateFail(errorMessage));
+    }
+};
+
+export const resetCreateReviewAction = (dispatch: Dispatch) => {
+    dispatch(reviewCreateReset());
 }

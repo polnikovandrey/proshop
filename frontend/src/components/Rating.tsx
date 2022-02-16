@@ -42,7 +42,7 @@ export const Rating = ({ ratingItem, color }: { ratingItem: ProductRatingItem, c
                                ? 'fas fa-star-half-alt'
                                : 'far fa-star'}/>
             </span>
-            <span>{ratingItem.numReviews} reviews</span>
+            { ratingItem.numReviews && <span>{ratingItem.numReviews} reviews</span> }
         </div>
     );
 }
