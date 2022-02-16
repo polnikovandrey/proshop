@@ -7,10 +7,10 @@ import { productCreateFail, productCreateRequest, productCreateReset, productCre
 import { productUpdateFail, productUpdateRequest, productUpdateReset, productUpdateSuccess } from "../slice/productUpdateSlice";
 import { reviewCreateFail, reviewCreateRequest, reviewCreateReset, reviewCreateSuccess } from "../slice/reviewCreateSlice";
 
-export const loadProductListAction = async (dispatch: Dispatch) => {
+export const loadProductListAction = async (dispatch: Dispatch, keyword: string = '') => {
     try {
         dispatch(productListRequest());
-        const { data: products }: { data: ProductItem[] } = await axios.get('/api/product');
+        const { data: products }: { data: ProductItem[] } = await axios.get(`/api/product?keyword=${keyword}`);
         dispatch(productListSuccess(products));
     } catch (error: any) {
         dispatch(productListFail(error.response && error.response.data.message ? error.response.data.message : error.message));

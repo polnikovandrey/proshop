@@ -7,7 +7,15 @@ import { UserDocument } from "../models/userModel";
 // @route   GET /api/product
 // @access  Public
 export const getProducts = expressAsyncHandler(async (req: Request, res: Response) => {
-    const products: ProductDocument[] = await ProductModel.find({});
+    const keyword = req.query.keyword
+        ? {
+            name: {
+                $regex: req.query.keyword,
+                $options: 'i'
+            }
+        }
+        : { };
+    const products: ProductDocument[] = await ProductModel.find({ ...keyword } as {});
     res.json(products);
 });
 
@@ -62,7 +70,6 @@ export const createProduct = expressAsyncHandler(async (req: Request, res: Respo
 // @access  Private/Admin
 export const updateProduct = expressAsyncHandler(async (req: Request, res: Response) => {
     const { name, price, description,  image, brand, category, countInStock } = req.body;
-    const { user }: { user: UserDocument } = req.body;
     const product: ProductDocument = await ProductModel.findById(req.params.id);
     if (product) {
         product.name = name;

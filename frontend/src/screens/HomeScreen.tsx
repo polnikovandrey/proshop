@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { match } from "react-router";
 import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -8,17 +9,17 @@ import Message from "../components/Message";
 import { ProductItem, ProductsListState } from "../store/types";
 import { selectProductList } from "../slice/productSlice";
 
-const HomeScreen = () => {
-
+const HomeScreen = ({ match }: { match: match<{ keyword: string }> }) => {
+    const keyword = match.params.keyword;
     const productList: ProductsListState = useAppSelector(selectProductList);
 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         (async () => {
-            await loadProductListAction(dispatch);
+            await loadProductListAction(dispatch, keyword);
         })();
-    }, [ dispatch ]);
+    }, [ dispatch, keyword ]);
 
     return (
         <>

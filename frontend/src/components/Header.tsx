@@ -5,6 +5,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import { UserState } from "../store/types";
 import { selectUserInfo } from "../slice/userSlice";
 import { userLogoutAction } from "../actions/userActions";
+import { Route } from "react-router-dom";
+import SearchBox from "./SearchBox";
 
 const Header = () => {
     const userState: UserState = useAppSelector(selectUserInfo);
@@ -19,6 +21,7 @@ const Header = () => {
                     <Navbar.Brand>ProShop</Navbar.Brand>
                 </LinkContainer>
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                <Route render={ (props) => <SearchBox {...props}/> }/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
                         <LinkContainer to='/cart'>
