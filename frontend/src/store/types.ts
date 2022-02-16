@@ -36,7 +36,8 @@ export type PaymentResult = { id: string, status: string, updateTime: string, em
 export type ProductCreateState = { loading?: boolean, product?: ProductItem, success?: boolean, error?: string };
 export type ProductDeleteState = { loading?: boolean, success?: boolean, error?: string };
 export type ProductsDetailsState = { loading: boolean, item?: ProductItem, error?: string };
-export type ProductsListState = { loading: boolean, items?: ProductItem[], error?: string };
+export type ProductListLoadResultDto = { products: ProductItem[], page: number, pages: number };
+export type ProductsListState = { loading: boolean, result?: ProductListLoadResultDto, error?: string };
 export type ProductUpdateState = { loading?: boolean, product?: ProductItem, success?: boolean, error?: string };
 
 export type CreateReviewDto = { rating: number, comment: string };

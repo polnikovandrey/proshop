@@ -11,12 +11,14 @@ import { selectProductList } from "../slice/productSlice";
 import { createProductAction, deleteProductAction, loadProductListAction, resetCreateProductAction } from "../actions/productActions";
 import { selectProductDelete } from "../slice/productDeleteSlice";
 import { selectProductCreate } from "../slice/productCreateSlice";
+import Paginate from "../components/Paginate";
 
-const ProductListScreen = ({ history, match }: { history: History, match: match<{ id: string }> }) => {
+const ProductListScreen = ({ history, match }: { history: History, match: match<{ id: string, keyword: string, pageNumber: string }> }) => {
+    const keyword = match.params.keyword;
+    const pageNumber: string = match.params.pageNumber || String(1);
     const dispatch = useAppDispatch();
-
     const productListState = useAppSelector(selectProductList)
-    const { loading, items, error } = productListState;
+    const { loading, result, error } = productListState;
     const { user } = useAppSelector(selectUserInfo);
     const { token, admin } = user || { token: '', admin: false };
     const { loading: loadingDelete, success: successDelete, error: errorDelete } = useAppSelector(selectProductDelete);
@@ -30,10 +32,10 @@ const ProductListScreen = ({ history, match }: { history: History, match: match<
             } else if (successCreate && createdProduct) {
                 history.push(`/admin/product/${createdProduct._id}/edit`);
             } else {
-                await loadProductListAction(dispatch);
+                await loadProductListAction(dispatch, '', pageNumber);
             }
         })();
-    }, [ admin, createdProduct, dispatch, history, successCreate, successDelete ]);
+    }, [ admin, createdProduct, dispatch, history, pageNumber, successCreate, successDelete ]);
     const createProductHandler = async () => {
         await createProductAction(token, dispatch);
     }
@@ -57,41 +59,44 @@ const ProductListScreen = ({ history, match }: { history: History, match: match<
             { (loading || loadingDelete || loadingCreate) && <Loader/>}
             { (error || errorDelete || errorCreate) && <Message variant='danger'>{error || errorDelete || errorCreate}</Message>}
             { (!loading && !loadingDelete && !loadingCreate && !error && !errorDelete && !errorCreate) && (
-                <Table striped bordered hover responsive className='table-sm'>
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>NAME</th>
-                        <th>PRICE</th>
-                        <th>CATEGORY</th>
-                        <th>BRAND</th>
-                        <th/>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        items?.map(product => (
-                            <tr key={product._id}>
-                                <td>{product._id}</td>
-                                <td>{product.name}</td>
-                                <td>${product.price}</td>
-                                <td>{product.category}</td>
-                                <td>{product.brand}</td>
-                                <td>
-                                    <LinkContainer to={`product/${product._id}/edit`}>
-                                        <Button variant='light' className='btn-sm'>
-                                            <i className='fas fa-edit'/>
+                <>
+                    <Table striped bordered hover responsive className='table-sm'>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>NAME</th>
+                            <th>PRICE</th>
+                            <th>CATEGORY</th>
+                            <th>BRAND</th>
+                            <th/>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            result?.products.map(product => (
+                                <tr key={product._id}>
+                                    <td>{product._id}</td>
+                                    <td>{product.name}</td>
+                                    <td>${product.price}</td>
+                                    <td>{product.category}</td>
+                                    <td>{product.brand}</td>
+                                    <td>
+                                        <LinkContainer to={`product/${product._id}/edit`}>
+                                            <Button variant='light' className='btn-sm'>
+                                                <i className='fas fa-edit'/>
+                                            </Button>
+                                        </LinkContainer>
+                                        <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(product._id)}>
+                                            <i className='fas fa-trash'/>
                                         </Button>
-                                    </LinkContainer>
-                                    <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(product._id)}>
-                                        <i className='fas fa-trash'/>
-                                    </Button>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                    </tbody>
-                </Table>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                        </tbody>
+                    </Table>
+                    <Paginate pages={result?.pages || 1} page={result?.page || 1} admin={true} keyword={keyword}/>
+                </>
             )}
         </>
     );

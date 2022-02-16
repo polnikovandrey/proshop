@@ -1,4 +1,4 @@
-import { ProductItem, ProductsDetailsState, ProductsListState } from "../store/types";
+import { ProductItem, ProductListLoadResultDto, ProductsDetailsState, ProductsListState } from "../store/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store/store";
 
@@ -9,8 +9,8 @@ export const productListSlice = createSlice({
         productListRequest: () => {
             return { loading: true };
         },
-        productListSuccess: (state, action: PayloadAction<ProductItem[]>) => {
-            return { loading: false, items: action.payload };
+        productListSuccess: (state, action: PayloadAction<ProductListLoadResultDto>) => {
+            return { loading: false, result: action.payload };
         },
         productListFail: (state, action: PayloadAction<string>) => {
             return { loading: false, error: action.payload };

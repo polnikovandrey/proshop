@@ -1,17 +1,17 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { Dispatch } from "redux";
 import { productDetailFail, productDetailRequest, productDetailSuccess, productListFail, productListRequest, productListSuccess } from "../slice/productSlice";
-import { CreateReviewDto, ProductItem, ProductItemBase } from "../store/types";
+import { CreateReviewDto, ProductItem, ProductItemBase, ProductListLoadResultDto } from "../store/types";
 import { productDeleteFail, productDeleteRequest, productDeleteSuccess } from "../slice/productDeleteSlice";
 import { productCreateFail, productCreateRequest, productCreateReset, productCreateSuccess } from "../slice/productCreateSlice";
 import { productUpdateFail, productUpdateRequest, productUpdateReset, productUpdateSuccess } from "../slice/productUpdateSlice";
 import { reviewCreateFail, reviewCreateRequest, reviewCreateReset, reviewCreateSuccess } from "../slice/reviewCreateSlice";
 
-export const loadProductListAction = async (dispatch: Dispatch, keyword: string = '') => {
+export const loadProductListAction = async (dispatch: Dispatch, keyword: string = '', pageNumber = '') => {
     try {
         dispatch(productListRequest());
-        const { data: products }: { data: ProductItem[] } = await axios.get(`/api/product?keyword=${keyword}`);
-        dispatch(productListSuccess(products));
+        const { data }: { data: ProductListLoadResultDto } = await axios.get(`/api/product?keyword=${keyword}&pageNumber=${pageNumber}`);
+        dispatch(productListSuccess(data));
     } catch (error: any) {
         dispatch(productListFail(error.response && error.response.data.message ? error.response.data.message : error.message));
     }
