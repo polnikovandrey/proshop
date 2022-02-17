@@ -6,7 +6,7 @@ import Loader from "../components/Loader";
 import { History } from "history";
 import { selectUserInfo } from "../slice/userSlice";
 import { selectUserProfile } from "../slice/userProfileSlice";
-import { getUserProfileAction, updateUserProfileAction } from "../actions/userProfileActions";
+import { getUserProfileAction, updateUserProfileAction, updateUserProfileResetAction } from "../actions/userProfileActions";
 import { selectOrderUserList } from "../slice/orderUserListSlice";
 import { orderUserListAction } from "../actions/orderActions";
 import { LinkContainer } from "react-router-bootstrap";
@@ -27,19 +27,20 @@ const ProfileScreen = ({ history }: { history: History }) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (userStateInfo) {
-            if (userProfileInfo?.name && userProfileInfo?._id === userStateInfo._id) {
-                setName(userProfileInfo.name);
-                setEmail(userProfileInfo.email);
-            } else {
-                (async () => {
+        (async () => {
+            if (userStateInfo) {
+                if (userProfileInfo?.name && userProfileInfo?._id === userStateInfo._id) {
+                    setName(userProfileInfo.name);
+                    setEmail(userProfileInfo.email);
+                } else {
+                    await updateUserProfileResetAction(dispatch);
                     await getUserProfileAction('profile', userStateInfo.token, dispatch);
                     await orderUserListAction(userStateInfo.token, dispatch);
-                })();
+                }
+            } else {
+                history.push('/login');
             }
-        } else {
-            history.push('/login');
-        }
+        })();
     }, [ dispatch, history, userStateInfo, userProfileInfo ]);
 
     const submitHandler: FormEventHandler = async (event) => {

@@ -1,7 +1,15 @@
 import { Dispatch } from "redux";
 import axios, { AxiosRequestConfig } from "axios";
 import { UserInfo, UserProfile } from "../store/types";
-import { userProfileFail, userProfileRequest, userProfileSuccess, userProfileUpdateFail, userProfileUpdateRequest, userProfileUpdateSuccess } from "../slice/userProfileSlice";
+import {
+    userProfileFail,
+    userProfileRequest,
+    userProfileSuccess,
+    userProfileUpdateFail,
+    userProfileUpdateRequest,
+    userProfileUpdateReset,
+    userProfileUpdateSuccess
+} from "../slice/userProfileSlice";
 
 export const getUserProfileAction = async (id: string, token: string, dispatch: Dispatch) => {
     try {
@@ -35,4 +43,8 @@ export const updateUserProfileAction = async (token: string, aUserProfile: UserP
     } catch (error: any) {
         dispatch(userProfileUpdateFail(error.response && error.response.data.message ? error.response.data.message : error.message));
     }
+};
+
+export const updateUserProfileResetAction = async (dispatch: Dispatch) => {
+    dispatch(userProfileUpdateReset());
 };
