@@ -1,4 +1,4 @@
-import React, { FormEventHandler } from 'react';
+import React, { FormEventHandler, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from "react-router-bootstrap";
@@ -9,13 +9,18 @@ import { Route } from "react-router-dom";
 import SearchBox from "./SearchBox";
 import { History } from "history";
 
-const Header = ({ history }: { history: History}) => {
+const Header = ({ history }: { history: History }) => {
     const userState: UserState = useAppSelector(selectUserInfo);
     const dispatch = useAppDispatch();
     const logoutHandler: FormEventHandler = async () => {
         await userLogoutAction(dispatch);
         history.push('/');
     };
+    const pathname = history.location.pathname;
+    const showSearch = pathname === '/' || pathname.startsWith('/page/');
+    useEffect(() => {
+
+    }, [ showSearch ]);
     return <header>
         <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
             <Container>
@@ -23,7 +28,9 @@ const Header = ({ history }: { history: History}) => {
                     <Navbar.Brand>ProShop</Navbar.Brand>
                 </LinkContainer>
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-                <Route render={ (props) => <SearchBox {...props}/> }/>
+                { showSearch && (
+                    <Route render={ (props) => <SearchBox {...props}/> }/>
+                )}
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
                         <LinkContainer to='/cart'>

@@ -30,7 +30,7 @@ const ProductEditScreen = ({ history, match }: { history: History, match: match<
     const { loading, item: product, error } = productDetails;
     const productDetailId = product?._id;
     const productUpdate = useAppSelector(selectProductUpdate);
-    const { loading: loadingUpdate, product: updatedProduct, success: successUpdate, error: errorUpdate } = productUpdate;
+    const { loading: loadingUpdate, product: updatedProduct, error: errorUpdate } = productUpdate;
 
 
     const dispatch = useAppDispatch();

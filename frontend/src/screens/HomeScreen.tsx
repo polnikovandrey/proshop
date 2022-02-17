@@ -11,7 +11,6 @@ import Message from "../components/Message";
 import { ProductItem } from "../store/types";
 import { selectProductList } from "../slice/productSlice";
 import Paginate from "../components/Paginate";
-import { selectUserInfo } from "../slice/userSlice";
 import ProductCarousel from "../components/ProductCarousel";
 import Meta from "../components/Meta";
 
@@ -20,8 +19,6 @@ const HomeScreen = ({ match }: { match: match<{ keyword: string, pageNumber: str
     const pageNumber: string = match.params.pageNumber || String(1);
     const productList = useAppSelector(selectProductList);
     const { loading, result, error } = productList;
-    const { user } = useAppSelector(selectUserInfo);
-    const admin: boolean = user?.admin || false;
     const dispatch = useAppDispatch();
 
     useEffect(() => {
