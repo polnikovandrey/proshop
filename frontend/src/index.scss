@@ -19,3 +19,31 @@ h3 {
 .rating span {
   margin: 0.1em;
 }
+
+/* Carousel */
+.carousel-item-next,
+.carousel-item-prev,
+.carousel-item.active {
+  display: flex;
+}
+.carousel-caption {
+  position: absolute;
+  top: 0;
+
+  h2 {
+    color: #ffffff;
+  }
+}
+.carousel {
+
+  a {
+    margin: 0 auto;
+  }
+  img {
+    height: 300px;
+    padding: 30px;
+    margin: 40px;
+    border-radius: 50%;
+  }
+}
+

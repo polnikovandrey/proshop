@@ -38,6 +38,7 @@ export type ProductDeleteState = { loading?: boolean, success?: boolean, error?:
 export type ProductsDetailsState = { loading: boolean, item?: ProductItem, error?: string };
 export type ProductListLoadResultDto = { products: ProductItem[], page: number, pages: number };
 export type ProductsListState = { loading: boolean, result?: ProductListLoadResultDto, error?: string };
+export type ProductsTopState = { loading: boolean, products?: ProductItem[], error?: string };
 export type ProductUpdateState = { loading?: boolean, product?: ProductItem, success?: boolean, error?: string };
 
 export type CreateReviewDto = { rating: number, comment: string };

@@ -6,6 +6,7 @@ import { productDeleteFail, productDeleteRequest, productDeleteSuccess } from ".
 import { productCreateFail, productCreateRequest, productCreateReset, productCreateSuccess } from "../slice/productCreateSlice";
 import { productUpdateFail, productUpdateRequest, productUpdateReset, productUpdateSuccess } from "../slice/productUpdateSlice";
 import { reviewCreateFail, reviewCreateRequest, reviewCreateReset, reviewCreateSuccess } from "../slice/reviewCreateSlice";
+import { productTopFail, productTopRequest, productTopSuccess } from "../slice/productTopSlice";
 
 export const loadProductListAction = async (dispatch: Dispatch, keyword: string = '', pageNumber = '') => {
     try {
@@ -106,3 +107,13 @@ export const createReviewAction = async (productId: string, review: CreateReview
 export const resetCreateReviewAction = (dispatch: Dispatch) => {
     dispatch(reviewCreateReset());
 }
+
+export const loadProductTopAction = async (dispatch: Dispatch) => {
+    try {
+        dispatch(productTopRequest());
+        const { data }: { data: ProductItem[] } = await axios.get('/api/product/top');
+        dispatch(productTopSuccess(data));
+    } catch (error: any) {
+        dispatch(productTopFail(error.response && error.response.data.message ? error.response.data.message : error.message));
+    }
+};

@@ -120,3 +120,11 @@ export const createProductReview = expressAsyncHandler(async (req: Request, res:
         throw new Error('Product not found');
     }
 });
+
+// @desc    Get top-rated products
+// @route   GET /api/product/top
+// @access  Public
+export const getTopProducts = expressAsyncHandler(async (req: Request, res: Response) => {
+    const products: ProductDocument[] = await ProductModel.find({}).sort({ rating: -1 }).limit(3);
+    res.json(products)
+});
