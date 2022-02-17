@@ -26,7 +26,7 @@ const PaymentScreen = ({ history }: { history: History }) => {
             <h1>Select Method</h1>
             <Col>
                 <Form onSubmit={submitHandler}>
-                    <Form.Group>
+                    <Form.Group className='mb-4'>
                         <Form.Label as='legend'>Select Method</Form.Label>
                         <Col>
                             <Form.Check type='radio' label='PayPal or Credit Card' id='PayPal' name='paymentMethod' value='PayPal' checked onChange={(e) => setPaymentMethod(e.target.value)}/>
