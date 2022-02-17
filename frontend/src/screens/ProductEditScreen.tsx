@@ -88,33 +88,33 @@ const ProductEditScreen = ({ history, match }: { history: History, match: match<
                 { (!loading && !loadingUpdate && !error && !errorUpdate)
                     && (
                         <Form onSubmit={submitHandler}>
-                            <Form.Group controlId='name'>
+                            <Form.Group controlId='name' className='mb-3'>
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control type='name' placeholder='Enter name' value={name} onChange={(e) => setName(e.target.value)}/>
                             </Form.Group>
-                            <Form.Group controlId='price'>
+                            <Form.Group controlId='price' className='mb-3'>
                                 <Form.Label>Price</Form.Label>
                                 <Form.Control type='number' placeholder='Enter price' value={price} onChange={(e) => setPrice(Number(e.target.value))}/>
                             </Form.Group>
-                            <Form.Group controlId='image'>
+                            <Form.Group controlId='image' className='mb-3'>
                                 <Form.Label>Image</Form.Label>
                                 <Form.Control type='text' placeholder='Enter image url' value={image} onChange={(e) => setImage(e.target.value)}/>
                                 <Form.Control type='file' onChange={uploadFileHandler}/>
                                 { uploading && <Loader/> }
                             </Form.Group>
-                            <Form.Group controlId='brand'>
+                            <Form.Group controlId='brand' className='mb-3'>
                                 <Form.Label>Brand</Form.Label>
                                 <Form.Control type='text' placeholder='Enter brand' value={brand} onChange={(e) => setBrand(e.target.value)}/>
                             </Form.Group>
-                            <Form.Group controlId='countInStock'>
+                            <Form.Group controlId='countInStock' className='mb-3'>
                                 <Form.Label>Count In Stock</Form.Label>
                                 <Form.Control type='number' placeholder='Enter count in stock' value={countInStock} onChange={(e) => setCountInStock(Number(e.target.value))}/>
                             </Form.Group>
-                            <Form.Group controlId='category'>
+                            <Form.Group controlId='category' className='mb-3'>
                                 <Form.Label>Category</Form.Label>
                                 <Form.Control type='text' placeholder='Enter category' value={category} onChange={(e) => setCategory(e.target.value)}/>
                             </Form.Group>
-                            <Form.Group controlId='description'>
+                            <Form.Group controlId='description' className='mb-4'>
                                 <Form.Label>Description</Form.Label>
                                 <Form.Control type='text' placeholder='Enter description' value={description} onChange={(e) => setDescription(e.target.value)}/>
                             </Form.Group>

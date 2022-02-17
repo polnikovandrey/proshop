@@ -56,7 +56,7 @@ const HomeScreen = ({ match }: { match: match<{ keyword: string, pageNumber: str
                             })
                             : <h3>Empty</h3>}
                     </Row>
-                    <Paginate pages={result.pages} page={result.page} admin={admin} keyword={keyword ? keyword : ''}/>
+                    <Paginate pages={result.pages} page={result.page} admin={false} keyword={keyword ? keyword : ''}/>
                 </>
             )
             }

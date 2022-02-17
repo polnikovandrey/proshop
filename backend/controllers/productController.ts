@@ -7,7 +7,7 @@ import { UserDocument } from "../models/userModel";
 // @route   GET /api/product
 // @access  Public
 export const getProducts = expressAsyncHandler(async (req: Request, res: Response) => {
-    const pageSize = 10;
+    const pageSize = 12;
     const page = Number(req.query.pageNumber) || 1;
     const keyword = req.query.keyword
         ? {
