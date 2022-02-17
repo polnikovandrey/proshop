@@ -1,6 +1,7 @@
 import { UserInfo, UserState } from "../store/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store/store";
+import { userProfileUpdateSuccess } from "./userProfileSlice";
 
 export const userSlice = createSlice({
     name: 'userInfo',
@@ -27,6 +28,18 @@ export const userSlice = createSlice({
         userRegisterFail: (state, action: PayloadAction<string>) => {
             return { error: action.payload };
         }
+    },
+    extraReducers: builder => {
+        builder.addMatcher(action => {
+            return userProfileUpdateSuccess.match(action);
+        },
+            (state, action) => {
+            if (state.user) {
+                state.user.name = action.payload.name;
+                state.user.email = action.payload.email;
+                localStorage.setItem('user', JSON.stringify(state.user));
+            }
+        });
     }
 });
 
