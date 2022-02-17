@@ -12,6 +12,7 @@ import { ProductsDetailsState, ReviewCreateState, UserState } from "../store/typ
 import { selectProductDetail } from "../slice/productSlice";
 import { selectReviewCreate } from "../slice/reviewCreateSlice";
 import { selectUserInfo } from "../slice/userSlice";
+import Meta from "../components/Meta";
 
 const ProductScreen = ({ history, match }: { history: History, match: match<{ id: string }> }) => {
     const [ quantity, setQuantity ] = useState(1);
@@ -52,6 +53,7 @@ const ProductScreen = ({ history, match }: { history: History, match: match<{ id
                     : productDetails.item
                         ? (
                             <>
+                                <Meta title={productDetails.item.name}/>
                                 <Row>
                                     <Col md={6}>
                                         <Image src={productDetails.item.image} alt={productDetails.item.name} fluid/>

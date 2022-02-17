@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { Link } from 'react-router-dom';
+import { Helmet } from "react-helmet";
 import { match } from "react-router";
 import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
@@ -11,6 +13,7 @@ import { selectProductList } from "../slice/productSlice";
 import Paginate from "../components/Paginate";
 import { selectUserInfo } from "../slice/userSlice";
 import ProductCarousel from "../components/ProductCarousel";
+import Meta from "../components/Meta";
 
 const HomeScreen = ({ match }: { match: match<{ keyword: string, pageNumber: string }> }) => {
     const keyword = match.params.keyword;
@@ -29,7 +32,16 @@ const HomeScreen = ({ match }: { match: match<{ keyword: string, pageNumber: str
 
     return (
         <>
-            { !keyword && <ProductCarousel/> }
+            <Meta/>
+            <Helmet>
+                <title>Welcome to ProShop</title>
+                <meta name='description' content='We sell best products for cheep'/>
+                <meta name='keywords' content='electronics, buy electronics, cheap electronics'/>
+            </Helmet>
+            { !keyword
+                ? <ProductCarousel/>
+                : <Link to='/' className='btn btn-light'>Go back</Link>
+            }
             <h1>Latest Products</h1>
             { loading && <Loader/> }
             { error && <Message variant='danger'>{productList.error}</Message> }
