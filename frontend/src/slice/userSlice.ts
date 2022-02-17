@@ -30,16 +30,17 @@ export const userSlice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addMatcher(action => {
-            return userProfileUpdateSuccess.match(action);
-        },
+        builder.addMatcher(
+            action => {
+                return userProfileUpdateSuccess.match(action);
+            },
             (state, action) => {
-            if (state.user) {
-                state.user.name = action.payload.name;
-                state.user.email = action.payload.email;
-                localStorage.setItem('user', JSON.stringify(state.user));
-            }
-        });
+                if (state.user) {
+                    state.user.name = action.payload.name;
+                    state.user.email = action.payload.email;
+                    localStorage.setItem('user', JSON.stringify(state.user));
+                }
+            });
     }
 });
 
