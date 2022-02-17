@@ -14,11 +14,14 @@ export const orderDetailSlice = createSlice({
         },
         orderDetailFail: (state, action: PayloadAction<string>) => {
             return { error: action.payload };
+        },
+        orderDetailReset: () => {
+            return { };
         }
     }
 });
 
-export const { orderDetailRequest, orderDetailSuccess, orderDetailFail } = orderDetailSlice.actions;
+export const { orderDetailRequest, orderDetailSuccess, orderDetailFail, orderDetailReset } = orderDetailSlice.actions;
 
 
 export const selectOrderDetail: (state: RootState) => OrderDetailState = state => state.orderDetail;

@@ -14,6 +14,7 @@ import { selectOrderPay } from "../slice/orderPaySlice";
 import { PayPalButton } from "react-paypal-button-v2";
 import { selectOrderDeliver } from "../slice/orderDeliverSlice";
 import { History } from "history";
+import { cartResetItemsAction } from "../actions/cartActions";
 
 const OrderScreen = ({ history, match }: { history: History, match: match<{ id: string }> }) => {
     const [ sdkReady, setSdkReady ] = useState(false);
@@ -43,6 +44,7 @@ const OrderScreen = ({ history, match }: { history: History, match: match<{ id: 
             if (!userInfoStateUser) {
                 history.push('/login');
             } else if (!order || order._id !== orderId || paySuccess || deliverSuccess) {
+                await cartResetItemsAction(dispatch);
                 await orderPayResetAction(dispatch);
                 await orderDeliverResetAction(dispatch);
                 await orderDetailAction(orderId, token, dispatch);
@@ -55,7 +57,7 @@ const OrderScreen = ({ history, match }: { history: History, match: match<{ id: 
             }
         })();
     }, [ deliverSuccess, dispatch, history, order, orderId, paySuccess, sdkReady, token, userInfoStateUser ]);
-    const successPaymentHandler = async (paymentResult: PaymentResult, paymentData: any) => {
+    const successPaymentHandler = async (paymentResult: PaymentResult) => {
         await orderPayAction(orderId, paymentResult, token, dispatch);
     };
     const successDeliverHandler = async () => {
@@ -115,7 +117,7 @@ const OrderScreen = ({ history, match }: { history: History, match: match<{ id: 
                                                             </Link>
                                                         </Col>
                                                         <Col md={4}>
-                                                            {item.quantity} x ${item.price} = ${item.quantity * item.price}
+                                                            {item.quantity} x ${item.price} = ${numberToPriceString(item.quantity * item.price)}
                                                         </Col>
                                                     </Row>
                                                 </ListGroup.Item>

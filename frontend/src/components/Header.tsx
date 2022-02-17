@@ -7,12 +7,14 @@ import { selectUserInfo } from "../slice/userSlice";
 import { userLogoutAction } from "../actions/userActions";
 import { Route } from "react-router-dom";
 import SearchBox from "./SearchBox";
+import { History } from "history";
 
-const Header = () => {
+const Header = ({ history }: { history: History}) => {
     const userState: UserState = useAppSelector(selectUserInfo);
     const dispatch = useAppDispatch();
     const logoutHandler: FormEventHandler = async () => {
         await userLogoutAction(dispatch);
+        history.push('/');
     };
     return <header>
         <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>

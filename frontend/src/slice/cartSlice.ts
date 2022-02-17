@@ -19,6 +19,9 @@ export const cartSlice = createSlice({
             const productId: string = action.payload;
             state.items = state.items.filter(item => item.productId !== productId);
         },
+        resetCartItems: (state) => {
+            state.items = [];
+        },
         saveShippingAddress: (state, action: PayloadAction<ShippingAddress>) => {
             state.shippingAddress = action.payload;
         },
@@ -28,7 +31,7 @@ export const cartSlice = createSlice({
     }
 });
 
-export const { addCartItem, removeCartItem, saveShippingAddress, savePaymentMethod } = cartSlice.actions;
+export const { addCartItem, removeCartItem, resetCartItems, saveShippingAddress, savePaymentMethod } = cartSlice.actions;
 
 
 export const selectCart: (state: RootState) => CartState = state => state.cart;
