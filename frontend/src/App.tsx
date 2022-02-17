@@ -19,11 +19,6 @@ import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 
-// TODO !!! clean cart after ??? (logout -> login another user -> stale cart)
-// TODO !!! check order is placed after placeOrder -> pay (after another user placed an order)
-// TODO !!! check correct order is paid after create order -> create new order another user -> pay
-// TODO !!! admin order list -> details of not paid order -> payment buttons visible
-
 const App = () => {
     return (
         <Router>

@@ -157,12 +157,10 @@ const OrderScreen = ({ history, match }: { history: History, match: match<{ id: 
                                         <Col>${numberToPriceString(order.totalPrice)}</Col>
                                     </Row>
                                 </ListGroup.Item>
-                                {!order.paid && (
+                                {!order.paid && userInfoStateUser && order.user && order.user._id === userInfoStateUser._id && (
                                     <ListGroup.Item>
-                                        {payLoading && <Loader/>}
-                                        {!sdkReady ? <Loader/> : (
-                                            <PayPalButton amount={numberToPriceString(order.totalPrice)} onSuccess={successPaymentHandler}/>
-                                        )}
+                                        { (payLoading || !sdkReady) && <Loader/>}
+                                        { sdkReady && <PayPalButton amount={numberToPriceString(order.totalPrice)} onSuccess={successPaymentHandler}/> }
                                     </ListGroup.Item>
                                 )}
                                 {deliverLoading && <Loader/>}
