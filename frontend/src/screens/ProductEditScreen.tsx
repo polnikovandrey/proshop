@@ -97,8 +97,11 @@ const ProductEditScreen = ({ history, match }: { history: History, match: match<
                                 <Form.Control type='number' placeholder='Enter price' value={price} onChange={(e) => setPrice(Number(e.target.value))}/>
                             </Form.Group>
                             <Form.Group controlId='image' className='mb-3'>
-                                <Form.Label>Image</Form.Label>
+                                <Form.Label>Enter Image</Form.Label>
                                 <Form.Control type='text' placeholder='Enter image url' value={image} onChange={(e) => setImage(e.target.value)}/>
+                            </Form.Group>
+                            <Form.Group controlId='image' className='mb-3'>
+                                <Form.Label>Upload Image</Form.Label>
                                 <Form.Control type='file' onChange={uploadFileHandler}/>
                                 { uploading && <Loader/> }
                             </Form.Group>
