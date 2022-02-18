@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { Dispatch } from "redux";
 import { Order, OrderDetail, PaymentResult } from "../store/types";
-import { orderCreateFail, orderCreateRequest, orderCreateSuccess } from "../slice/orderCreateSlice";
+import { orderCreateFail, orderCreateRequest, orderCreateReset, orderCreateSuccess } from "../slice/orderCreateSlice";
 import { orderDetailFail, orderDetailRequest, orderDetailReset, orderDetailSuccess } from "../slice/orderDetailSlice";
 import { orderPayFail, orderPayRequest, orderPayReset, orderPaySuccess } from "../slice/orderPaySlice";
 import { orderUserListFail, orderUserListRequest, orderUserListSuccess } from "../slice/orderUserListSlice";
@@ -23,6 +23,10 @@ export const orderCreateAction = async (order: Order, token: string, dispatch: D
         dispatch(orderCreateFail(error.response && error.response.data.message ? error.response.data.message : error.message));
     }
 };
+
+export const orderCreateResetAction = async (dispatch: Dispatch) => {
+    dispatch(orderCreateReset());
+}
 
 export const orderDetailAction = async (orderId: string, token: string, dispatch: Dispatch) => {
     try {

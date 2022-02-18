@@ -8,7 +8,7 @@ import { Button, Card, Col, FormControl, Image, ListGroup, Row } from "react-boo
 import Message from "../components/Message";
 import { selectCart } from "../slice/cartSlice";
 import { CartItem } from "../store/types";
-import { orderDetailResetAction } from "../actions/orderActions";
+import { orderCreateResetAction, orderDeliverResetAction, orderDetailResetAction, orderPayResetAction } from "../actions/orderActions";
 
 const CartScreen = ({ history, location, match }: { history: History, location: Location, match: match<{ id: string }> }) => {
     const productId: string = match.params.id;
@@ -17,6 +17,9 @@ const CartScreen = ({ history, location, match }: { history: History, location: 
     const { items }: { items: CartItem[] } = useAppSelector(selectCart);
     const checkoutHandler = async () => {
         await orderDetailResetAction(dispatch);
+        await orderPayResetAction(dispatch);
+        await orderCreateResetAction(dispatch);
+        await orderDeliverResetAction(dispatch);
         history.push('/login?redirect=shipping');
     };
     useEffect(() => {

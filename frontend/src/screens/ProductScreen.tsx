@@ -147,7 +147,7 @@ const ProductScreen = ({ history, match }: { history: History, match: match<{ id
                                                 ))
                                             }
                                             <h2>Write a customer review</h2>
-                                            { !user && <Message>Please <Link to='/login'>sign in</Link> to write a review</Message> }
+                                            { !user && <Message>Please <Link to='/login'>log in</Link> to write a review</Message> }
                                             { errorReviewCreate && <Message variant='danger'>{errorReviewCreate}</Message> }
                                             { user &&  (
                                                 <Form onSubmit={submitHandler}>

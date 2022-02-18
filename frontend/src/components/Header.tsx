@@ -17,7 +17,7 @@ const Header = ({ history }: { history: History }) => {
         history.push('/');
     };
     const pathname = history.location.pathname;
-    const showSearch = pathname === '/' || pathname.startsWith('/page/');
+    const showSearch = pathname === '/' || pathname.startsWith('/page/') || pathname.startsWith('/search/');
     useEffect(() => {
 
     }, [ showSearch ]);

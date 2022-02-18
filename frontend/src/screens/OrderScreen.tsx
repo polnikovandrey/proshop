@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import Message from "../components/Message";
 import { Link } from 'react-router-dom';
-import { orderDeliverAction, orderDeliverResetAction, orderDetailAction, orderPayAction, orderPayResetAction } from "../actions/orderActions";
+import { orderCreateResetAction, orderDeliverAction, orderDeliverResetAction, orderDetailAction, orderPayAction, orderPayResetAction } from "../actions/orderActions";
 import { selectUserInfo } from "../slice/userSlice";
 import { selectOrderDetail } from "../slice/orderDetailSlice";
 import Loader from "../components/Loader";
@@ -46,6 +46,7 @@ const OrderScreen = ({ history, match }: { history: History, match: match<{ id: 
             } else if (!order || order._id !== orderId || paySuccess || deliverSuccess) {
                 await cartResetItemsAction(dispatch);
                 await orderPayResetAction(dispatch);
+                await orderCreateResetAction(dispatch);
                 await orderDeliverResetAction(dispatch);
                 await orderDetailAction(orderId, token, dispatch);
             } else if (!order.paid) {
