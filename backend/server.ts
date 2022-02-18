@@ -29,15 +29,22 @@ app.use('/api/upload', uploadRouter);
 app.get('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID));
 
 const __dirname = path.resolve();
+
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '/frontend/build')));
+    app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html')));
+} else {
+    app.get('/', (request, response) => {
+        response.send('API running...');
+    });
+}
 
 app.use(notFoundHandler);
 
 app.use(errorHandler);
 
-app.get('/', (request, response) => {
-    response.send('API running...');
-});
 
 const port: number = parseInt(process.env.PORT, 10);
 app.listen(port, () => console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`));
