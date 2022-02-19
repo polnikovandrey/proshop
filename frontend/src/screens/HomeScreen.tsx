@@ -13,12 +13,15 @@ import { selectProductList } from "../slice/productSlice";
 import Paginate from "../components/Paginate";
 import ProductCarousel from "../components/ProductCarousel";
 import Meta from "../components/Meta";
+import { selectProductTop } from "../slice/productTopSlice";
 
 const HomeScreen = ({ match }: { match: match<{ keyword: string, pageNumber: string }> }) => {
     const keyword = match.params.keyword;
     const pageNumber: string = match.params.pageNumber || String(1);
     const productList = useAppSelector(selectProductList);
-    const { loading, result, error } = productList;
+    const { loading: productListLoading, result: productListLoadResult, error: productListLoadError } = productList;
+    const { products, pages, page } = productListLoadResult || { };
+    const { loading: productTopLoading  } = useAppSelector(selectProductTop);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -40,20 +43,22 @@ const HomeScreen = ({ match }: { match: match<{ keyword: string, pageNumber: str
                 : <Link to='/' className='btn btn-light'>Go back</Link>
             }
             <h1>Latest Products</h1>
-            { loading && <Loader/> }
-            { error && <Message variant='danger'>{productList.error}</Message> }
-            { result && (
+            { ( productListLoading || productTopLoading) && <Loader/> }
+            { productListLoadError && <Message variant='danger'>{productListLoadError}</Message> }
+            { productListLoadResult && (
                 <>
                     <Row>
-                        {result!.products ?
-                            result!.products.map((productData: ProductItem) => {
-                                return <Col key={productData._id} sm={12} md={6} lg={4} xl={3}>
-                                    <Product productItem={productData}/>
-                                </Col>
-                            })
-                            : <h3>Empty</h3>}
+                        {
+                            products
+                                ? products.map((productData: ProductItem) => {
+                                    return <Col key={productData._id} sm={12} md={6} lg={4} xl={3}>
+                                        <Product productItem={productData}/>
+                                    </Col>
+                                })
+                                : <h3>Empty</h3>
+                        }
                     </Row>
-                    <Paginate pages={result.pages} page={result.page} admin={false} keyword={keyword ? keyword : ''}/>
+                    <Paginate pages={pages!} page={page!} admin={false} keyword={keyword ? keyword : ''}/>
                 </>
             )
             }

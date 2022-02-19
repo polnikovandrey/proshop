@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { selectProductTop } from "../slice/productTopSlice";
 import { loadProductTopAction } from "../actions/productActions";
-import Loader from "./Loader";
 import Message from "./Message";
 import { Carousel, Image } from "react-bootstrap";
 
 const ProductCarousel = () => {
     const dispatch = useAppDispatch();
-    const { loading, products, error } = useAppSelector(selectProductTop);
+    const { products, error } = useAppSelector(selectProductTop);
     useEffect(() => {
         (async () => {
             await loadProductTopAction(dispatch);
@@ -18,7 +17,6 @@ const ProductCarousel = () => {
     }, [ dispatch ]);
     return (
         <>
-            { loading && <Loader/> }
             { error && <Message variant='danger'>{error}</Message> }
             { products
                 && (
