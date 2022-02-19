@@ -2,15 +2,18 @@
   "name": "proshop",
   "version": "1.0.0",
   "description": "MERN shopping cart app",
+  "engines": { "node": "16.13.0" },
   "main": "server.js",
   "type": "module",
   "scripts": {
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "start": "tsc --project ./backend/ && node backend/server",
     "server": "tsc --project ./backend/ && nodemon backend/server",
     "data:destroy": "tsc --project ./backend/ && node backend/seeder -d",
-    "data:import": "tsc --project ./backend/ && node backend/seeder"
+    "data:import": "tsc --project ./backend/ && node backend/seeder",
+    "start": "node ./backend/server.js",
+    "postinstall": "tsc --project ./backend",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "repository": {
     "type": "git",
